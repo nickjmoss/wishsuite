@@ -1,8 +1,8 @@
-FROM node:16.16-bullseye
+FROM node:18.13.0-bullseye
 
 WORKDIR /app
 
-COPY package.json yarn.lock* .npmrc ./
+COPY package.json yarn.lock*
 RUN yarn install --frozen-lockfile
 
 COPY . .

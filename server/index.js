@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
+const fs = require('fs');
 const app = express();
+const fallback = require('express-history-api-fallback');
 const path = require('path');
 const PORT = 4000;
 
@@ -12,7 +14,9 @@ app.get('/api', (req, res) => {
 	res.send("Hey I am your api!");
 })
 
-app.use(express.static(path.resolve('./public')));
+
+app.use(express.static(root));
+app.use(fallback('index.html', { root: root }));
 
 app.listen(PORT, () => {
 	console.info(`Server is listening on ${PORT}`);

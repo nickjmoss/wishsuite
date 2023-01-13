@@ -1,6 +1,7 @@
 const path = require('path');
 
 module.exports = {
+	context: path.join(__dirname),
 	entry: './frontend/js/app.js',
 	module: {
 		rules: [

@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  server:
+    image: wishsuite
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: yarn run start
+    working_dir: /app
+    volumes:
+      - .:/app/
+      - notused:/app/node_modules
+    environment:
+      NODE_ENV: development # Has to be passed into the Docker container in order to allow dev dependencies
+    ports:
+      - 4000:4000
+      - 9090:9090
+    depends_on:
+      - db_wishsuite
+    container_name: wishsuite
+  db_wishsuite:
+    image: postgres
+    ports:
+      - 6543:6543
+    environment:
+      POSTGRES_PASSWORD: password
+      POSTGRES_USER: user
+      POSTGRES_DB: db
+
+volumes:
+    notused:
