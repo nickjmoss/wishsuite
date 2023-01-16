@@ -25,9 +25,11 @@ FROM node@sha256:d9061fd0205c20cd47f70bdc879a7a84fb472b822d3ad3158aeef40698d2ce3
 WORKDIR /app
 # Add basic utilities to the image for debugging
 RUN apt-get update && apt-get install -y bash curl vim
+# Add pm2
+RUN npm install pm2 -g
 # Copy over all files from builder
 COPY --from=builder /app /app
 
-EXPOSE 8080
+EXPOSE 4000
 
 CMD [ "yarn", "run", "start:prod" ]

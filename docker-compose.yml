@@ -3,7 +3,7 @@ services:
   server:
     image: wishsuite
     build:
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
       context: .
     command: yarn run start
     working_dir: /app

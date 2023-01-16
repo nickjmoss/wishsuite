@@ -1,0 +1,21 @@
+version: "3.8"
+services:
+  server:
+    image: wishsuite_dev
+    build:
+      dockerfile: Dockerfile
+      context: .
+    command: yarn run localprod
+    working_dir: /app
+    volumes:
+      - .:/app/
+      - notused:/app/node_modules
+    environment:
+      NODE_ENV: production # Has to be passed into the Docker container in order to allow dev dependencies
+    ports:
+      - 4000:4000
+      - 9090:9090
+    container_name: wishsuite_dev
+
+volumes:
+    notused:

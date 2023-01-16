@@ -9,8 +9,10 @@
   },
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 server/index.js & webpack serve --config webpack.dev.js",
-    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
-    "build": "webpack --config webpack.prod.js"
+    "start:prod": "npx pm2-runtime start ecosystem.config.js --env production",
+	"localprod": "webpack --config webpack.prod.js && npx pm2-runtime start ecosystem.config.js --env production",
+    "build": "webpack --config webpack.prod.js",
+	"deploy": ""
   },
   "author": "Nick Moss",
   "license": "ISC",
