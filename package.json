@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 server/index.js & webpack serve --config webpack.dev.js",
-	"build": "webpack --config webpack.prod.js"
+    "build": "webpack --config webpack.prod.js"
   },
   "author": "Nick Moss",
   "license": "ISC",
@@ -21,6 +21,7 @@
     "nodemon": "^2.0.20",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-router-dom": "6",
     "resolve-url-loader": "^5.0.0"
   },
   "devDependencies": {
@@ -42,6 +43,7 @@
     "compression-webpack-plugin": "^10.0.0",
     "css-loader": "^6.7.3",
     "less-loader": "^11.1.0",
+    "prisma": "^4.8.1",
     "react-refresh": "^0.14.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",

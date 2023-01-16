@@ -1,0 +1,7 @@
+{
+	"development": {
+		"user": "user",
+		"password": "password",
+		"database": "wishsuite"
+	}
+}
