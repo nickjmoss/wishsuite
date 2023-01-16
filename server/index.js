@@ -4,7 +4,7 @@ const fs = require('fs');
 const app = express();
 const fallback = require('express-history-api-fallback');
 const path = require('path');
-const PORT = 4000;
+const PORT = process.env.PORT || 4000;
 
 const root = path.join(__dirname, '/../public/');
 

@@ -9,8 +9,6 @@ RUN yarn install --frozen-lockfile
 
 COPY . .
 
-EXPOSE 9090
-
 # Build the client bundle
 RUN yarn run build
 
