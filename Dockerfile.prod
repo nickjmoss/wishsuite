@@ -4,10 +4,12 @@ FROM node@sha256:d9061fd0205c20cd47f70bdc879a7a84fb472b822d3ad3158aeef40698d2ce3
 WORKDIR /app
 
 # Install all dependencies
-COPY package.json *yarn* .npmrc ./
+COPY package.json *yarn* ./
 RUN yarn install --frozen-lockfile
 
 COPY . .
+
+EXPOSE 9090
 
 # Build the client bundle
 RUN yarn run build
