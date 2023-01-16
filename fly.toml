@@ -1,0 +1,10 @@
+app = "wishsuite"
+
+[build]
+	dockerfile = "Dockerfile.prod"
+
+[deploy]
+	strategy = "canary"
+
+[env]
+	NODE_ENV = "production"
