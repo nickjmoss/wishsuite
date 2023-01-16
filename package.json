@@ -9,7 +9,7 @@
   },
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 server/index.js & webpack serve --config webpack.dev.js",
-	"start:prod": "pm2-runtime start ecosystem.config.js --env production",
+    "start:prod": "pm2-runtime start ecosystem.config.js --env production",
     "build": "webpack --config webpack.prod.js"
   },
   "author": "Nick Moss",
@@ -20,6 +20,7 @@
     "express-history-api-fallback": "^2.2.1",
     "file-loader": "^6.2.0",
     "nodemon": "^2.0.20",
+    "pm2": "^5.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "6",
