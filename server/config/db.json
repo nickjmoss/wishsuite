@@ -3,5 +3,14 @@
 		"user": "user",
 		"password": "password",
 		"database": "wishsuite"
-	}
+	},
+	"production": {
+		"username": "postgres",
+		"password": "jvlMLTlbSPAN2AN",
+		"Hostname": "db-wishsuite.internal",
+		"Proxy port":  5432,
+		"Postgres port":  5433,
+		"Connection string": "postgres://postgres:jvlMLTlbSPAN2AN@db-wishsuite.internal:5432"
+	},
+	"redis": "redis://default:8b9c4e6e3e194193b867221df1440874@fly-redis-wishsuite.upstash.io"
 }
