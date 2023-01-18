@@ -12,11 +12,14 @@ services:
       - notused:/app/node_modules
     environment:
       NODE_ENV: development # Has to be passed into the Docker container in order to allow dev dependencies
+      DATABASE_URL: "postgresql://user:password@db_wishsuite:6543/wishsuite?connect_timeout=300"
     ports:
       - 4000:4000
       - 9090:9090
     depends_on:
       - db_wishsuite
+    links:
+      - "db_wishsuite"
     container_name: wishsuite
   db_wishsuite:
     image: postgres
@@ -30,3 +33,8 @@ services:
 
 volumes:
     notused:
+
+networks:
+  default:
+    external: true
+    name: wishsuite_default

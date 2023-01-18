@@ -10,13 +10,16 @@
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 server/index.js & webpack serve --config webpack.dev.js",
     "start:prod": "npx pm2-runtime start ecosystem.config.js --env production",
-	"localprod": "webpack --config webpack.prod.js && npx pm2-runtime start ecosystem.config.js --env production",
+    "localprod": "webpack --config webpack.prod.js && npx pm2-runtime start ecosystem.config.js --env production",
     "build": "webpack --config webpack.prod.js",
-	"deploy": ""
+    "db:migrate:prod": "npx prisma migrate deploy",
+	"db:migrate": "npx prisma migrate dev --name ${0}",
+	"deploy": "fly deploy"
   },
   "author": "Nick Moss",
   "license": "ISC",
   "dependencies": {
+    "@prisma/client": "^4.9.0",
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "express-history-api-fallback": "^2.2.1",
@@ -47,7 +50,7 @@
     "compression-webpack-plugin": "^10.0.0",
     "css-loader": "^6.7.3",
     "less-loader": "^11.1.0",
-    "prisma": "^4.8.1",
+    "prisma": "^4.9.0",
     "react-refresh": "^0.14.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
@@ -59,5 +62,9 @@
     "webpack-cli": "^5.0.1",
     "webpack-dev-server": "^4.11.1",
     "webpack-merge": "^5.8.0"
+  },
+  "_moduleAliases": {
+	"@prisma": "server/prisma",
+	"@server": "server"
   }
 }

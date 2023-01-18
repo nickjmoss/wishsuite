@@ -5,6 +5,15 @@ const app = express();
 const fallback = require('express-history-api-fallback');
 const path = require('path');
 const PORT = process.env.PORT || 4000;
+const prisma = require('./prisma');
+
+console.log(process.env);
+
+async function main() {
+	console.log('test DB:', await prisma.user.findMany());
+}
+
+main();
 
 const root = path.join(__dirname, '/../public/');
 

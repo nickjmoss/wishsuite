@@ -32,4 +32,8 @@ COPY --from=builder /app /app
 
 EXPOSE 4000
 
+RUN yarn run db:migrate:prod
+
+RUN npx prisma generate
+
 CMD [ "yarn", "run", "start:prod" ]
