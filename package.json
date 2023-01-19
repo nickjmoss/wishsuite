@@ -9,11 +9,11 @@
   },
   "scripts": {
     "start": "nodemon --inspect=0.0.0.0:5858 server/index.js & webpack serve --config webpack.dev.js",
-    "start:prod": "npx pm2-runtime start ecosystem.config.js --env production",
+    "start:prod": "npx prisma migrate deploy && npx prisma generate && npx pm2-runtime start ecosystem.config.js --env production",
     "localprod": "webpack --config webpack.prod.js && npx pm2-runtime start ecosystem.config.js --env production",
     "build": "webpack --config webpack.prod.js",
     "db:migrate:prod": "npx prisma migrate deploy",
-	"db:migrate": "npx prisma migrate dev --name ${0}",
+	"db:migrate": "npx prisma migrate dev",
 	"deploy": "fly deploy"
   },
   "author": "Nick Moss",
