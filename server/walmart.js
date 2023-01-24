@@ -70,7 +70,7 @@ class WalmartService {
 	async getProductById(productId) {
 		const api = await this.getApi();
 		
-		const { data } = await api.get(`items/${productId}`);
+		const { data } = await api.get(`items/${productId}?publisherId=3967146`);
 
 		return data;
 	}
@@ -78,7 +78,7 @@ class WalmartService {
 	async searchProducts(searchTerm) {
 		const api = await this.getApi();
 
-		const { data } = await api.get(`search?query=${searchTerm}`)
+		const { data } = await api.get(`search?query=${searchTerm}&publisherId=3967146`)
 
 		return data;
 	}
