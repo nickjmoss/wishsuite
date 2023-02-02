@@ -1,13 +1,23 @@
 const Redis = require('ioredis');
 const util = require('util');
 
-console.log(process.env.REDIS_HOST);
-console.log(process.env.REDIS_PORT);
+let redisClient;
+if (process.env.NODE_ENV === 'production') {
+	redisClient = new Redis({
+		host: process.env.REDIS_HOST,
+		family: 6,
+		port: process.env.REDIS_PORT,
+		password: process.env.REDIS_PASSWORD
+	});
+}
+else {
+	redisClient = new Redis({
+		host: process.env.REDIS_HOST,
+		port: process.env.REDIS_PORT,
+		password: process.env.REDIS_PASSWORD
+	});
+}
 
-const redisClient = new Redis({
-	host: process.env.REDIS_HOST,
-	port: process.env.REDIS_PORT,
-});
 
 redisClient.getAsync = util.promisify(redisClient.get).bind(redisClient);
 redisClient.setAsync = util.promisify(redisClient.set).bind(redisClient);
