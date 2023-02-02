@@ -7,12 +7,20 @@ const path = require('path');
 const PORT = process.env.PORT || 4000;
 const prisma = require('./prisma');
 const { WalmartService } = require('./walmart');
+const session = require('express-session');
+const redisStore = require('connect-redis')(session);
+const { redisClient } = require('./utils/redisConnector');
 
 async function main() {
 	console.log('test DB:', await prisma.user.findMany());
+	console.log(await redisClient.setAsync('test', 'Nick Moss'));
+	console.log(await redisClient.getAsync('test'));
 }
 
 main();
+
+app.use(express.json({ extended: true }));
+app.use(express.urlencoded({ extended: true }));
 
 const root = path.join(__dirname, '/../public/');
 
