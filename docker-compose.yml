@@ -13,13 +13,17 @@ services:
     environment:
       NODE_ENV: development # Has to be passed into the Docker container in order to allow dev dependencies
       DATABASE_URL: "postgresql://user:password@db_wishsuite:6543/wishsuite?connect_timeout=300"
+      REDIS_HOST: redis-cache
+      REDIS_PORT: 6380
     ports:
       - 4000:4000
       - 9090:9090
     depends_on:
       - db_wishsuite
+      - redis-cache
     links:
       - "db_wishsuite"
+      - "redis-cache"
     container_name: wishsuite
   db_wishsuite:
     image: postgres
@@ -30,6 +34,13 @@ services:
       POSTGRES_PASSWORD: password
       POSTGRES_USER: user
       POSTGRES_DB: wishsuite
+  
+  redis-cache:
+    image: redis
+    container_name: redis-cache
+    command: redis-server --port 6380
+    ports:
+      - 6380:6380
 
 volumes:
     notused:
