@@ -71,6 +71,14 @@ module.exports = {
 	},
 	resolve: {
 		alias: {
+			'@app': path.resolve(__dirname, './frontend'),
+			'@request': path.resolve(__dirname, './frontend/js/api/'),
+			'@stores': path.resolve(__dirname, './frontend/js/stores/'),
+			'@reusableComponents': path.resolve(__dirname, './frontend/js/components/reusableComponents'),
+			'@config': path.resolve(__dirname, './frontend/config'),
+			'@utils': path.resolve(__dirname, './frontend/js/utils'),
+			'@colors': path.resolve(__dirname, './frontend/styles/colors.scss'),
+			'@components': path.resolve(__dirname, './frontend/js/components')
 		},
 	},
 };

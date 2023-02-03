@@ -4,14 +4,15 @@ import styles from './app.scss';
 import classNames from 'classnames/bind';
 import { ConfigProvider, Button, message } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import LoginRequired from './components/Login/LoginRequired/LoginRequired';
+import LoginRequired from '@components/Login/LoginRequired/LoginRequired';
+import Main from '@components/Main/main';
 
-const cx = classNames.bind(styles)
+const cx = classNames.bind(styles);
 
 const root = document.getElementById('root');
 
 const App = () => {
-	return(
+	return (
 		<ConfigProvider theme={
 			{
 				"token": {
@@ -32,7 +33,7 @@ const App = () => {
 					<Route path='/logout' element={<Button type='default' onClick={() => message.info('Yay')}>Logout</Button>}/>
 					<Route path="*"element={
 							<LoginRequired>
-								<div>Main Page</div>
+								<Main/>
 							</LoginRequired>
 						}
 					/>

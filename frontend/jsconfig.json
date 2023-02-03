@@ -1,0 +1,41 @@
+{
+	"compilerOptions": {
+		"baseUrl": "./",
+		"jsx": "react",
+		"paths": {
+			"@app/*": [
+				"*"
+			],
+			"@request": [
+				"js/api"
+			],
+			"@stores": [
+				"js/stores"
+			],
+			"@reusableComponents/*": [
+				"js/components/reusableComponents/*"
+			],
+			"@config/*": [
+				"config/*",
+			],
+			"@shared/*": [
+				"../shared/*"
+			],
+			"@components/*": [
+				"js/components/*"
+			],
+			"@utils/*": [
+				"js/utils/*"
+			],
+			"@styles/*": [
+				"styles/*"
+			],
+			"@colors": [
+				"styles/colors"
+			]
+		}
+	},
+	"exclude": [
+		"node_modules"
+	]
+}
