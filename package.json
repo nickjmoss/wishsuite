@@ -71,6 +71,7 @@
     "mobx-react-lite": "^3.4.0",
     "mobx-state-tree": "^5.1.7",
     "prisma": "^4.9.0",
+    "prop-types": "^15.8.1",
     "react-refresh": "^0.14.0",
     "sass": "^1.57.1",
     "sass-loader": "^13.2.0",
@@ -87,7 +88,7 @@
     "@prismaClient": "server/prisma",
     "@server": "server",
     "@router": "server/routes",
-	"@auth": "server/routes/auth/",
-	"@api": "server/routes/api/"
+    "@auth": "server/routes/auth/",
+    "@api": "server/routes/api/"
   }
 }
