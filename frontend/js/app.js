@@ -5,7 +5,7 @@ import { ConfigProvider, Button, message } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginRequired from '@components/Login/LoginRequired/LoginRequired';
 import Main from '@components/Main/main';
-import Login from '@app/js/components/Login/login';
+import Login from '@app/js/components/Login/Login.js';
 
 const root = document.getElementById('root');
 
