@@ -13,7 +13,7 @@ const Item = Form.Item;
 
 const cx = classNames.bind(styles);
 
-const Login = ({}) => {
+const Login = () => {
 	const [form] = Form.useForm();
 	return (
 		<div className={cx('login-container')}>
