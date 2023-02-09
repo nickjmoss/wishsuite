@@ -5,6 +5,10 @@ import SVG from '@reusableComponents/SVG/svg';
 import { Form, Button, Input } from 'antd';
 import Link from '@reusableComponents/Link/link';
 
+// TO DO:
+// Resolve Migrations in prod
+// Figure out why module alias is not working for this file
+
 const Item = Form.Item;
 
 const cx = classNames.bind(styles);
