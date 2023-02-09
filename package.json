@@ -29,6 +29,7 @@
     "express-session": "^1.17.3",
     "file-loader": "^6.2.0",
     "ioredis": "^5.3.0",
+    "module-alias": "^2.2.2",
     "node-rsa": "^1.1.1",
     "nodemon": "^2.0.20",
     "pm2": "^5.2.2",
@@ -83,9 +84,10 @@
     "webpack-merge": "^5.8.0"
   },
   "_moduleAliases": {
-    "@prisma": "server/prisma",
+    "@prismaClient": "server/prisma",
     "@server": "server",
-    "@app": "frontend",
-    "@request": "frontend/js/api/"
+    "@router": "server/routes",
+	"@auth": "server/routes/auth/",
+	"@api": "server/routes/api/"
   }
 }

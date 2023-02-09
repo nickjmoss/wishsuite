@@ -78,7 +78,7 @@ module.exports = {
 			'@config': path.resolve(__dirname, './frontend/config'),
 			'@utils': path.resolve(__dirname, './frontend/js/utils'),
 			'@colors': path.resolve(__dirname, './frontend/styles/colors.scss'),
-			'@components': path.resolve(__dirname, './frontend/js/components')
+			'@components': path.resolve(__dirname, './frontend/js/components'),
 		},
 	},
 };
