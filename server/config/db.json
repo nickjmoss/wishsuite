@@ -7,11 +7,11 @@
 	},
 	"production": {
 		"username": "postgres",
-		"password": "8USYDohbiLbJZKI",
-		"hostname": "db-wishsuite.internal",
+		"password": "fOQsQhoMJAeeU08",
+		"hostname": "wishsuite-db.internal",
 		"proxyPort":  5432,
 		"postgresPort":  5433,
-		"connectionString": "postgres://postgres:8USYDohbiLbJZKI@db-wishsuite.internal:5432"
+		"connectionString": "postgres://postgres:fOQsQhoMJAeeU08@wishsuite-db.internal:5432/wishsuite"
 	},
 	"redis": "redis://default:8b9c4e6e3e194193b867221df1440874@fly-redis-wishsuite.upstash.io"
 }

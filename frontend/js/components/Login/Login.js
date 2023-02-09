@@ -9,7 +9,7 @@ const Item = Form.Item;
 
 const cx = classNames.bind(styles);
 
-const Login = ({}) => {
+const Login = () => {
 	const [form] = Form.useForm();
 	return (
 		<div className={cx('login-container')}>
@@ -35,7 +35,7 @@ const Login = ({}) => {
 								label="Password"
 							>
 								<Input.Password type="password" placeholder="•••••••" visibilityToggle/>
-								<Link to="/logout">Forgot your password?</Link>
+								{/* <Link to="/logout">Forgot your password?</Link> */}
 							</Item>
 							<Item>
 								<Button type="primary">Login</Button>
