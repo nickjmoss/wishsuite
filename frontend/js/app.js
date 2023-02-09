@@ -1,15 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { StoreContext, rootStore } from '@stores';
-import classNames from 'classnames/bind';
 import { ConfigProvider, Button, message } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginRequired from '@components/Login/LoginRequired/LoginRequired';
 import Main from '@components/Main/main';
-import styles from './app.scss';
 import Login from '@components/Login/login';
-
-const cx = classNames.bind(styles);
 
 const root = document.getElementById('root');
 
