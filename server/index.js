@@ -30,27 +30,27 @@ app.use(cors());
 
 
 // Configure session middleware
-app.use(session({
-	store: new RedisStore({ client: redisClient }),
-	secret: 'secret$%^134',
-	resave: false,
-	saveUninitialized: false,
-	cookie: {
-		secure: false, // if true only transmit cookie over https
-		httpOnly: false, // if true prevent client side JS from reading the cookie
-		maxAge: 1000 * 60 * 10, // session max age in miliseconds
-	},
-}));
+// app.use(session({
+// 	store: new RedisStore({ client: redisClient }),
+// 	secret: 'secret$%^134',
+// 	resave: false,
+// 	saveUninitialized: false,
+// 	cookie: {
+// 		secure: false, // if true only transmit cookie over https
+// 		httpOnly: false, // if true prevent client side JS from reading the cookie
+// 		maxAge: 1000 * 60 * 10, // session max age in miliseconds
+// 	},
+// }));
 
 // app.use(router);
 
-// app.get('/api', (req, res) => {
-// 	res.send("Hey I am your api!");
-// });
+app.get('/api', (req, res) => {
+	res.send("Hey I am your api!");
+});
 
-// app.get('/walmart', async (req, res) => {
-// 	return res.json(await WalmartService.searchProducts('playstation 5'));
-// });
+app.get('/walmart', async (req, res) => {
+	return res.json(await WalmartService.searchProducts('playstation 5'));
+});
 
 app.use(express.static(root));
 app.use(fallback('index.html', { root: root }));
