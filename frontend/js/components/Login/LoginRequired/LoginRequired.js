@@ -3,17 +3,35 @@
 
 // If they are: they proceed to the page
 // If not: they are redirected to the login page.
-import React from 'react';
-import { Link, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
+import { useStores } from '@stores';
+import { Spin } from 'antd';
 
 const LoginRequired = ({ children }) => {
+	const { UserStore } = useStores();
+	const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Add your own authentication on the below line.
-  const isLoggedIn = true;
+	const [isLoading, setIsLoading] = useState(true);
 
-  return (
-	isLoggedIn ? children : <Navigate to="/login" />
-  );
+	useEffect(() => {
+		async function fetchData() {
+			await UserStore.fetchSession();
+			if (UserStore.user) {
+				setIsAuthenticated(true);
+			}
+			setIsLoading(false);
+		}
+		fetchData();
+	}, []);
+
+	if (isLoading) {
+		return <Spin />;
+	}
+
+	return (
+		isAuthenticated ? children : <Navigate to="/login" />
+	);
 };
 
 export default LoginRequired;
