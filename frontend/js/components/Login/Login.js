@@ -5,11 +5,15 @@ import SVG from '@reusableComponents/SVG/svg';
 import { Form, Button, Input } from 'antd';
 import Link from '@reusableComponents/Link/link';
 
+// TO DO:
+// Resolve Migrations in prod
+// Figure out why module alias is not working for this file
+
 const Item = Form.Item;
 
 const cx = classNames.bind(styles);
 
-const Login = () => {
+const Login = ({ model }) => {
 	const [form] = Form.useForm();
 	return (
 		<div className={cx('login-container')}>
@@ -25,20 +29,25 @@ const Login = () => {
 							form={form}
 							layout="vertical"
 							colon={false}
+							onFinish={model.attemptLogin}
+							autoComplete
 						>
 							<Item
 								label="Email"
 							>
-								<Input type="email" placeholder="Enter your email"/>
+								<Input onChange={(e) => model.setEmail(e.target.value)} type="email" placeholder="Enter your email"/>
 							</Item>
 							<Item
 								label="Password"
 							>
-								<Input.Password type="password" placeholder="•••••••" visibilityToggle/>
-								<Link to="/logout">Forgot your password?</Link>
+								<Input.Password onChange={(e) => model.setPassword(e.target.value)} type="password" placeholder="•••••••" visibilityToggle/>
+								<Link className={cx('forgot-password')} to="/logout">Forgot your password?</Link>
 							</Item>
 							<Item>
-								<Button type="primary">Login</Button>
+								<div className={cx('button-group')}>
+									<Button style={{ marginBottom: '10px' }} type="primary" htmlType="submit">Sign in</Button>
+									<Button type="default">Continue with Google</Button>
+								</div>
 							</Item>
 						</Form>
 					</div>
@@ -46,7 +55,7 @@ const Login = () => {
 				<div className={cx('right-side')}/>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default Login;
