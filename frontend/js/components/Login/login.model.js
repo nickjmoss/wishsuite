@@ -1,16 +1,35 @@
-import { types } from "mobx-state-tree";
+import { types, flow } from 'mobx-state-tree';
+import request from '@request';
+import { rootStore } from '@stores';
 
 const { model, string, optional } = types;
 
-const LoginModel = model('LoginModel', {
+export const LoginModel = model('LoginModel', {
 	email: optional(string, ''),
 	password: optional(string, ''),
 })
+	.volatile((self) => ({
+
+	}))
 	.actions((self) => ({
 		setEmail(email) {
 			self.email = email;
 		},
 		setPassword(password) {
 			self.password = password;
-		}
-	}))
+		},
+		attemptLogin: flow(function* attemptLogin() {
+			try {
+				yield rootStore.UserStore.loginUser(self.email, self.password);
+				if (rootStore.UserStore.user) {
+					window.location.href = '/';
+				}
+			}
+			catch (error) {
+				console.error(error);
+			}
+		}),
+		testFinish() {
+			console.log(self.email, self.password);
+		},
+	}));
