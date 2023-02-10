@@ -2,7 +2,6 @@ import { types, flow } from 'mobx-state-tree';
 import request from '@request';
 import { UserBaseModel } from '../baseModels/user.baseModel';
 import { message } from 'antd';
-import { toJS } from 'mobx';
 
 const { model, maybeNull } = types;
 
@@ -12,8 +11,7 @@ const UserStoreModel = model('UserStoreModel', {
 	.actions((self) => ({
 		fetchSession: flow(function* fetchSession() {
 			try {
-				console.log('fetching session');
-				const { data } = yield request.get('/session');
+				const { data } = yield request.get('auth/session');
 				self.user = data.data;
 			}
 			catch (err) {

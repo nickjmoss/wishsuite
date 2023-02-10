@@ -7,17 +7,16 @@ if (process.env.NODE_ENV === 'production') {
 		host: process.env.REDIS_HOST,
 		family: 6,
 		port: process.env.REDIS_PORT,
-		password: process.env.REDIS_PASSWORD
+		password: process.env.REDIS_PASSWORD,
 	});
 }
 else {
 	redisClient = new Redis({
 		host: process.env.REDIS_HOST,
 		port: process.env.REDIS_PORT,
-		password: process.env.REDIS_PASSWORD
+		password: process.env.REDIS_PASSWORD,
 	});
 }
-
 
 redisClient.getAsync = util.promisify(redisClient.get).bind(redisClient);
 redisClient.setAsync = util.promisify(redisClient.set).bind(redisClient);
@@ -37,9 +36,11 @@ const del = async function delAsync(keys = [],  namespace = '') {
 	let fullKeys;
 	if (typeof keys === 'object' && keys instanceof Array) {
 		fullKeys = keys.map(key => `${namespace}${key}`);
-	} else if (typeof keys === 'string') {
+	}
+	else if (typeof keys === 'string') {
 		fullKeys = [`${namespace}${keys}`];
-	} else {
+	}
+	else {
 		throw new Error('keys input needs to be an array of strings or a single string');
 	}
 	return await redisClient.delAsync(fullKeys);

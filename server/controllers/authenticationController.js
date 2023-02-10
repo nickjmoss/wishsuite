@@ -5,6 +5,15 @@ const passwordManager = require('@utils/passwordManager');
 
 // }
 
+exports.fetchSession = async function(req, res) {
+	if (!req.session.user) {
+		return res.status(400).send({ success: false, message: 'No user is currently logged in', data: {} });
+	}
+
+	const user = await prisma.user.findUnique({ where: { id: req.session.user } });
+	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: user });
+};
+
 exports.createUser = async function(req, res) {
 	try {
 		const { firstName, lastName, email, password } = req.body;
@@ -56,6 +65,8 @@ exports.loginUser = async function(req, res) {
 
 		if (await passwordManager.compare(password, data.password)) {
 			delete data.password;
+
+			req.session.user = data.id;
 		}
 		else {
 			throw new Error('Incorrect Password');

@@ -1,5 +1,4 @@
 import { types, flow } from 'mobx-state-tree';
-import request from '@request';
 import { rootStore } from '@stores';
 
 const { model, string, optional } = types;
@@ -8,9 +7,6 @@ export const LoginModel = model('LoginModel', {
 	email: optional(string, ''),
 	password: optional(string, ''),
 })
-	.volatile((self) => ({
-
-	}))
 	.actions((self) => ({
 		setEmail(email) {
 			self.email = email;

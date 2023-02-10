@@ -20,13 +20,14 @@ app.use(cors());
 // Configure session middleware
 app.use(session({
 	store: new RedisStore({ client: redisClient }),
-	secret: 'secret$%^134',
+	secret: process.env.SESSION_SECRET,
+	name: 'wishSuite',
 	resave: false,
 	saveUninitialized: false,
 	cookie: {
 		secure: false, // if true only transmit cookie over https
 		httpOnly: false, // if true prevent client side JS from reading the cookie
-		maxAge: 1000 * 60 * 10, // session max age in miliseconds
+		maxAge: 1800000, // 30 minutes
 	},
 }));
 
