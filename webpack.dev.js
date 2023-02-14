@@ -21,6 +21,7 @@ module.exports = mergeWithRules({
 	devServer: {
 		hot: true,
 		port: '9090',
+		historyApiFallback: true,
 		proxy: {
 			'/': {
 				target: 'http://localhost:4000',
