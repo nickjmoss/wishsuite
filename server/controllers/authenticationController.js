@@ -43,6 +43,8 @@ exports.createUser = async function(req, res) {
 
 		delete newUser.password;
 
+		req.session.user = newUser.id;
+
 		return res.status(200).send({ success: true, message: 'Successfully created user', data: newUser });
 	}
 	catch (err) {

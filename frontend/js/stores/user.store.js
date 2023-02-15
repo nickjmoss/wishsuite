@@ -21,10 +21,15 @@ const UserStoreModel = model('UserStoreModel', {
 		createUser: flow(function* createUser(firstName, lastName, email, password) {
 			try {
 				const { data } = yield request.post('auth/create', { firstName, lastName, email, password });
-				console.log(data);
+				if (data.success) {
+					self.user = data.data;
+				}
+				else {
+					throw new Error(data.error);
+				}
 			}
 			catch (err) {
-				console.error(err);
+				message.error(err.message);
 			}
 		}),
 		loginUser: flow(function* loginUser(email, password) {
@@ -33,8 +38,9 @@ const UserStoreModel = model('UserStoreModel', {
 				if (data.success) {
 					self.user = data.data;
 				}
-
-				throw new Error(data.error);
+				else {
+					throw new Error(data.error);
+				}
 			}
 			catch (error) {
 				message.error(error.message);
