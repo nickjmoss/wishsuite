@@ -7,8 +7,9 @@ import Link from '@reusableComponents/Link/link';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { LoginModel } from './login.model';
 import { SignUpModel } from './SignUp/signUp.model';
+import { RecoverPasswordModel } from './RecoverPassword/recoverPassword.model';
 import SignUp from './SignUp/signUp';
-import BackButton from '@reusableComponents/BackButton/backButton';
+import RecoverPassword from './RecoverPassword/recoverPassword';
 
 const Item = Form.Item;
 
@@ -37,7 +38,7 @@ const Login = ({ model }) => {
 					label="Password"
 				>
 					<Input.Password onChange={(e) => model.setPassword(e.target.value)} type="password" placeholder="•••••••" visibilityToggle/>
-					<Link className={cx('forgot-password')} to="/logout">Forgot your password?</Link>
+					<Link className={cx('forgot-password')} to="/auth/password">Forgot your password?</Link>
 				</Item>
 				<Item>
 					<div className={cx('button-group')}>
@@ -64,6 +65,7 @@ const LoginWrapper = () => (
 				<Routes>
 					<Route exact path="login" element={<Login model={LoginModel.create({})}/>}/>
 					<Route exact path="signup" element={<SignUp model={SignUpModel.create({})}/>}/>
+					<Route exact path="password" element={<RecoverPassword model={RecoverPasswordModel.create({})}/>}/>
 				</Routes>
 			</div>
 			<div className={cx('right-side')}/>
