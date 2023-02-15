@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import classNames from 'classnames/bind';
 import styles from './login.scss';
 import SVG from '@reusableComponents/SVG/svg';
 import { Form, Button, Input } from 'antd';
 import Link from '@reusableComponents/Link/link';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { LoginModel } from './login.model';
 import { SignUpModel } from './SignUp/signUp.model';
 import { RecoverPasswordModel } from './RecoverPassword/recoverPassword.model';

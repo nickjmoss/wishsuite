@@ -1,6 +1,6 @@
 import React from 'react';
 
-const RecoverPassword = ({ model }) => (
+const RecoverPassword = () => (
 	<div>Recover Password</div>
 );
 
