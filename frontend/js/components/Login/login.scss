@@ -12,52 +12,66 @@
 			width: 50%;
 			display: flex;
 			flex-direction: column;
-			align-items: center;
 			padding: 30px;
 	
 			.header {
 				width: 100%;
 			}
 
+			.back {
+				display: flex;
+				width: 100%;
+				justify-content: flex-start;
+				padding-top: 30px;
+			}
+
 			.login-body {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
+				align-items: center;
+				position: relative;
+				margin: 0 25%;
 				height: 100%;
-				width: 400px;
 
 				.welcome {
 					font-size: 38px;
 					font-weight: 500;
+					width: 100%;
 				}
 
 				.subtitle {
 					font-size: 14px;
 					color: $grey-10;
 					padding: 20px 0;
-				}
-
-				.create-account-group {
-					display: flex;
-					justify-content: center;
-					align-items: center;
-					margin-top: 25px;
-
-					.sign-up {
-						font-weight: 500;
-						margin-left: 5px;
-					}
-				}
-
-				.forgot-password {
-					padding-top: 5px;
-					font-weight: 500;
-				}
-
-				.button-group {
 					width: 100%;
-					display: flex;
-					flex-direction: column;
+				}
+
+				.form {
+					width: 100%;
+
+					.create-account-group {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						margin-top: 25px;
+	
+						.sign-up {
+							font-weight: 500;
+							margin-left: 5px;
+						}
+					}
+	
+					.forgot-password {
+						padding-top: 5px;
+						font-weight: 500;
+					}
+	
+					.button-group {
+						display: flex;
+						flex-direction: column;
+						width: 100%;
+					}
 				}
 			}
 		}
@@ -67,4 +81,4 @@
 			background-color: $primary-1;
 		}
 	}
-	}
+}

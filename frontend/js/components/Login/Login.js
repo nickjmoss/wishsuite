@@ -1,13 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames/bind';
 import styles from './login.scss';
 import SVG from '@reusableComponents/SVG/svg';
 import { Form, Button, Input } from 'antd';
 import Link from '@reusableComponents/Link/link';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { LoginModel } from './login.model';
 import { SignUpModel } from './SignUp/signUp.model';
 import SignUp from './SignUp/signUp';
+import BackButton from '@reusableComponents/BackButton/backButton';
 
 const Item = Form.Item;
 
@@ -16,7 +17,7 @@ const cx = classNames.bind(styles);
 const Login = ({ model }) => {
 	const [form] = Form.useForm();
 	return (
-		<>
+		<div className={cx('login-body')}>
 			<div className={cx('welcome')}>Welcome back</div>
 			<div className={cx('subtitle')}>Welcome back! Please enter your info.</div>
 			<Form
@@ -24,6 +25,7 @@ const Login = ({ model }) => {
 				layout="vertical"
 				colon={false}
 				onFinish={model.attemptLogin}
+				className={cx('form')}
 				autoComplete
 			>
 				<Item
@@ -44,11 +46,11 @@ const Login = ({ model }) => {
 					</div>
 					<div className={cx('create-account-group')}>
 						<div>{"Don't have an account?"}</div>
-						<Link className={cx('sign-up')} to="signup">Sign Up</Link>
+						<Link className={cx('sign-up')} to="/auth/signup">Sign Up</Link>
 					</div>
 				</Item>
 			</Form>
-		</>
+		</div>
 	);
 };
 
@@ -59,12 +61,10 @@ const LoginWrapper = () => (
 				<div className={cx('header')}>
 					<SVG name="wishSuitePrimary"/>
 				</div>
-				<div className={cx('login-body')}>
-					<Routes>
-						<Route exact path="/" element={<Login model={LoginModel.create({})}/>}/>
-						<Route exact path="signup" element={<SignUp model={SignUpModel.create({})}/>}/>
-					</Routes>
-				</div>
+				<Routes>
+					<Route exact path="login" element={<Login model={LoginModel.create({})}/>}/>
+					<Route exact path="signup" element={<SignUp model={SignUpModel.create({})}/>}/>
+				</Routes>
 			</div>
 			<div className={cx('right-side')}/>
 		</div>

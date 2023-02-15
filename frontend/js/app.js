@@ -28,7 +28,7 @@ const App = () => {
 			>
 				<BrowserRouter>
 					<Routes>
-						<Route exact path="/login/*" element={<LoginWrapper/>}/>
+						<Route exact path="/auth/*" element={<LoginWrapper/>}/>
 						<Route path="/logout" element={<Button type="default" onClick={() => message.info('Yay')}>Logout</Button>}/>
 						<Route path="*"element={
 							<LoginRequired>

@@ -34,7 +34,7 @@ const LoginRequired = ({ children }) => {
 	}
 
 	return (
-		isAuthenticated ? children : <Navigate to="/login" />
+		isAuthenticated ? children : <Navigate to="/auth/login" />
 	);
 };
 

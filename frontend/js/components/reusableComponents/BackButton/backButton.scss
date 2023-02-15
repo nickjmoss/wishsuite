@@ -1,0 +1,15 @@
+@import '@colors';
+
+.back-container {
+	display: flex;
+	align-items: center;
+
+	.icon {
+		font-size: 14px;
+		color: $primary-5;
+	}
+
+	.text {
+		margin-left: 5px;
+	}
+}
