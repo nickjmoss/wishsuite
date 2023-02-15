@@ -6,7 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { Navigate } from 'react-router-dom';
 import { useStores } from '@stores';
-import { Spin } from 'antd';
+import Spinner from '@reusableComponents/Spinner/spinner';
 
 const LoginRequired = ({ children }) => {
 	const { UserStore } = useStores();
@@ -26,11 +26,15 @@ const LoginRequired = ({ children }) => {
 	}, []);
 
 	if (isLoading) {
-		return <Spin />;
+		return (
+			<div style={{ height: '100vh' }}>
+				<Spinner fontSize={32}/>
+			</div>
+		);
 	}
 
 	return (
-		isAuthenticated ? children : <Navigate to="/login" />
+		isAuthenticated ? children : <Navigate to="/auth/login" />
 	);
 };
 

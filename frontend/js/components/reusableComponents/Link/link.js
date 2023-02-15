@@ -6,11 +6,11 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const Link = ({ to, children, style, className }) => {
+const Link = ({ to, children, style, className, replace }) => {
 	const navigate = useNavigate();
 
 	return (
-		<div style={style} className={cx('link', className)} type="link" onClick={() => navigate(to)}>{children}</div>
+		<div style={style} className={cx('link', className)} type="link" onClick={() => navigate(to, { replace: replace ? true : false })}>{children}</div>
 	);
 };
 
@@ -19,6 +19,7 @@ Link.propTypes = {
 	to: PropTypes.string,
 	style: PropTypes.object,
 	className: PropTypes.string,
+	replace: PropTypes.bool,
 };
 
 export default Link;

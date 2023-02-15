@@ -14,13 +14,14 @@ module.exports = mergeWithRules({
 	},
 })(common, {
 	stats: {
-		colors: true
+		colors: true,
 	},
 	mode: 'development',
-	devtool: 'inline-source-map',
+	devtool: 'eval-source-map',
 	devServer: {
 		hot: true,
 		port: '9090',
+		historyApiFallback: true,
 		proxy: {
 			'/': {
 				target: 'http://localhost:4000',
