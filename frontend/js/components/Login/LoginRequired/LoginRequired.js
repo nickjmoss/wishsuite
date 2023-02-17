@@ -17,7 +17,7 @@ const LoginRequired = ({ children }) => {
 	useEffect(() => {
 		async function fetchData() {
 			await UserStore.fetchSession();
-			if (UserStore.user) {
+			if (UserStore.user.id) {
 				setIsAuthenticated(true);
 			}
 			setIsLoading(false);

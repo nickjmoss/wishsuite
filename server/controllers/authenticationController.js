@@ -7,10 +7,13 @@ const passwordManager = require('@utils/passwordManager');
 
 exports.fetchSession = async function(req, res) {
 	if (!req.session.user) {
-		return res.status(400).send({ success: false, message: 'No user is currently logged in', data: {} });
+		return res.status(200).send({ success: false, message: 'No user is currently logged in', data: {} });
 	}
 
 	const user = await prisma.user.findUnique({ where: { id: req.session.user } });
+
+	delete user.password;
+
 	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: user });
 };
 
@@ -20,6 +23,7 @@ exports.createUser = async function(req, res) {
 		const data = await prisma.user.findFirst({
 			where: {
 				email: email,
+				deletedAt: null,
 			},
 		});
 
@@ -48,7 +52,7 @@ exports.createUser = async function(req, res) {
 		return res.status(200).send({ success: true, message: 'Successfully created user', data: newUser });
 	}
 	catch (err) {
-		return res.status(200).send({ success: false, message: 'Could not create user', error: err.message });
+		return res.status(200).send({ success: false, message: 'Could not create user', data: err.message });
 	}
 };
 
@@ -58,6 +62,7 @@ exports.loginUser = async function(req, res) {
 		const data = await prisma.user.findFirst({
 			where: {
 				email: email,
+				deletedAt: null,
 			},
 		});
 
@@ -77,6 +82,11 @@ exports.loginUser = async function(req, res) {
 		return res.status(200).send({ success: true, message: 'Successfully logged in', data: data });
 	}
 	catch (err) {
-		return res.status(200).send({ success: false, message: 'Could not login', error: err.message });
+		return res.status(200).send({ success: false, message: 'Could not login', data: err.message });
 	}
+};
+
+exports.logoutUser = async function(req, res) {
+	req.session.destroy();
+	return res.status(200).send({ success: true, message: 'Successfully logged out.', data: {} });
 };
