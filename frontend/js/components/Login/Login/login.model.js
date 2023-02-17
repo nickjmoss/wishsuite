@@ -17,9 +17,6 @@ export const LoginModel = model('LoginModel', {
 		attemptLogin: flow(function* attemptLogin() {
 			try {
 				yield rootStore.UserStore.loginUser(self.email, self.password);
-				if (rootStore.UserStore.user) {
-					window.location.href = '/';
-				}
 			}
 			catch (error) {
 				console.error(error);
