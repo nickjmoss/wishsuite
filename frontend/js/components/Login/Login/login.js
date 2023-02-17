@@ -1,15 +1,8 @@
 import React from 'react';
-import classNames from 'classnames/bind';
 import styles from './login.scss';
-import SVG from '@reusableComponents/SVG/svg';
+import classNames from 'classnames/bind';
 import { Form, Button, Input } from 'antd';
 import Link from '@reusableComponents/Link/link';
-import { Routes, Route } from 'react-router-dom';
-import { LoginModel } from './login.model';
-import { SignUpModel } from './SignUp/signUp.model';
-import { RecoverPasswordModel } from './RecoverPassword/recoverPassword.model';
-import SignUp from './SignUp/signUp';
-import RecoverPassword from './RecoverPassword/recoverPassword';
 
 const Item = Form.Item;
 
@@ -27,7 +20,6 @@ const Login = ({ model }) => {
 				colon={false}
 				onFinish={model.attemptLogin}
 				className={cx('form')}
-				autoComplete
 			>
 				<Item
 					label="Email"
@@ -55,22 +47,4 @@ const Login = ({ model }) => {
 	);
 };
 
-const LoginWrapper = () => (
-	<div className={cx('login-container')}>
-		<div className={cx('login-wrapper')}>
-			<div className={cx('left-side')}>
-				<div className={cx('header')}>
-					<SVG name="wishSuitePrimary"/>
-				</div>
-				<Routes>
-					<Route exact path="login" element={<Login model={LoginModel.create({})}/>}/>
-					<Route exact path="signup" element={<SignUp model={SignUpModel.create({})}/>}/>
-					<Route exact path="password" element={<RecoverPassword model={RecoverPasswordModel.create({})}/>}/>
-				</Routes>
-			</div>
-			<div className={cx('right-side')}/>
-		</div>
-	</div>
-);
-
-export default LoginWrapper;
+export default Login;

@@ -83,6 +83,7 @@ export const SignUpModel = model('SignUpModel', {
 			}
 		},
 		validateForm(values) {
+			self.errors = false;
 			const validateState = getSnapshot(self.validation);
 			Object.keys(validateState).every(key => {
 				if (!validateState[key].hasFeedback) {

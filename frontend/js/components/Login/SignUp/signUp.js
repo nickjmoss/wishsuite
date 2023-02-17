@@ -23,7 +23,6 @@ const SignUp = observer(({ model }) => {
 					layout="vertical"
 					colon={false}
 					onFinish={model.validateForm}
-					autoComplete="off"
 				>
 					<Item
 						label="First Name"

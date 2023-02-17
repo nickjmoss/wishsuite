@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, loginUser, fetchSession } = require('@controllers/authenticationController');
+const { createUser, loginUser, fetchSession, logoutUser } = require('@controllers/authenticationController');
 
 const router = express.Router();
 
@@ -11,5 +11,8 @@ router.route('/login')
 
 router.route('/session')
 	.get(fetchSession);
+
+router.route('/logout')
+	.post(logoutUser);
 
 module.exports = router;

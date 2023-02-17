@@ -25,7 +25,7 @@ const UserStoreModel = model('UserStoreModel', {
 					self.user = data.data;
 				}
 				else {
-					throw new Error(data.error);
+					throw new Error(data.data);
 				}
 			}
 			catch (err) {
@@ -39,17 +39,18 @@ const UserStoreModel = model('UserStoreModel', {
 					self.user = data.data;
 				}
 				else {
-					throw new Error(data.error);
+					throw new Error(data.data);
 				}
 			}
 			catch (error) {
 				message.error(error.message);
 			}
 		}),
-		logoutUser: flow(function* loginUser() {
+		logoutUser: flow(function* logoutUser(navigate) {
 			try {
-				const { data } = yield request.get('/logout');
-				console.log(data);
+				yield request.post('auth/logout');
+				self.user = null;
+				navigate('/auth/login', { replace: true });
 			}
 			catch (error) {
 				console.error(error);

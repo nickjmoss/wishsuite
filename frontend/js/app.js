@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { StoreContext, rootStore } from '@stores';
-import { ConfigProvider, Button, message } from 'antd';
+import { ConfigProvider } from 'antd';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LoginRequired from '@app/js/components/Login/LoginRequired/LoginRequired';
 import Main from '@components/Main/main';
-import LoginWrapper from '@app/js/components/Login/Login.js';
+import LoginWrapper from '@app/js/components/Login/loginWrapper.js';
 
 const root = document.getElementById('root');
 
@@ -29,7 +29,6 @@ const App = () => {
 				<BrowserRouter>
 					<Routes>
 						<Route exact path="/auth/*" element={<LoginWrapper/>}/>
-						<Route path="/logout" element={<Button type="default" onClick={() => message.info('Yay')}>Logout</Button>}/>
 						<Route path="*"element={
 							<LoginRequired>
 								<Main/>
