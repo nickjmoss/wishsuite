@@ -37,6 +37,7 @@ const UserStoreModel = model('UserStoreModel', {
 				const { data } = yield request.post('auth/login', { email, password });
 				if (data.success) {
 					self.user = data.data;
+					window.location.href = '/';
 				}
 				else {
 					throw new Error(data.data);

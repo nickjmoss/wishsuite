@@ -57,6 +57,7 @@ exports.createUser = async function(req, res) {
 };
 
 exports.loginUser = async function(req, res) {
+	console.log('logging in user');
 	try {
 		const { email, password } = req.body;
 		const data = await prisma.user.findFirst({
@@ -79,6 +80,8 @@ exports.loginUser = async function(req, res) {
 			throw new Error('Incorrect Password');
 		}
 
+		console.log('successfully logged in, return response');
+		req.session.save();
 		return res.status(200).send({ success: true, message: 'Successfully logged in', data: data });
 	}
 	catch (err) {
@@ -87,6 +90,7 @@ exports.loginUser = async function(req, res) {
 };
 
 exports.logoutUser = async function(req, res) {
+	req.session.save();
 	req.session.destroy();
 	return res.status(200).send({ success: true, message: 'Successfully logged out.', data: {} });
 };
