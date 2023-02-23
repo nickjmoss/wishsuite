@@ -1,0 +1,57 @@
+@import '@colors';
+
+.main {
+	padding: 30px;
+	height: 100%;
+
+	.header-container {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		margin-bottom: 20px;
+	
+		.menu-buttons {
+			display: flex;
+			margin: 0 15px;
+
+			.menu-button {
+				padding-left: 30px;
+			}
+		}
+		
+
+
+		.search-profile {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			width: 100%;
+
+			.search {
+				width: 60%;
+				margin: 0 auto;
+
+				:global(.ant-btn) {
+					padding: 0 10px;
+					height: 35px;
+				}
+
+				:global(.ant-input) {
+					height: 35px;
+				}
+			}
+
+			.profile {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: $grey-10;
+				cursor: pointer;
+
+				.user-icon {
+					font-size: 20px;
+				}
+			}
+		}
+	}
+}
