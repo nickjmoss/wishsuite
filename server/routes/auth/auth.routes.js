@@ -1,5 +1,5 @@
 const express = require('express');
-const { createUser, loginUser, fetchSession, logoutUser, resetPassword } = require('@controllers/authenticationController');
+const { createUser, loginUser, fetchSession, logoutUser, forgotPassword, verifyToken, newPassword } = require('@controllers/authenticationController');
 
 const router = express.Router();
 
@@ -15,7 +15,13 @@ router.route('/session')
 router.route('/logout')
 	.post(logoutUser);
 
-router.route('/reset-password')
-	.post(resetPassword);
+router.route('/forgot-password')
+	.post(forgotPassword);
+
+router.route('/verify-token')
+	.post(verifyToken);
+
+router.route('/new-password')
+	.post(newPassword);
 
 module.exports = router;

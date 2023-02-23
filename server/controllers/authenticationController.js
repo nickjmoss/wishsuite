@@ -103,7 +103,7 @@ exports.logoutUser = async function(req, res) {
 	return res.status(200).send({ success: true, message: 'Successfully logged out.', data: {} });
 };
 
-exports.resetPassword = async function(req, res) {
+exports.forgotPassword = async function(req, res) {
 	try {
 		const { email } = req.body;
 
@@ -179,5 +179,101 @@ exports.resetPassword = async function(req, res) {
 	}
 	catch (err) {
 		return res.status(200).send({ success: false, message: 'Could not send password reset email', data: err.message });
+	}
+};
+
+async function isTokenValid(userId, token) {
+	const data = await prisma.token.findFirst({
+		where: {
+			userId: userId,
+			expirationDate: {
+				gt: dayjs().format(),
+			},
+			deletedAt: null,
+		},
+		select: {
+			token: true,
+			id: true,
+		},
+	});
+
+	if (!data) return { success: false, token_id: null };
+
+	return { success: await passwordManager.compare(token, data.token), token_id: data.id };
+}
+
+
+exports.verifyToken = async function(req, res) {
+	const { token, userId } = req.body;
+
+	const { success } = await isTokenValid(userId, token);
+
+	if (success) {
+		return res.status(200).send({ success: true, message: 'Token is valid for password reset', data: {} });
+	}
+
+	return res.status(200).send({ success: false, message: 'No valid token for password reset', data: {} });
+};
+
+exports.newPassword = async function(req, res) {
+	try {
+		const { token, userId, password } = req.body;
+
+		// Check if user exists
+		const user = await prisma.user.findFirst({
+			where: {
+				id: userId,
+				deletedAt: null,
+			},
+		});
+
+		if (!user) {
+			throw new Error('Could not find user.');
+		}
+
+		// Check if token is valid
+		const { success, token_id } = await isTokenValid(userId, token);
+
+		if (!success) {
+			throw new Error('Your password reset link has expired, please request a new one.');
+		}
+
+		// Check if password is valid
+		if (!passwordManager.isValid(password)) {
+			throw new Error('Please enter a stronger password');
+		}
+
+
+		// Check if password is the same as previous password
+		if (await passwordManager.compare(password, user.password)) {
+			throw new Error('New password is same as old password.');
+		}
+
+		// Hash password and update user
+		const hashedPassword = await passwordManager.hash(password);
+
+		await prisma.user.update({
+			where: {
+				id: user.id,
+			},
+			data: {
+				password: hashedPassword,
+			},
+		});
+
+		// Delete token
+		await prisma.token.update({
+			where: {
+				id: token_id,
+			},
+			data: {
+				deletedAt: dayjs().format(),
+			},
+		});
+
+		return res.status(200).send({ success: true, message: 'Successfully reset password', data: {} });
+	}
+	catch (err) {
+		return res.status(200).send({ success: false, message: 'Could not reset password', data: err.message });
 	}
 };

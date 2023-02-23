@@ -4,7 +4,7 @@ import { message } from 'antd';
 
 const { model, string, optional } = types;
 
-export const RecoverPasswordModel = model('RecoverPasswordModel', {
+export const ForgotPasswordModel = model('ForgotPasswordModel', {
 	email: optional(string, ''),
 })
 	.actions((self) => ({
@@ -13,7 +13,7 @@ export const RecoverPasswordModel = model('RecoverPasswordModel', {
 		},
 		sendPasswordReset: flow(function* sendPasswordReset() {
 			const loaderFunc = message.loading('Attempting to send email...', 0);
-			const { data } = yield request.post('/auth/reset-password', { email: self.email });
+			const { data } = yield request.post('/auth/forgot-password', { email: self.email });
 			if (!data.success) {
 				loaderFunc();
 				message.error(data.data);

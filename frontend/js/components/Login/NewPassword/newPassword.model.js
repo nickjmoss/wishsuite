@@ -1,55 +1,43 @@
-import { types, getSnapshot, flow } from 'mobx-state-tree';
-import { validator } from '@utils/validator';
+import { types, flow, getSnapshot } from 'mobx-state-tree';
+import request from '@request';
 import { message as antMessage } from 'antd';
-import { rootStore } from '@stores';
+import { validator } from '@utils/validator';
 import { FeedbackBaseModel } from '@app/js/baseModels/feedback.baseModel';
 
-const { model, string, optional, boolean } = types;
+const { model, optional, string, boolean, maybeNull } = types;
 
-export const SignUpModel = model('SignUpModel', {
-	firstName: optional(string, ''),
-	lastName: optional(string, ''),
-	email: optional(string, ''),
+export const NewPasswordModel = model('NewPasswordModel', {
+	isLoading: maybeNull(boolean),
+	userId: optional(string, ''),
+	token: optional(string, ''),
 	password: optional(string, ''),
 	confirmPassword: optional(string, ''),
-	errors: optional(boolean, false),
+
+	// Ternary Logic
+	tokenIsValid: maybeNull(boolean),
+	passwordReset: maybeNull(boolean),
 
 	// Form Validation Logic
 	validation: optional(model('ValidationModel', {
-		firstName: optional(FeedbackBaseModel, {}),
-		lastName: optional(FeedbackBaseModel, {}),
 		password: optional(FeedbackBaseModel, {}),
-		email: optional(FeedbackBaseModel, {}),
 		confirmPassword: optional(FeedbackBaseModel, {}),
 	}), {}),
 })
 	.actions((self) => ({
-		createUser: flow(function* createUser(obj) {
-			delete obj.confirmPassword;
-			try {
-				yield rootStore.UserStore.createUser(...Object.values(obj));
-				if (rootStore.UserStore.user) {
-					window.location.href = '/';
-				}
-			}
-			catch (err) {
-				console.error(err);
-			}
-		}),
-		setEmail(val) {
-			self.email = val;
+		setToken(token) {
+			self.token = token;
 		},
-		setFirstName(val) {
-			self.firstName = val;
+		setUserId(userId) {
+			self.userId = userId;
 		},
-		setLastName(val) {
-			self.lastName = val;
+		setPassword(password) {
+			self.password = password;
 		},
-		setPassword(val) {
-			self.password = val;
+		setConfirmPassword(confirmPassword) {
+			self.confirmPassword = confirmPassword;
 		},
-		setConfirmPassword(val) {
-			self.confirmPassword = val;
+		setIsTokenValid(valid) {
+			self.tokenIsValid = valid;
 		},
 		validateField(val, type, prop, name) {
 			const { outcome, message } = validator(val, type, name);
@@ -66,7 +54,19 @@ export const SignUpModel = model('SignUpModel', {
 				property.setHelp(message);
 			}
 		},
-		validateForm(values) {
+		verifyToken: flow(function* verifyToken() {
+			self.isLoading = true;
+			const { data } = yield request.post('/auth/verify-token', { userId: self.userId, token: self.token });
+			if (!data.success) {
+				self.setIsTokenValid(false);
+			}
+			else {
+				self.setIsTokenValid(true);
+			}
+			self.isLoading = false;
+		}),
+		setNewPassword: flow(function* setNewPassword() {
+			self.isLoading = true;
 			self.errors = false;
 			const validateState = getSnapshot(self.validation);
 			Object.keys(validateState).every(key => {
@@ -91,7 +91,15 @@ export const SignUpModel = model('SignUpModel', {
 			}
 
 			if (!self.errors) {
-				self.createUser(values);
+				const { data } = yield request.post('/auth/new-password', { userId: self.userId, token: self.token, password: self.password });
+				if (!data.success) {
+					antMessage.error(data.data);
+				}
+				else {
+					self.passwordReset = true;
+				}
 			}
-		},
+
+			self.isLoading = false;
+		}),
 	}));
