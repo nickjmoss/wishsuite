@@ -30,7 +30,7 @@ const Login = ({ model }) => {
 					label="Password"
 				>
 					<Input.Password onChange={(e) => model.setPassword(e.target.value)} type="password" placeholder="•••••••" visibilityToggle/>
-					<Link className={cx('forgot-password')} to="/auth/password">Forgot your password?</Link>
+					<Link className={cx('forgot-password')} to="/auth/forgot-password">Forgot your password?</Link>
 				</Item>
 				<Item>
 					<div className={cx('button-group')}>

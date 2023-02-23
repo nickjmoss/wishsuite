@@ -115,3 +115,15 @@ model Friend {
 
   @@map("friend")
 }
+
+model Token {
+  id             String    @id @default(uuid())
+  token          String
+  userId         String    @map("user_id")
+  expirationDate DateTime  @map("expiration_date") @db.Timestamptz()
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz()
+
+  @@map("token")
+}
