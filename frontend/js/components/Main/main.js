@@ -7,6 +7,8 @@ import { useStores } from '@stores';
 import SVG from '@reusableComponents/SVG/svg';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import TabLink from '@reusableComponents/TabLink/tabLink';
+import Home from './Home/home';
+import { HomeModel } from './Home/home.model';
 
 const cx = classNames.bind(styles);
 
@@ -42,13 +44,15 @@ const Main = () => {
 					</div>
 				</div>
 			</div>
-			<Routes>
-				<Route path="/" element={<div>Home</div>}/>
-				<Route path="/search" element={<div>Search Results</div>}/>
-				<Route path="/profile" element={<div>Profile Page<Button type="default" onClick={() => UserStore.logoutUser(navigate)}>Log Out</Button></div>}/>
-				<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
-				<Route path="/friends" element={<div>Friends Page</div>}/>
-			</Routes>
+			<div className={cx('core')}>
+				<Routes>
+					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
+					<Route path="/search" element={<div>Search Results</div>}/>
+					<Route path="/profile" element={<div>Profile Page<Button type="default" onClick={() => UserStore.logoutUser(navigate)}>Log Out</Button></div>}/>
+					<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
+					<Route path="/friends" element={<div>Friends Page</div>}/>
+				</Routes>
+			</div>
 		</div>
 	);
 };
