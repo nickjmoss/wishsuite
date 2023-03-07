@@ -1,6 +1,5 @@
 @import '@colors';
 
-
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -18,10 +17,40 @@
 		padding: 30px;
 		display: flex;
 		width: 100%;
+		justify-content: space-around;
 
-		.name {
-			font-size: 24px;
-			font-weight: 500;
+		.info {
+			display: flex;
+			justify-content: flex-start;
+			width: 50%;
+
+			.name {
+				font-size: 24px;
+				font-weight: 600;
+			}
+		}
+
+		.avatar-wrapper {
+			display: flex;
+			justify-content: flex-end;
+			width: 25%;
+			margin-right: 30px;
+			position: relative;
+
+			.profile-pic {
+				box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
+			}
+
+			.profile-placement {
+				position: absolute;
+				top: -70px;
+			}
+		}
+
+		.edit-profile {
+			display: flex;
+			justify-content: flex-end;
+			width: 25%;
 		}
 	}
 }

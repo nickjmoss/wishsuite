@@ -1,0 +1,15 @@
+@import '@colors';
+
+.edit {
+	position: absolute;
+	right: 1px;
+	bottom: 1px;
+	border-radius: 50%;
+	background-color: $primary-4;
+	padding: 10px;
+	color: $neutral-white;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
