@@ -8,6 +8,11 @@ const { model, maybeNull } = types;
 const UserStoreModel = model('UserStoreModel', {
 	user: maybeNull(UserBaseModel),
 })
+	.views((self) => ({
+		get fullName() {
+			return `${self.user.firstName} ${self.user.lastName}`;
+		},
+	}))
 	.actions((self) => ({
 		fetchSession: flow(function* fetchSession() {
 			try {

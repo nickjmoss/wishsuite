@@ -22,8 +22,9 @@ a:active, a:focus {
   -moz-outline-style: none;
 }
 
-#app {
+#root {
 	height: 100%;
+	box-sizing: border-box;
 }
 
 .section-title {

@@ -1,16 +1,13 @@
 @import '@colors';
 
 .main {
-	padding: 30px;
 	height: 100%;
-
-	.core {
-		padding: 30px;
-	}
+	display: flex;
+	flex-direction: column;
 
 	.header-container {
 		display: flex;
-		width: 100%;
+		padding: 30px 30px 10px 30px;
 		align-items: center;
 		margin-bottom: 20px;
 	

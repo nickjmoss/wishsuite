@@ -9,6 +9,8 @@ import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import TabLink from '@reusableComponents/TabLink/tabLink';
 import Home from './Home/home';
 import { HomeModel } from './Home/home.model';
+import Profile from './Profile/profile';
+import { ProfileModel } from './Profile/profile.model';
 
 const cx = classNames.bind(styles);
 
@@ -48,7 +50,7 @@ const Main = () => {
 				<Routes>
 					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
 					<Route path="/search" element={<div>Search Results</div>}/>
-					<Route path="/profile" element={<div>Profile Page<Button type="default" onClick={() => UserStore.logoutUser(navigate)}>Log Out</Button></div>}/>
+					<Route path="/profile" element={<Profile model={ProfileModel.create({})} />}/>
 					<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
 					<Route path="/friends" element={<div>Friends Page</div>}/>
 				</Routes>
