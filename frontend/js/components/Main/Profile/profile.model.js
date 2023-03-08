@@ -5,6 +5,7 @@ const { model, boolean, optional } = types;
 
 export const ProfileModel = model('ProfileModel', {
 	isLoading: optional(boolean, false),
+	isEditing: optional(boolean, false),
 })
 	.views((self) => ({
 		get user() {

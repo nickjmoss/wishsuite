@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Avatar, Modal } from 'antd';
+import React from 'react';
+import { Avatar } from 'antd';
 import PropTypes from 'prop-types';
 import styles from './profilePic.scss';
 import classNames from 'classnames/bind';
@@ -13,9 +13,8 @@ const ProfilePic = ({
 	avatarClassName,
 	src,
 	editable,
+	onEdit,
 }) => {
-	const [showModal, setShowModal] = useState(false);
-
 	const sizeMap = {
 		'xl': 150,
 		'large': 100,
@@ -27,8 +26,7 @@ const ProfilePic = ({
 	return (
 		<div className={wrapperClassName}>
 			<Avatar size={sizeMap[size] || size} className={avatarClassName} src={src} crossOrigin=""/>
-			{editable && <div className={cx('edit')} onClick={() => setShowModal(true)}><EditOutlined/></div>}
-			<Modal open={showModal} onCancel={() => setShowModal(false)} />
+			{editable && <div className={cx('edit')} onClick={onEdit}><EditOutlined/></div>}
 		</div>
 	);
 };
@@ -39,6 +37,7 @@ ProfilePic.propTypes = {
 	src: PropTypes.string.isRequired,
 	avatarClassName: PropTypes.string,
 	editable: PropTypes.bool,
+	onEdit: PropTypes.func,
 };
 
 export default ProfilePic;

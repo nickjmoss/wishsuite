@@ -6,13 +6,13 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const SpinIcon = ({ fontSize, props }) => (
-	<LoadingOutlined style={{ fontSize: fontSize }} {...props} spin/>
+const SpinIcon = ({ fontSize, className }) => (
+	<LoadingOutlined style={{ fontSize: fontSize }} className={className} spin/>
 );
 
-const Spinner = ({ containerClassName, fontSize, props }) => (
+const Spinner = ({ containerClassName, fontSize, className }) => (
 	<div className={cx('spinner-container', containerClassName)}>
-		<Spin indicator={<SpinIcon fontSize={fontSize}/>} {...props}/>
+		<Spin indicator={<SpinIcon fontSize={fontSize} className={className}/>}/>
 	</div>
 );
 

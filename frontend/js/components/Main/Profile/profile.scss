@@ -21,12 +21,30 @@
 
 		.info {
 			display: flex;
+			flex-direction: column;
 			justify-content: flex-start;
 			width: 50%;
 
+			.section {
+				font-size: 20px;
+				font-weight: 500;
+				margin-bottom: 20px;
+			}
+
+			.info-block {
+				display: flex;
+				width: 100%;
+
+				.key {
+					display: flex;
+					margin-right: 20px;
+				}
+			}
+
 			.name {
-				font-size: 24px;
+				font-size: 30px;
 				font-weight: 600;
+				margin-bottom: 50px;
 			}
 		}
 

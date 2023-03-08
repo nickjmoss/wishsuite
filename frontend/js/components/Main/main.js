@@ -33,6 +33,9 @@ const Main = () => {
 					<div className={cx('menu-button')}>
 						<TabLink to="/friends">Friends</TabLink>
 					</div>
+					<div className={cx('menu-button')}>
+						<TabLink to="/occasions">Occasions</TabLink>
+					</div>
 				</div>
 				<div className={cx('search-profile')}>
 					<div className={cx('search')}>
@@ -53,6 +56,7 @@ const Main = () => {
 					<Route path="/profile" element={<Profile model={ProfileModel.create({})} />}/>
 					<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
 					<Route path="/friends" element={<div>Friends Page</div>}/>
+					<Route path="/occasions" element={<div>Occasions Page</div>}/>
 				</Routes>
 			</div>
 		</div>
