@@ -14,6 +14,7 @@ const ProfilePic = ({
 	src,
 	editable,
 	onEdit,
+	bordered,
 }) => {
 	const sizeMap = {
 		'xl': 150,
@@ -24,20 +25,21 @@ const ProfilePic = ({
 	};
 
 	return (
-		<div className={wrapperClassName}>
-			<Avatar size={sizeMap[size] || size} className={avatarClassName} src={src} crossOrigin=""/>
+		<div className={cx(wrapperClassName, { 'border': bordered })}>
+			<Avatar size={sizeMap[size] || size} shape="circle" className={avatarClassName} src={src} crossOrigin=""/>
 			{editable && <div className={cx('edit')} onClick={onEdit}><EditOutlined/></div>}
 		</div>
 	);
 };
 
 ProfilePic.propTypes = {
-	size: PropTypes.string,
+	size: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 	wrapperClassName: PropTypes.string,
 	src: PropTypes.string.isRequired,
 	avatarClassName: PropTypes.string,
 	editable: PropTypes.bool,
 	onEdit: PropTypes.func,
+	bordered: PropTypes.bool,
 };
 
 export default ProfilePic;

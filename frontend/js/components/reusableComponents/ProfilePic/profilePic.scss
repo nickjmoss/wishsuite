@@ -13,3 +13,9 @@
 		cursor: pointer;
 	}
 }
+
+.border {
+	border: 2px solid $primary-5;
+	border-radius: 50%;
+	width: fit-content;
+}

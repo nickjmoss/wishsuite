@@ -16,6 +16,7 @@ model User {
   lastName  String?     @map("last_name")
   email     String      @unique
   password  String
+  avatarUrl String?
   createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
   deletedAt DateTime?   @map("deleted_at") @db.Timestamptz()

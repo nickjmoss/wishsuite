@@ -1,5 +1,9 @@
 @import '@colors';
 
+@mixin margin {
+	margin-right: 15px;
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
@@ -33,18 +37,27 @@
 
 			.info-block {
 				display: flex;
-				width: 100%;
+				width: 60%;
+				align-items: center;
+				margin: 10px 0;
 
 				.key {
 					display: flex;
 					margin-right: 20px;
+					justify-content: flex-start;
+					width: 30%;
+					padding: 10px 0;
 				}
 			}
 
 			.name {
 				font-size: 30px;
 				font-weight: 600;
-				margin-bottom: 50px;
+				margin-bottom: 25px;
+			}
+
+			.margin {
+				@include margin();
 			}
 		}
 
@@ -69,6 +82,23 @@
 			display: flex;
 			justify-content: flex-end;
 			width: 25%;
+
+			.margin {
+				@include margin();
+			}
 		}
+	}
+
+}
+
+.upload-wrapper {
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	align-items: center;
+	margin-bottom: 20px;
+
+	.upload-button {
+		margin-top: 20px;
 	}
 }
