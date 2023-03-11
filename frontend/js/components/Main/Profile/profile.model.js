@@ -2,9 +2,10 @@ import { types, flow, getSnapshot } from 'mobx-state-tree';
 import { rootStore } from '@stores';
 import { UserBaseModel } from '@app/js/baseModels/user.baseModel';
 import { message } from 'antd';
+import { validator } from '@app/js/utils/validator';
 import request from '@request';
 
-const { model, boolean, optional, maybeNull, frozen } = types;
+const { model, boolean, optional, maybeNull } = types;
 
 export const ProfileModel = model('ProfileModel', {
 	isLoading: optional(boolean, false),
@@ -13,7 +14,6 @@ export const ProfileModel = model('ProfileModel', {
 	temporaryUser: maybeNull(UserBaseModel),
 
 	// Upload Modal State
-	avatarBlob: frozen({}),
 	showUploadModel: optional(boolean, false),
 })
 	.views((self) => ({
@@ -22,6 +22,19 @@ export const ProfileModel = model('ProfileModel', {
 		},
 		get uploadDisabled() {
 			return self.temporaryUser.avatarUrl === self.user.avatarUrl;
+		},
+		get differentFields() {
+			const tempSnapshot = getSnapshot(self.temporaryUser);
+			const userSnapshot = getSnapshot(self.user);
+			const diffObj = new Map();
+
+			Object.keys(tempSnapshot).forEach(key => {
+				if (tempSnapshot[key] !== userSnapshot[key]) {
+					diffObj.set(key, tempSnapshot[key]);
+				}
+			});
+
+			return diffObj;
 		},
 	}))
 	.actions((self) => ({
@@ -63,9 +76,6 @@ export const ProfileModel = model('ProfileModel', {
 		setShowUploadModal(show) {
 			self.showUploadModel = show;
 		},
-		setAvatar(picture) {
-			self.avatarBlob = picture;
-		},
 		setAvatarUrl(url) {
 			self.temporaryUser.avatarUrl = url;
 		},
@@ -105,8 +115,84 @@ export const ProfileModel = model('ProfileModel', {
 				onSuccess('ok');
 			}, 0);
 		},
+		newAvatarUrl: flow(function* newAvatarUrl() {
+			const {
+				data: {
+					data: {
+						signature,
+						timestamp,
+						api_key,
+						cloudinary_url,
+					},
+				},
+			} = yield request.get(`/users/${self.user.id}/token`);
+
+			const form = new FormData();
+
+			form.append('api_key', api_key);
+			form.append('signature', signature);
+			form.append('timestamp', timestamp);
+			form.append('folder', 'profile_pictures');
+			form.append('file', self.temporaryUser.avatarUrl);
+			form.append('public_id', self.user.id);
+
+			const { data: { secure_url } } = yield request.post(`${cloudinary_url}/upload`, form);
+
+			return secure_url;
+		}),
 		saveChanges: flow(function* saveChanges() {
-			// const { data } = yield request.post(`api/user/${self.user.id}/update`, { ...self.user });
-			self.setEditing(false);
+			self.isLoading = true;
+			try {
+				const diffObj = self.differentFields;
+
+				if (diffObj.has('firstName')) {
+					if (!diffObj.get('firstName')) {
+						throw new Error('First name must have a value');
+					}
+				}
+
+				if (diffObj.has('lastName')) {
+					if (!diffObj.get('lastName')) {
+						throw new Error('Last name must have a value');
+					}
+				}
+
+				if (diffObj.has('email')) {
+					const validEmail = validator(diffObj.get('email'), 'email');
+					if (!validEmail.outcome) {
+						throw new Error(validEmail.message);
+					}
+				}
+
+				if (diffObj.has('avatarUrl')) {
+					const newUrl = yield self.newAvatarUrl(diffObj.avatarUrl);
+
+					if (!newUrl) {
+						throw new Error('Error uploading profile picture');
+					}
+
+					diffObj.set('avatarUrl', newUrl);
+				}
+
+				const body = Object.fromEntries(diffObj);
+
+				const { data } = yield request.post(`/users/${self.user.id}`, body);
+
+				if (!data.success) {
+					throw new Error(data.message);
+				}
+
+				yield self.userStore.fetchSession();
+				self.user = getSnapshot(self.userStore.user);
+				self.temporaryUser = getSnapshot(self.user);
+				self.setEditing(false);
+				message.success('Successfully updated profile');
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+			finally {
+				self.isLoading = false;
+			}
 		}),
 	}));

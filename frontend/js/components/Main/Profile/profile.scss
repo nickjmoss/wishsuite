@@ -4,6 +4,20 @@
 	margin-right: 15px;
 }
 
+.spinner-container {
+	position: absolute;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	top: 0;
+	background-color: rgba($color: $grey-1, $alpha: 0.5);
+	z-index: 1;
+
+	.spinner {
+		z-index: 2;
+	}
+}
+
 .wrapper {
 	display: flex;
 	flex-direction: column;
