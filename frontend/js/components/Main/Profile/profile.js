@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './profile.scss';
 import classNames from 'classnames/bind';
 import { observer } from 'mobx-react-lite';
@@ -7,7 +7,9 @@ import ProfilePic from '@reusableComponents/ProfilePic/profilePic';
 import { useNavigate } from 'react-router-dom';
 import WishModal from '@reusableComponents/WishModal/wishModal';
 import { UploadOutlined } from '@ant-design/icons';
+import { ModelConnector } from '@app/js/stores';
 import Spinner from '@reusableComponents/Spinner/spinner';
+import ProfileModel from './profile.model';
 
 const cx = classNames.bind(styles);
 
@@ -114,4 +116,4 @@ const Profile = observer(({ model }) => {
 	);
 });
 
-export default Profile;
+export default ModelConnector(Profile, { model: ProfileModel });

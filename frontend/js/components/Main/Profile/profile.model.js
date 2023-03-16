@@ -7,7 +7,7 @@ import request from '@request';
 
 const { model, boolean, optional, maybeNull } = types;
 
-export const ProfileModel = model('ProfileModel', {
+const ProfileModel = model('ProfileModel', {
 	isLoading: optional(boolean, false),
 	isEditing: optional(boolean, false),
 	user: maybeNull(UserBaseModel),
@@ -213,3 +213,9 @@ export const ProfileModel = model('ProfileModel', {
 			}
 		}),
 	}));
+
+export default {
+	model: ProfileModel,
+	initialValues: {},
+	stores: {},
+};

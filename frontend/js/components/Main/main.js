@@ -55,10 +55,10 @@ const Main = () => {
 				<Routes>
 					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
 					<Route path="/search" element={<div>Search Results</div>}/>
-					<Route path="/profile" element={<Profile model={ProfileModel.create({})} />}/>
+					<Route path="/profile" element={<Profile/>}/>
 					<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
 					<Route path="/friends" element={<div>Friends Page</div>}/>
-					<Route path="/occasions" element={<Occasions model={OccasionsModel.create({})}/>}/>
+					<Route path="/occasions" element={<Occasions/>}/>
 				</Routes>
 			</div>
 		</div>

@@ -3,12 +3,18 @@ import styles from './occasions.scss';
 import classNames from 'classnames/bind';
 import { observer } from 'mobx-react-lite';
 import WishModal from '@reusableComponents/WishModal/wishModal';
-import { Button, DatePicker, Form, Input, Radio } from 'antd';
+import { Button, DatePicker, Form, Input, Radio, List } from 'antd';
+import OccasionCard from './OccasionCard/occasionCard';
+import { ModelConnector } from '@app/js/stores';
+import OccasionsModel from './occasions.model';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 const Item = Form.Item;
 
 const Occasions = observer(({ model }) => {
+	const navigate = useNavigate();
+
 	const FormLabel = ({ title, subtitle }) => (
 		<div>
 			<div className={cx('label-title')}>{title}</div>
@@ -60,15 +66,40 @@ const Occasions = observer(({ model }) => {
 	));
 
 	return (
-		<div>
-			<Button type="primary" onClick={() => model.openOccasionModal(true)}>Add Occasion</Button>
-			<Button type="primary" onClick={() => model.openOccasionModal(false)}>Edit Occasion</Button>
+		<div className={cx('wrapper')}>
+			<div className={cx('title')}>My Occasions</div>
+			<div className={cx('actions-wrapper')}>
+				<div className={cx('actions')}>
+					<Button type="primary" onClick={() => model.openOccasionModal(true)}>Create an Occasion</Button>
+				</div>
+			</div>
+			<List
+				grid={{
+					gutter: 16,
+					xs: 1,
+					sm: 2,
+					md: 3,
+					lg: 3,
+					xl: 3,
+					xxl: 4,
+				}}
+				dataSource={model.observableList}
+				renderItem={(occasion) => {
+					return (
+						<List.Item
+							key={occasion.id}
+							onClick={() => navigate(`${occasion.id}`)}
+						>
+							<OccasionCard occasion={occasion} isLoading={model.isLoading}/>
+						</List.Item>
+					);
+				}}
+			/>
 			<WishModal
 				onPrimary={model.isCreating ? model.createOccasion : model.editOccasion}
 				primaryButtonText={model.isCreating ? 'Create Occasion' : 'Edit Occasion'}
 				onCancel={model.closeOccasionModal}
 				title={model.isCreating ? 'Create an Occasion' : 'Edit an Occasion'}
-				cancelButtonProps="Cancel"
 				open={model.showOccasionModal}
 			>
 				<div>
@@ -79,4 +110,4 @@ const Occasions = observer(({ model }) => {
 	);
 });
 
-export default Occasions;
+export default ModelConnector(Occasions, { model: OccasionsModel });

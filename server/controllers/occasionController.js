@@ -40,5 +40,8 @@ exports.createOccasion = async function(req, res) {
 };
 
 exports.getAllOccasions = async function (req, res) {
+	const { user_id } = req.params;
+	const data = await prisma.occasion.findMany({ where: { ownerId: user_id } });
 
+	return res.status(200).send({ success: true, message: 'Successfully fetched occasions', data: data });
 };

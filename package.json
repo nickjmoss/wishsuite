@@ -18,6 +18,9 @@
   },
   "author": "Nick Moss",
   "license": "ISC",
+  "nodemonConfig": {
+    "ignore": ["./frontend/**"]
+  },
   "dependencies": {
     "@prisma/client": "^4.9.0",
     "antd": "^5.1.7",

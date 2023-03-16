@@ -7,7 +7,7 @@ import dayjs from 'dayjs';
 
 const { model, boolean, array, safeReference, optional } = types;
 
-export const OccasionsModel = model('OccasionsModel', {
+const OccasionsModel = model('OccasionsModel', {
 	isLoading: optional(boolean, false),
 	occasionList: array(OccasionBaseModel),
 	occasionToCreate: optional(OccasionBaseModel, {}),
@@ -16,16 +16,20 @@ export const OccasionsModel = model('OccasionsModel', {
 	showOccasionModal: optional(boolean, false),
 	isCreating: optional(boolean, false),
 })
-	.views(() => ({
+	.views((self) => ({
 		get userStore() {
 			return rootStore.UserStore;
 		},
 		get baseURL() {
 			return rootStore.UserStore.baseURL;
 		},
+		get observableList() {
+			return self.occasionList.slice();
+		},
 	}))
 	.actions((self) => ({
 		afterCreate() {
+			self.fetchOccasions();
 		},
 		fetchOccasions: flow(function* fetchOccasions() {
 			self.isLoading = true;
@@ -50,6 +54,8 @@ export const OccasionsModel = model('OccasionsModel', {
 				if (!data.success) {
 					throw new Error(data.data);
 				}
+				self.fetchOccasions();
+				self.showOccasionModal = false;
 			}
 			catch (err) {
 				message.error(err.message);
@@ -85,3 +91,9 @@ export const OccasionsModel = model('OccasionsModel', {
 			return current && current < dayjs();
 		},
 	}));
+
+export default {
+	model: OccasionsModel,
+	initialValues: {},
+	stores: {},
+};

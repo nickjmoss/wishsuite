@@ -35,7 +35,6 @@ const Login = ({ model }) => {
 				<Item>
 					<div className={cx('button-group')}>
 						<Button style={{ marginBottom: '10px' }} type="primary" htmlType="submit">Sign in</Button>
-						<Button type="default">Continue with Google</Button>
 					</div>
 					<div className={cx('create-account-group')}>
 						<div>{"Don't have an account?"}</div>
