@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './profile.scss';
 import classNames from 'classnames/bind';
 import { observer } from 'mobx-react-lite';
-import { Button, Divider, Input, Popconfirm, Upload, message } from 'antd';
+import { Button, Divider, Input, Popconfirm, Upload } from 'antd';
 import ProfilePic from '@reusableComponents/ProfilePic/profilePic';
 import { useNavigate } from 'react-router-dom';
 import WishModal from '@reusableComponents/WishModal/wishModal';
@@ -70,6 +70,7 @@ const Profile = observer(({ model }) => {
 										danger: true,
 									}}
 									cancelText="Cancel"
+									onConfirm={() => model.deleteUser(navigate)}
 								>
 									<Button className={cx('margin')} type="default" danger>Delete Account</Button>
 								</Popconfirm>

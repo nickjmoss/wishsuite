@@ -70,3 +70,26 @@ exports.getSignature = async function(req, res) {
 	const { user_id } = req.params;
 	return res.status(200).send({ success: true, message: 'Successfully generated signature', data: CloudinaryService.uploadSignature(user_id) });
 };
+
+exports.deleteUser = async function(req, res) {
+	try {
+		req.session.save();
+		req.session.destroy();
+		const { user_id } = req.params;
+
+		const data = await prisma.user.delete({
+			where: {
+				id: user_id,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not delete user account');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully delete user account', data: {} });
+	}
+	catch (err) {
+		return res.status(200).send({ success: false, message: 'Could not delete user account', data: err.message });
+	}
+};

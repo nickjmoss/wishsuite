@@ -12,6 +12,9 @@ const UserStoreModel = model('UserStoreModel', {
 		get fullName() {
 			return `${self.user.firstName} ${self.user.lastName}`;
 		},
+		get baseURL() {
+			return `users/${self.user.id}`;
+		},
 	}))
 	.actions((self) => ({
 		fetchSession: flow(function* fetchSession() {

@@ -195,4 +195,21 @@ export const ProfileModel = model('ProfileModel', {
 				self.isLoading = false;
 			}
 		}),
+		deleteUser: flow(function* deleteUser(navigate) {
+			try {
+				self.isLoading = true;
+				const { data } = yield request.delete(`/users/${self.user.id}`);
+
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+
+				self.isLoading = false;
+
+				navigate('/auth/login', { replace: true });
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+		}),
 	}));

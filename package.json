@@ -45,7 +45,8 @@
     "react-router-dom": "6",
     "redis": "^4.6.4",
     "resolve-url-loader": "^5.0.0",
-    "util": "^0.12.5"
+    "util": "^0.12.5",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.20.7",

@@ -60,7 +60,7 @@ const WishModal = ({
 			onOk={onPrimary}
 			open={open}
 			style={style}
-			title={title}
+			title={<div className={cx('title')}>{title}</div>}
 			width={width}
 			transitionName=""
 			className={modalClassName}
