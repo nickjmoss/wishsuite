@@ -1,10 +1,4 @@
 const prisma = require('@prismaClient');
-const dayjs = require('dayjs');
-const utc = require('dayjs/plugin/utc');
-const timezone = require('dayjs/plugin/timezone');
-
-dayjs.extend(utc);
-dayjs.extend(timezone);
 
 exports.createOccasion = async function(req, res) {
 	try {
@@ -26,8 +20,8 @@ exports.createOccasion = async function(req, res) {
 				ownerId: owner_id,
 				name,
 				description,
-				celebrate_date: dayjs(celebrate_date).tz('America/Denver').startOf('day').format(),
-				original_date: original_date ? dayjs(original_date).tz('America/Denver').startOf('day').format() : original_date,
+				celebrate_date: celebrate_date,
+				original_date: original_date,
 				repeat,
 			},
 		});

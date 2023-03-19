@@ -71,8 +71,8 @@ model Occasion {
   ownerId        String    @map("owner_id")
   name           String
   description    String?
-  celebrate_date DateTime  @db.Date
-  original_date  DateTime?  @db.Date
+  celebrate_date DateTime  @db.Timestamptz()
+  original_date  DateTime?  @db.Timestamptz()
   repeat         Boolean
   createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz()

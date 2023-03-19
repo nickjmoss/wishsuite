@@ -3,14 +3,11 @@ import { Card, Dropdown } from 'antd';
 import styles from './occasionCard.scss';
 import classNames from 'classnames/bind';
 import { EllipsisOutlined } from '@ant-design/icons';
-import dayjs from 'dayjs';
-import timezone from 'dayjs/plugin/timezone';
-
-dayjs.extend(timezone);
+import { toLocal } from '@app/js/utils/dayjs';
 
 const cx = classNames.bind(styles);
 
-const OccasionCard = ({ occasion, isLoading, onDelete }) => {
+const OccasionCard = ({ occasion, isLoading, onDelete, onEdit }) => {
 	return (
 		<>
 			{occasion &&
@@ -27,24 +24,47 @@ const OccasionCard = ({ occasion, isLoading, onDelete }) => {
 									{occasion.name}
 								</div>
 							</div>
-							<Dropdown
-								trigger={['click']}
-							>
-								<div className={cx('menu')} onMouseDown={(e) => e.preventDefault()}><EllipsisOutlined /></div>
-							</Dropdown>
+							<div className={cx('menu')} onClick={(e) => e.stopPropagation()}>
+								<Dropdown
+									trigger={['click']}
+									menu={{ items: [
+										{
+											key: '1',
+											label: (
+												<div onClick={() => onEdit(occasion.id)}>
+													Edit Occasion
+												</div>
+											),
+										},
+										{
+											key: '2',
+											label: (
+												<div onClick={() => onDelete(occasion.id)}>
+													Delete Occasion
+												</div>
+											),
+											danger: true,
+										},
+									],
+									}}
+									placement="bottom"
+								>
+									<div onClick={(e) => e.stopPropagation() }><EllipsisOutlined /></div>
+								</Dropdown>
+							</div>
 						</div>
 						<div className={cx('dates', 'spacing')}>
 							<div style={{ marginRight: '50px' }}>
 								<div className={cx('label')}>Celebration Date</div>
 								<div className={cx('date-title')}>
-									{dayjs(occasion.celebrate_date).format('MM/DD/YYYY')}
+									{toLocal(occasion.celebrate_date).format('MM/DD/YYYY')}
 								</div>
 							</div>
 							{occasion.original_date &&
 								<div>
 									<div className={cx('label')}>Original Date</div>
 									<div className={cx('date-title')}>
-										{dayjs(occasion.original_date).format('MM/DD/YYYY')}
+										{toLocal(occasion.original_date).format('MM/DD/YYYY')}
 									</div>
 								</div>
 							}

@@ -48,8 +48,8 @@ const WishModal = ({
 	return (
 		<Modal
 			bodyStyle={{
-				padding: '15px',
-				margin: '15px',
+				padding: '10px 0',
+				margin: '15px 0',
 			}}
 			cancelButtonProps={cancelButtonProps}
 			cancelText={cancelText}

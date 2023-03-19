@@ -4,10 +4,10 @@ const { model, string, boolean, identifier, optional, maybeNull } = types;
 
 export const OccasionBaseModel = model('OccasionBaseModel', {
 	id: optional(identifier, ''),
-	owner_id: optional(string, ''),
-	name: optional(string, ''),
+	owner_id: maybeNull(string),
+	name: maybeNull(string),
 	description: maybeNull(string),
-	celebrate_date: optional(string, ''),
+	celebrate_date: maybeNull(string),
 	original_date: maybeNull(string),
-	repeat: optional(boolean, false),
+	repeat: maybeNull(boolean),
 });

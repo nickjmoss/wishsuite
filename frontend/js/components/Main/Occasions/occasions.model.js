@@ -4,6 +4,7 @@ import { OccasionBaseModel } from '@app/js/baseModels/occasion.baseModel';
 import { rootStore } from '@app/js/stores';
 import { message } from 'antd';
 import dayjs from 'dayjs';
+import { toUTC, dayStart } from '@app/js/utils/dayjs';
 
 const { model, boolean, array, safeReference, optional } = types;
 
@@ -14,6 +15,7 @@ const OccasionsModel = model('OccasionsModel', {
 	selectedOccasion: safeReference(OccasionBaseModel),
 
 	showOccasionModal: optional(boolean, false),
+	showDeleteModal: optional(boolean, false),
 	isCreating: optional(boolean, false),
 })
 	.views((self) => ({
@@ -61,7 +63,12 @@ const OccasionsModel = model('OccasionsModel', {
 				message.error(err.message);
 			}
 		}),
-		openOccasionModal(isCreating) {
+		deleteOccasion: flow(function* deleteOccasion() {
+		}),
+		openOccasionModal(isCreating, occasion_id) {
+			if (occasion_id) {
+				self.selectedOccasion = occasion_id;
+			}
 			self.isCreating = isCreating;
 			self.showOccasionModal = true;
 		},
@@ -69,19 +76,21 @@ const OccasionsModel = model('OccasionsModel', {
 			self.showOccasionModal = false;
 			self.occasionToCreate = {};
 		},
-		setCreateRepeat(val) {
-			self.occasionToCreate.repeat = val;
+		openDeleteModal(occasion_id) {
+			self.selectedOccasion = occasion_id;
+			self.showDeleteModal = true;
 		},
-		setCreateName(val) {
-			self.occasionToCreate.name = val;
+		closeDeleteModal() {
+			self.selectedOccasion = undefined;
+			self.showDeleteModal = false;
 		},
 		onValuesChange(allFields) {
-			if (allFields.celebrate_date) {
-				allFields.celebrate_date = String(allFields.celebrate_date);
+			if (allFields?.celebrate_date) {
+				allFields.celebrate_date = toUTC(dayStart(allFields.celebrate_date)).format();
 			}
 
-			if (allFields.original_date) {
-				allFields.original_date = String(allFields.original_date);
+			if (allFields?.original_date) {
+				allFields.original_date = toUTC(dayStart(allFields.original_date)).format();
 			}
 
 			self.occasionToCreate = allFields;

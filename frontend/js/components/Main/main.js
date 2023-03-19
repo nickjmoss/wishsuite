@@ -10,15 +10,11 @@ import TabLink from '@reusableComponents/TabLink/tabLink';
 import Home from './Home/home';
 import { HomeModel } from './Home/home.model';
 import Profile from './Profile/profile';
-import { ProfileModel } from './Profile/profile.model';
 import Occasions from './Occasions/occasions';
-import { OccasionsModel } from './Occasions/occasions.model';
 
 const cx = classNames.bind(styles);
 
 const Main = () => {
-	const navigate = useNavigate();
-	const { UserStore } = useStores();
 	return (
 		<div className={cx('main')}>
 			<div className={cx('header-container')}>
