@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './occasions.scss';
 import classNames from 'classnames/bind';
 import { observer } from 'mobx-react-lite';
@@ -14,48 +14,45 @@ import { toLocal } from '@app/js/utils/dayjs';
 const cx = classNames.bind(styles);
 const Item = Form.Item;
 
-const Occasions = observer(({ model }) => {
-	const navigate = useNavigate();
+const FormLabel = observer(({ title, subtitle }) => (
+	<div>
+		<div className={cx('label-title')}>{title}</div>
+		<div className={cx('label-subtitle')}>{subtitle}</div>
+	</div>
+));
 
-	const FormLabel = ({ title, subtitle }) => (
-		<div>
-			<div className={cx('label-title')}>{title}</div>
-			<div className={cx('label-subtitle')}>{subtitle}</div>
-		</div>
-	);
-
-	const OccasionsForm = observer(({ isCreating }) => (
+const OccasionsForm = observer(({ model }) => {
+	return (
 		<Form
 			layout="vertical"
-			onValuesChange={(_, allFields) => model.onValuesChange(allFields, isCreating)}
 		>
 			<Item
 				label={<FormLabel title="Name of the Occasion" />}
 				name="name"
 				initialValue={!model.isCreating ? model.selectedOccasion.name : null}
 			>
-				<Input name="name"/>
+				<Input name="name" onChange={(e) => model.setName(e.target.value)}/>
 			</Item>
 			<Item
 				label={<FormLabel title="Description of Occasion (optional)" subtitle="Tell us about the Occasion and why you are celebrating" />}
 				name="description"
 				initialValue={!model.isCreating ? model.selectedOccasion.description : null}
 			>
-				<Input.TextArea name="description" rows={4}/>
+				<Input.TextArea name="description" rows={4} onChange={(e) => model.setDescription(e.target.value)}/>
 			</Item>
 			<Item
 				label={<FormLabel title="Celebration Date" subtitle="When is the next time this occasion will be celebrated?"/>}
 				name="celebrate_date"
 				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.celebrate_date) : null}
 			>
-				<DatePicker disabledDate={model.disabledDate} showToday={false}/>
+				<DatePicker disabledDate={model.disabledDate} showToday={false} onChange={model.setCelebrateDate}/>
 			</Item>
 			<Item
 				label={<FormLabel title="Is this Occasion recurring?" subtitle="Let us know if this Occasion repeats every so often so we can generate items for you to add!"/>}
 				name="repeat"
 				initialValue={!model.isCreating ? model.selectedOccasion.repeat : null}
 			>
-				<Radio.Group>
+				<Radio.Group onChange={(e) => model.setRepeat(e.target.value)}>
 					<Radio value>Yes</Radio>
 					<Radio value={false}>No</Radio>
 				</Radio.Group>
@@ -63,13 +60,17 @@ const Occasions = observer(({ model }) => {
 			<Item
 				label={<FormLabel title="Original Date" subtitle="What was the original date of the Occasion?"/>}
 				name="original_date"
-				hidden={isCreating ? !model.occasionToCreate.repeat : !model.selectedOccasion?.repeat}
+				hidden={model.isCreating ? !model.occasionToCreate.repeat : !model.selectedOccasion?.repeat}
 				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.original_date) : null}
 			>
-				<DatePicker showToday={false}/>
+				<DatePicker showToday={false} onChange={model.setOriginalDate}/>
 			</Item>
 		</Form>
-	));
+	);
+});
+
+const Occasions = observer(({ model }) => {
+	const navigate = useNavigate();
 
 	return (
 		<div className={cx('wrapper')}>
@@ -89,7 +90,7 @@ const Occasions = observer(({ model }) => {
 					xl: 3,
 					xxl: 4,
 				}}
-				dataSource={model.observableList}
+				dataSource={[...model.occasionList]}
 				renderItem={(occasion) => {
 					return (
 						<List.Item
@@ -98,7 +99,6 @@ const Occasions = observer(({ model }) => {
 						>
 							<OccasionCard
 								occasion={occasion}
-								isLoading={model.isLoading}
 								onDelete={(occasion_id) => model.openDeleteModal(occasion_id)}
 								onEdit={(occasion_id) => model.openOccasionModal(false, occasion_id)}
 							/>
@@ -114,13 +114,13 @@ const Occasions = observer(({ model }) => {
 				open={model.showOccasionModal}
 			>
 				<div>
-					<OccasionsForm isCreating={model.isCreating}/>
+					<OccasionsForm model={model}/>
 				</div>
 			</WishModal>
 			<DeleteModal
 				deleteTitle="Delete Occasion"
 				deleteText={`Are your sure you would like to delete occasion: ${model.selectedOccasion?.name}? This action cannot be undone.`}
-				onDelete={model.onDelete}
+				onDelete={model.deleteOccasion}
 				open={model.showDeleteModal}
 				onCancel={model.closeDeleteModal}
 			/>

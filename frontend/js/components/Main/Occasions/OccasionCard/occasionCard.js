@@ -4,15 +4,15 @@ import styles from './occasionCard.scss';
 import classNames from 'classnames/bind';
 import { EllipsisOutlined } from '@ant-design/icons';
 import { toLocal } from '@app/js/utils/dayjs';
+import { observer } from 'mobx-react-lite';
 
 const cx = classNames.bind(styles);
 
-const OccasionCard = ({ occasion, isLoading, onDelete, onEdit }) => {
+const OccasionCard = observer(({ occasion, onDelete, onEdit }) => {
 	return (
 		<>
 			{occasion &&
 				<Card
-					loading={isLoading}
 					title={null}
 					className={cx('occasion-card-wrapper')}
 				>
@@ -74,6 +74,6 @@ const OccasionCard = ({ occasion, isLoading, onDelete, onEdit }) => {
 			}
 		</>
 	);
-};
+});
 
 export default OccasionCard;

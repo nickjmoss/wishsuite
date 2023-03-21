@@ -1,4 +1,4 @@
-import { types, flow } from 'mobx-state-tree';
+import { types, flow, getSnapshot } from 'mobx-state-tree';
 import request from '@request';
 import { OccasionBaseModel } from '@app/js/baseModels/occasion.baseModel';
 import { rootStore } from '@app/js/stores';
@@ -6,13 +6,13 @@ import { message } from 'antd';
 import dayjs from 'dayjs';
 import { toUTC, dayStart } from '@app/js/utils/dayjs';
 
-const { model, boolean, array, safeReference, optional } = types;
+const { model, boolean, array, optional } = types;
 
 const OccasionsModel = model('OccasionsModel', {
 	isLoading: optional(boolean, false),
 	occasionList: array(OccasionBaseModel),
 	occasionToCreate: optional(OccasionBaseModel, {}),
-	selectedOccasion: safeReference(OccasionBaseModel),
+	selectedOccasion: optional(OccasionBaseModel, {}),
 
 	showOccasionModal: optional(boolean, false),
 	showDeleteModal: optional(boolean, false),
@@ -24,9 +24,6 @@ const OccasionsModel = model('OccasionsModel', {
 		},
 		get baseURL() {
 			return rootStore.UserStore.baseURL;
-		},
-		get observableList() {
-			return self.occasionList.slice();
 		},
 	}))
 	.actions((self) => ({
@@ -63,11 +60,36 @@ const OccasionsModel = model('OccasionsModel', {
 				message.error(err.message);
 			}
 		}),
+		editOccasion: flow(function* editOccasion() {
+			try {
+				self.selectedOccasion.owner_id = self.userStore.user.id;
+				const { data } = yield request.put(`${self.baseURL}/occasions/${self.selectedOccasion.id}`, self.selectedOccasion);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchOccasions();
+				self.showOccasionModal = false;
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+		}),
 		deleteOccasion: flow(function* deleteOccasion() {
+			try {
+				const { data } = yield request.delete(`${self.baseURL}/occasions/${self.selectedOccasion.id}`);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchOccasions();
+				self.closeDeleteModal();
+			}
+			catch (err) {
+				message.error(err);
+			}
 		}),
 		openOccasionModal(isCreating, occasion_id) {
 			if (occasion_id) {
-				self.selectedOccasion = occasion_id;
+				self.selectedOccasion = getSnapshot(self.occasionList.find(occasion => occasion.id === occasion_id));
 			}
 			self.isCreating = isCreating;
 			self.showOccasionModal = true;
@@ -77,23 +99,64 @@ const OccasionsModel = model('OccasionsModel', {
 			self.occasionToCreate = {};
 		},
 		openDeleteModal(occasion_id) {
-			self.selectedOccasion = occasion_id;
+			if (occasion_id) {
+				self.selectedOccasion = getSnapshot(self.occasionList.find(occasion => occasion.id === occasion_id));
+			}
 			self.showDeleteModal = true;
 		},
 		closeDeleteModal() {
 			self.selectedOccasion = undefined;
 			self.showDeleteModal = false;
 		},
-		onValuesChange(allFields) {
-			if (allFields?.celebrate_date) {
-				allFields.celebrate_date = toUTC(dayStart(allFields.celebrate_date)).format();
+		setName(name) {
+			if (self.isCreating) {
+				self.occasionToCreate.name = name;
+				return;
 			}
 
-			if (allFields?.original_date) {
-				allFields.original_date = toUTC(dayStart(allFields.original_date)).format();
+			self.selectedOccasion.name = name;
+			return;
+		},
+		setDescription(description) {
+			if (self.isCreating) {
+				self.occasionToCreate.description = description;
+				return;
 			}
 
-			self.occasionToCreate = allFields;
+			self.selectedOccasion.description = description;
+			return;
+		},
+		setCelebrateDate(date, dateString) {
+			if (self.isCreating) {
+				self.occasionToCreate.celebrate_date = toUTC(dayStart(date)).format();
+				return;
+			}
+
+			self.selectedOccasion.celebrate_date = toUTC(dayStart(date)).format();
+			return;
+		},
+		setRepeat(repeat) {
+			if (self.isCreating) {
+				self.occasionToCreate.repeat = repeat;
+				if (!repeat) {
+					self.occasionToCreate.original_date = null;
+				}
+			}
+			else {
+				self.selectedOccasion.repeat = repeat;
+				if (!repeat) {
+					self.selectedOccasion.original_date = null;
+				}
+			}
+		},
+		setOriginalDate(date, dateString) {
+			if (self.isCreating) {
+				self.occasionToCreate.original_date = toUTC(dayStart(date)).format();
+				return;
+			}
+
+			self.selectedOccasion.original_date = toUTC(dayStart(date)).format();
+			return;
 		},
 		disabledDate(current) {
 			// Can not select days before today and today
