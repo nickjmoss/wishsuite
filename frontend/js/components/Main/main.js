@@ -11,6 +11,7 @@ import Home from './Home/home';
 import { HomeModel } from './Home/home.model';
 import Profile from './Profile/profile';
 import Occasions from './Occasions/occasions';
+import Wishlists from './Wishlists/wishlists';
 
 const cx = classNames.bind(styles);
 
@@ -52,7 +53,7 @@ const Main = () => {
 					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
 					<Route path="/search" element={<div>Search Results</div>}/>
 					<Route path="/profile" element={<Profile/>}/>
-					<Route path="/wishlists" element={<div>Wishlists Page</div>}/>
+					<Route path="/wishlists" element={<Wishlists/>}/>
 					<Route path="/friends" element={<div>Friends Page</div>}/>
 					<Route path="/occasions" element={<Occasions/>}/>
 				</Routes>

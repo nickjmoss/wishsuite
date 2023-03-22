@@ -1,0 +1,21 @@
+@import '@colors';
+
+.wrapper {
+	padding: 30px;
+	
+	.title {
+		font-size: 28px;
+		font-weight: 500;
+	}
+
+	.actions-menu {
+		display: flex;
+		width: 100%;
+		justify-content: flex-end;
+		margin: 15px 0;
+
+		.action {
+			margin-left: 25px;
+		}
+	}
+}
