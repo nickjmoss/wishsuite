@@ -48,7 +48,7 @@ const OccasionsModel = model('OccasionsModel', {
 		}),
 		createOccasion: flow(function* createOccasion() {
 			try {
-				self.occasionToCreate.owner_id = self.userStore.user.id;
+				self.occasionToCreate.ownerId = self.userStore.user.id;
 				const { data } = yield request.post(`${self.baseURL}/occasions`, self.occasionToCreate);
 				if (!data.success) {
 					throw new Error(data.data);
@@ -62,7 +62,7 @@ const OccasionsModel = model('OccasionsModel', {
 		}),
 		editOccasion: flow(function* editOccasion() {
 			try {
-				self.selectedOccasion.owner_id = self.userStore.user.id;
+				self.selectedOccasion.ownerId = self.userStore.user.id;
 				const { data } = yield request.put(`${self.baseURL}/occasions/${self.selectedOccasion.id}`, self.selectedOccasion);
 				if (!data.success) {
 					throw new Error(data.data);
@@ -128,34 +128,34 @@ const OccasionsModel = model('OccasionsModel', {
 		},
 		setCelebrateDate(date, dateString) {
 			if (self.isCreating) {
-				self.occasionToCreate.celebrate_date = toUTC(dayStart(date)).format();
+				self.occasionToCreate.celebrateDate = toUTC(dayStart(date)).format();
 				return;
 			}
 
-			self.selectedOccasion.celebrate_date = toUTC(dayStart(date)).format();
+			self.selectedOccasion.celebrateDate = toUTC(dayStart(date)).format();
 			return;
 		},
 		setRepeat(repeat) {
 			if (self.isCreating) {
 				self.occasionToCreate.repeat = repeat;
 				if (!repeat) {
-					self.occasionToCreate.original_date = null;
+					self.occasionToCreate.originalDate = null;
 				}
 			}
 			else {
 				self.selectedOccasion.repeat = repeat;
 				if (!repeat) {
-					self.selectedOccasion.original_date = null;
+					self.selectedOccasion.originalDate = null;
 				}
 			}
 		},
 		setOriginalDate(date, dateString) {
 			if (self.isCreating) {
-				self.occasionToCreate.original_date = toUTC(dayStart(date)).format();
+				self.occasionToCreate.originalDate = toUTC(dayStart(date)).format();
 				return;
 			}
 
-			self.selectedOccasion.original_date = toUTC(dayStart(date)).format();
+			self.selectedOccasion.originalDate = toUTC(dayStart(date)).format();
 			return;
 		},
 		disabledDate(current) {

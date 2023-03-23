@@ -57,14 +57,14 @@ const OccasionCard = observer(({ occasion, onDelete, onEdit }) => {
 							<div style={{ marginRight: '50px' }}>
 								<div className={cx('label')}>Celebration Date</div>
 								<div className={cx('date-title')}>
-									{toLocal(occasion.celebrate_date).format('MM/DD/YYYY')}
+									{toLocal(occasion.celebrateDate).format('MM/DD/YYYY')}
 								</div>
 							</div>
-							{occasion.original_date &&
+							{occasion.originalDate &&
 								<div>
 									<div className={cx('label')}>Original Date</div>
 									<div className={cx('date-title')}>
-										{toLocal(occasion.original_date).format('MM/DD/YYYY')}
+										{toLocal(occasion.originalDate).format('MM/DD/YYYY')}
 									</div>
 								</div>
 							}

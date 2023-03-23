@@ -34,7 +34,7 @@ const WishModal = ({
 		<div style={{ display: 'flex', justifyContent: actionAlignment, alignItems: 'center' }}>
 			<LinkButton onClick={onCancel} {...cancelButtonProps}>{cancelText}</LinkButton>
 			<div style={{ paddingLeft: '15px' }}>
-				{secondaryButtonText && <Button type="default" onClick={onSecondary} {...secondaryButtonProps}>Secondary</Button>}
+				{secondaryButtonText && <Button type="default" onClick={onSecondary} {...secondaryButtonProps}>{secondaryButtonText}</Button>}
 				<Button type={primaryButtonType} className={cx({ 'button': confirmLoading })} onClick={onPrimary} {...primaryButtonProps}>
 					<div className={cx('primary-button-wrapper')}>
 						{confirmLoading && <Spinner containerClassName={cx('spinner-container')} className={cx('spinner')}/>}

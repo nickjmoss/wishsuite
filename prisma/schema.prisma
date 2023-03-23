@@ -31,14 +31,18 @@ model User {
 }
 
 model Wishlist {
-  id        String    @id @default(uuid())
-  Item      Item[]
-  name      String
-  owner_id  User      @relation(fields: [ownerId], references: [id])
-  ownerId   String    @map("owner_id")
-  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
-  deletedAt DateTime? @map("deleted_at") @db.Timestamptz()
+  id          String    @id @default(uuid())
+  Item        Item[]
+  name        String
+  description String?
+  owner_id    User      @relation(fields: [ownerId], references: [id])
+  ownerId     String    @map("owner_id")
+  occasion_id Occasion? @relation(fields: [occasionId], references: [id])
+  occasionId  String?   @map("occasion_id")
+  visibility  Boolean   @default(false)
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz()
 
   @@map("wishlist")
 }
@@ -66,17 +70,18 @@ model Item {
 }
 
 model Occasion {
-  id             String    @id @default(uuid())
-  owner_id       User      @relation(fields: [ownerId], references: [id])
-  ownerId        String    @map("owner_id")
-  name           String
-  description    String?
-  celebrate_date DateTime  @db.Timestamptz()
-  original_date  DateTime?  @db.Timestamptz()
-  repeat         Boolean
-  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz()
-  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
-  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz()
+  id            String     @id @default(uuid())
+  owner_id      User       @relation(fields: [ownerId], references: [id])
+  ownerId       String     @map("owner_id")
+  Wishlist      Wishlist[]
+  name          String
+  description   String?
+  celebrateDate DateTime   @map("celebrate_date") @db.Timestamptz()
+  originalDate  DateTime?  @map("original_date") @db.Timestamptz()
+  repeat        Boolean
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt     DateTime?  @map("deleted_at") @db.Timestamptz()
 
   @@map("occasion")
 }

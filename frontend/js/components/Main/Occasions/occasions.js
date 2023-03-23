@@ -42,8 +42,8 @@ const OccasionsForm = observer(({ model }) => {
 			</Item>
 			<Item
 				label={<FormLabel title="Celebration Date" subtitle="When is the next time this occasion will be celebrated?"/>}
-				name="celebrate_date"
-				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.celebrate_date) : null}
+				name="celebrateDate"
+				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.celebrateDate) : null}
 			>
 				<DatePicker disabledDate={model.disabledDate} showToday={false} onChange={model.setCelebrateDate}/>
 			</Item>
@@ -59,9 +59,9 @@ const OccasionsForm = observer(({ model }) => {
 			</Item>
 			<Item
 				label={<FormLabel title="Original Date" subtitle="What was the original date of the Occasion?"/>}
-				name="original_date"
+				name="originalDate"
 				hidden={model.isCreating ? !model.occasionToCreate.repeat : !model.selectedOccasion?.repeat}
-				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.original_date) : null}
+				initialValue={!model.isCreating ? toLocal(model.selectedOccasion.originalDate) : null}
 			>
 				<DatePicker showToday={false} onChange={model.setOriginalDate}/>
 			</Item>
@@ -74,7 +74,7 @@ const Occasions = observer(({ model }) => {
 
 	return (
 		<div className={cx('wrapper')}>
-			<div className={cx('title')}>My Occasions</div>
+			<div className={cx('title')}>Your Occasions</div>
 			<div className={cx('actions-wrapper')}>
 				<div className={cx('actions')}>
 					<Button type="primary" onClick={() => model.openOccasionModal(true)}>Create an Occasion</Button>

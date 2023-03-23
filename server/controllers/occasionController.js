@@ -3,25 +3,25 @@ const prisma = require('@prismaClient');
 exports.createOccasion = async function(req, res) {
 	try {
 		const {
-			owner_id,
+			ownerId,
 			name,
 			description,
-			celebrate_date,
-			original_date,
+			celebrateDate,
+			originalDate,
 			repeat,
 		} = req.body || {};
 
-		if (!owner_id || !name || !celebrate_date ) {
+		if (!ownerId || !name || !celebrateDate ) {
 			throw new Error('Please provide values for all required fields');
 		}
 
 		const newOccasion = await prisma.occasion.create({
 			data: {
-				ownerId: owner_id,
+				ownerId,
 				name,
 				description,
-				celebrate_date: celebrate_date,
-				original_date: original_date,
+				celebrateDate,
+				originalDate,
 				repeat,
 			},
 		});
@@ -37,11 +37,11 @@ exports.editOccasion = async function (req, res) {
 	const { occasion_id } = req.params;
 	try {
 		const {
-			owner_id,
+			ownerId,
 			name,
 			description,
-			celebrate_date,
-			original_date,
+			celebrateDate,
+			originalDate,
 			repeat,
 		} = req.body || {};
 
@@ -50,11 +50,11 @@ exports.editOccasion = async function (req, res) {
 				id: occasion_id,
 			},
 			data: {
-				ownerId: owner_id,
+				ownerId,
 				name,
 				description,
-				celebrate_date,
-				original_date,
+				celebrateDate,
+				originalDate,
 				repeat,
 			},
 		});
