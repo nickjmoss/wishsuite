@@ -60,6 +60,10 @@ const AddWishListModalModel = model('AddWishlistModalModel', {
 		setVisibility(visibility) {
 			self.wishlistToCreate.visibility = visibility;
 		},
+		getWishlistToCreate() {
+			self.setOwnerId(self.userStore.user.id);
+			return self.wishlistToCreate;
+		},
 	}));
 
 export default {

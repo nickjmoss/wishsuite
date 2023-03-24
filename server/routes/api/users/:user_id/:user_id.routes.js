@@ -11,5 +11,6 @@ router.route('/token')
 	.get(getSignature);
 
 router.use('/occasions', require('./occasions/occasions.routes.js'));
+router.use('/wishlists', require('./wishlists/wishlists.routes.js'));
 
 module.exports = router;

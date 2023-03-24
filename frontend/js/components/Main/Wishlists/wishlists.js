@@ -43,13 +43,6 @@ const columns = [
 	},
 ];
 
-const testData = [
-	{
-		name: 'Wishlist #1',
-		status: 'Active',
-	},
-];
-
 const Wishlists = observer(({ model }) => {
 	return (
 		<div className={cx('wrapper')}>
@@ -71,7 +64,7 @@ const Wishlists = observer(({ model }) => {
 			</div>
 			<div>
 				<WishTable
-					dataSource={testData}
+					dataSource={[...model.wishlistsList]}
 					columns={columns}
 					pagination={{
 						position: ['bottomCenter'],
@@ -82,6 +75,7 @@ const Wishlists = observer(({ model }) => {
 			<AddWishlistModal
 				open={model.showAddModal}
 				onCancel={model.closeAddModal}
+				onCreate={model.createWishlist}
 			/>
 		</div>
 	);

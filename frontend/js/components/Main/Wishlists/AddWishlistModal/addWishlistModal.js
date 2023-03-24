@@ -29,10 +29,11 @@ const FormInput = ({ title, subtitle, children }) => (
 	</div>
 );
 
-const AddWishlistModal = observer(({ open, onCancel, model }) => {
+const AddWishlistModal = observer(({ open, onCancel, onCreate, model }) => {
 	return (
 		<WishModal
 			primaryButtonText="Create Wishlist"
+			onPrimary={() => onCreate(model.getWishlistToCreate())}
 			open={open}
 			title="Create a New Wishlist"
 			onCancel={onCancel}
@@ -50,6 +51,7 @@ const AddWishlistModal = observer(({ open, onCancel, model }) => {
 						placeholder="-- Select an Occasion --"
 						options={model.occasionList.length && model.occasionList}
 						onSelect={model.setOccasionId}
+						onClear={() => model.setOccasionId(null)}
 						allowClear
 					/>
 				</FormInput>
