@@ -60,7 +60,7 @@ const WishlistsModel = model('WishlistsModel', {
 			const searchParams = new URLSearchParams();
 			searchParams.set('searchTerm', self.tableState.searchTerm);
 			searchParams.set('sortOrder', self.sorter.sortOrder);
-			searchParams.set('sortColumm', self.sorter.columnKey);
+			searchParams.set('sortColumn', self.sorter.columnKey);
 			searchParams.set('currentPage', self.pagination.current);
 			searchParams.set('pageSize', self.pagination.pageSize);
 			searchParams.set('filter', self.filter);

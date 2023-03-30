@@ -27,17 +27,27 @@ exports.fetchWishlists = async function (req, res) {
 		whereClause.isPublished = filter === 'published' ? true : false;
 	}
 
-	let orderBy;
+	let orderBy = {};
 	if (sortColumn && sortOrder) {
 		if (sortColumn === 'items') {
 			orderBy = {
+				...orderBy,
 				[sortColumn]: {
 					_count: sortOrder,
 				},
 			};
 		}
+		else if (sortColumn === 'occasion') {
+			orderBy = {
+				...orderBy,
+				[sortColumn]: {
+					name: sortOrder,
+				},
+			};
+		}
 		else {
 			orderBy = {
+				...orderBy,
 				[sortColumn]: sortOrder,
 			};
 		}
@@ -58,7 +68,6 @@ exports.fetchWishlists = async function (req, res) {
 };
 
 exports.createWishlist = async function (req, res) {
-	console.log(req.body);
 	try {
 		const data = await prisma.wishlist.create({
 			data: req.body,
