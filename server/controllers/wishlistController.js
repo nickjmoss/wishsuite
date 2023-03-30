@@ -2,17 +2,63 @@ const prisma = require('@prismaClient');
 
 exports.fetchWishlists = async function (req, res) {
 	const { user_id } = req.params;
+	const {
+		searchTerm,
+		sortOrder,
+		sortColumn,
+		currentPage,
+		pageSize,
+		filter,
+	} = req.query;
+
+	const whereClause = {
+		ownerId: user_id,
+		deletedAt: null,
+	};
+
+	if (searchTerm) {
+		whereClause.name = {
+			contains: searchTerm,
+			mode: 'insensitive',
+		};
+	}
+
+	if (filter && filter !== 'all') {
+		whereClause.isPublished = filter === 'published' ? true : false;
+	}
+
+	let orderBy;
+	if (sortColumn && sortOrder) {
+		if (sortColumn === 'items') {
+			orderBy = {
+				[sortColumn]: {
+					_count: sortOrder,
+				},
+			};
+		}
+		else {
+			orderBy = {
+				[sortColumn]: sortOrder,
+			};
+		}
+	}
+
 	const data = await prisma.wishlist.findMany({
-		where: {
-			ownerId: user_id,
-			deletedAt: null,
+		where: whereClause,
+		include: {
+			occasion: true,
+			items: true,
 		},
+		skip: Number(pageSize) * Number(currentPage - 1),
+		take: Number(pageSize),
+		orderBy,
 	});
 
 	return res.status(200).send({ success: true, message: 'Successfully fetched wishlists', data: data });
 };
 
 exports.createWishlist = async function (req, res) {
+	console.log(req.body);
 	try {
 		const data = await prisma.wishlist.create({
 			data: req.body,

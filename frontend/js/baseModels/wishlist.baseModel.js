@@ -8,7 +8,7 @@ export const WishlistBaseModel = model('WishlistBaseModel', {
 	description: maybeNull(string),
 	ownerId: string,
 	occasionId: maybeNull(string),
-	visibility: boolean,
+	isPublished: boolean,
 });
 
 export const WishlistToCreate = model('WishlistToCreate', {
@@ -16,5 +16,5 @@ export const WishlistToCreate = model('WishlistToCreate', {
 	description: maybeNull(string),
 	ownerId: maybeNull(string),
 	occasionId: maybeNull(string),
-	visibility: optional(boolean, false),
+	isPublished: optional(boolean, false),
 });

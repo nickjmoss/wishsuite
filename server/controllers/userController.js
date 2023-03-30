@@ -22,7 +22,12 @@ exports.fetchUser = async function(req, res) {
 			throw new Error('Could not fetch user');
 		}
 
-		return res.status(200).send({ success: true, message: 'Successfully fetched user', data: user });
+		const dataToReturn = {
+			...user,
+			fullName: `${user.firstName} ${user.lastName}`,
+		};
+
+		return res.status(200).send({ success: true, message: 'Successfully fetched user', data: dataToReturn });
 	}
 	catch (err) {
 		return res.status(200).send({ success: false, message: 'Could not fetch user', data: err.message });

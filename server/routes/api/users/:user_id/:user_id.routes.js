@@ -12,5 +12,6 @@ router.route('/token')
 
 router.use('/occasions', require('./occasions/occasions.routes.js'));
 router.use('/wishlists', require('./wishlists/wishlists.routes.js'));
+router.use('/friends', require('./friends/friends.routes.js'));
 
 module.exports = router;

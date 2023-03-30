@@ -32,14 +32,14 @@ model User {
 
 model Wishlist {
   id          String    @id @default(uuid())
-  Item        Item[]
+  items       Item[]
   name        String
   description String?
   owner_id    User      @relation(fields: [ownerId], references: [id])
   ownerId     String    @map("owner_id")
-  occasion_id Occasion? @relation(fields: [occasionId], references: [id])
+  occasion    Occasion? @relation(fields: [occasionId], references: [id])
   occasionId  String?   @map("occasion_id")
-  visibility  Boolean   @default(false)
+  isPublished Boolean   @default(false) @map("is_published")
   createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
   updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
   deletedAt   DateTime? @map("deleted_at") @db.Timestamptz()
@@ -111,7 +111,7 @@ model UserGroup {
 
 model Friend {
   id          String    @id @default(uuid())
-  user_id     User      @relation("user", fields: [userId], references: [id])
+  friends     User      @relation("user", fields: [userId], references: [id])
   userId      String    @map("user_id")
   follower_id User      @relation("follower", fields: [followerId], references: [id])
   followerId  String    @map("follower_id")

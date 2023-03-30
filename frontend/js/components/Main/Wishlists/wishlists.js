@@ -4,7 +4,7 @@ import { observer } from 'mobx-react-lite';
 import WishlistsModel from './wishlists.model';
 import styles from './wishlists.scss';
 import classNames from 'classnames/bind';
-import { Radio, Input, Button } from 'antd';
+import { Radio, Input, Button, Tag } from 'antd';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import WishTable from '@reusableComponents/WishTable/wishTable';
 import AddWishlistModal from './AddWishlistModal/addWishlistModal';
@@ -19,22 +19,30 @@ const columns = [
 		sorter: true,
 	},
 	{
-		dataIndex: 'status',
-		key: 'status',
+		dataIndex: 'isPublished',
+		key: 'isPublished',
 		title: 'Status',
 		sorter: true,
+		render: (published) => {
+			const text = published ? 'Published' : 'Unpublished';
+			return (
+				<Tag color={!published ? 'red' : 'cyan'}>{text}</Tag>
+			);
+		},
 	},
 	{
-		dataIndex: 'assignedOccasion',
-		key: 'assignedOccasion',
+		dataIndex: 'occasion',
+		key: 'occasion',
 		title: 'Occasion',
 		sorter: true,
+		render: (occasion) => ( occasion.name ),
 	},
 	{
-		dataIndex: 'numOfItems',
-		key: 'numOfItems',
+		dataIndex: 'items',
+		key: 'items',
 		title: 'Number of Items',
 		sorter: true,
+		render: (items) => ( items.length ),
 	},
 	{
 		dataIndex: 'actions',
@@ -49,14 +57,14 @@ const Wishlists = observer(({ model }) => {
 			<div className={cx('title')}>Your Wishlists</div>
 			<div className={cx('actions-menu')}>
 				<div className={cx('action')}>
-					<Radio.Group defaultValue="all" buttonStyle="solid">
+					<Radio.Group onChange={(e) => model.setFilter(e.target.value)} defaultValue="all" buttonStyle="solid">
 						<Radio.Button value="all">All</Radio.Button>
 						<Radio.Button value="published">Published</Radio.Button>
 						<Radio.Button value="unpublished">Unpublished</Radio.Button>
 					</Radio.Group>
 				</div>
 				<div className={cx('action', 'search')}>
-					<Input.Search size="medium" enterButton={<SearchOutlined/>} placeholder="Search for a wishlist..." />
+					<Input.Search size="medium" enterButton={<SearchOutlined/>} onSearch={model.onSearch} placeholder="Search for a wishlist..." />
 				</div>
 				<div className={cx('action')}>
 					<Button onClick={model.openAddModal} type="primary" icon={<PlusOutlined/>}>Add a Wishlist</Button>
@@ -70,6 +78,7 @@ const Wishlists = observer(({ model }) => {
 						position: ['bottomCenter'],
 						hideOnSinglePage: true,
 					}}
+					onChange={model.onTableChange}
 				/>
 			</div>
 			<AddWishlistModal
