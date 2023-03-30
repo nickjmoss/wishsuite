@@ -1,0 +1,24 @@
+@import '@colors';
+
+.title {
+	font-size: 20px;
+}
+
+.button {
+	padding-left: 10px;
+
+	.primary-button-wrapper {
+		display: flex;
+		justify-content: space-between;
+		width: 100%;
+	
+		.spinner-container {
+			padding: 0;
+			margin-right: 10px;
+		}
+	
+		.spinner {
+			color: $neutral-white;
+		}
+	}
+}

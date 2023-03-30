@@ -1,0 +1,63 @@
+@import '@colors';
+
+.container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+
+	.subtitle {
+		color: $grey-10;
+		margin-bottom: 20px;
+		line-height: 2;
+	}
+
+	.user-search {
+		width: 100%;
+		margin: 0;
+		:global(.ant-input) {
+			border-radius: 5px 0 0 0;
+		}
+	
+		:global(.ant-btn) {
+			border-radius: 0 5px 0 0 !important;
+		}
+	}
+	
+	.list-container {
+		width: 100%;
+		border: 1px solid $grey-5;
+		margin-right: 1px;
+		border-top: none;
+		border-radius: 0 0 5px 5px;
+	}
+}
+
+.user-card-wrapper {
+	display: flex;
+	align-items: center;
+	width: 100%;
+	justify-content: space-between;
+
+	.profile-name {
+		display: flex;
+		align-items: center;
+
+		.name-email {
+			display: flex;
+			flex-direction: column;
+			margin-left: 10px;
+
+			.name {
+				font-weight: 500;
+			}
+
+			.email {
+				color: $grey-7;
+			}
+		}
+	}
+
+	.following {
+		color: $primary-3;
+	}
+}

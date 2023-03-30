@@ -1,0 +1,31 @@
+@import '@colors';
+
+.tab-button {
+	color: $grey-10;
+	font-weight: 500;
+	position: relative;
+	display: inline-block;
+	cursor: pointer;
+
+	&:hover {
+		color: $primary-4;
+	}
+}
+
+.active {
+	color: $primary-5;
+
+	&:hover {
+		color: $primary-5;
+	}
+
+	&::after {
+		content: '';
+		width: 100%;
+		position: absolute;
+		height: 3px;
+		background-color: $primary-5;
+		bottom: -10px;
+		left: 0;
+	}
+}

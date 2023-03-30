@@ -18,11 +18,25 @@ exports.fetchSession = async function(req, res) {
 		return res.status(200).send({ success: false, message: 'No user is currently logged in', data: {} });
 	}
 
-	const user = await prisma.user.findUnique({ where: { id: req.session.user } });
+	const user = await prisma.user.findUnique({
+		where: {
+			id: req.session.user,
+		},
+		select: {
+			id: true,
+			firstName: true,
+			lastName: true,
+			email: true,
+			avatarUrl: true,
+		},
+	});
 
-	delete user.password;
+	const dataToReturn = {
+		...user,
+		fullName: `${user.firstName} ${user.lastName}`,
+	};
 
-	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: user });
+	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: dataToReturn });
 };
 
 exports.createUser = async function(req, res) {
@@ -65,7 +79,6 @@ exports.createUser = async function(req, res) {
 };
 
 exports.loginUser = async function(req, res) {
-	console.log('logging in user');
 	try {
 		const { email, password } = req.body;
 		const data = await prisma.user.findFirst({
@@ -88,7 +101,6 @@ exports.loginUser = async function(req, res) {
 			throw new Error('Incorrect Password');
 		}
 
-		console.log('successfully logged in, return response');
 		req.session.save();
 		return res.status(200).send({ success: true, message: 'Successfully logged in', data: data });
 	}
