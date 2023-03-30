@@ -102,7 +102,6 @@ const SignUp = observer(({ model }) => {
 					<Item>
 						<div className={cx('button-group')}>
 							<Button style={{ marginBottom: '10px' }} type="primary" htmlType="submit">Create Account</Button>
-							<Button type="default">Continue with Google</Button>
 						</div>
 					</Item>
 				</Form>

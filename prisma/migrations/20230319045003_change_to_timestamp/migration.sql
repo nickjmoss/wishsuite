@@ -1,0 +1,3 @@
+-- AlterTable
+ALTER TABLE "occasion" ALTER COLUMN "celebrate_date" SET DATA TYPE TIMESTAMPTZ,
+ALTER COLUMN "original_date" SET DATA TYPE TIMESTAMPTZ;
