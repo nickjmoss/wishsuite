@@ -74,11 +74,9 @@ const Wishlists = observer(({ model }) => {
 				<WishTable
 					dataSource={[...model.wishlistsList]}
 					columns={columns}
-					pagination={{
-						position: ['bottomCenter'],
-						hideOnSinglePage: true,
-					}}
+					pagination={model.pagination}
 					onChange={model.onTableChange}
+					loading={model.isLoading}
 				/>
 			</div>
 			<AddWishlistModal

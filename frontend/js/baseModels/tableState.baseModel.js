@@ -1,6 +1,6 @@
 import { types } from 'mobx-state-tree';
 
-const { model, maybeNull, optional, string, number, array } = types;
+const { model, maybeNull, optional, string, number } = types;
 
 export const TableStateBaseModel = model('TableStateBaseModel', {
 	searchTerm: optional(string, ''),
@@ -9,7 +9,7 @@ export const TableStateBaseModel = model('TableStateBaseModel', {
 		total: optional(number, 0),
 		pageSize: optional(number, 10),
 		hideOnSinglePage: true,
-		position: array(string),
+		position: 'bottomCenter',
 	}), {}),
 	sorter: optional(model('SorterModel', {
 		columnKey: optional(string, ''),
