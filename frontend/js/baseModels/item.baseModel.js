@@ -14,6 +14,18 @@ export const ItemBaseModel = model('ItemBaseModel', {
 	source: string,
 	wishlistId: string,
 	externalId: string,
+	reviews: maybeNull(number),
 	images: frozen({}),
 	notes: maybeNull(string),
+});
+
+export const ExternalItemBaseModel = model('ExternalItemBaseModel', {
+	externalId: identifier,
+	title: string,
+	description: string,
+	price: maybeNull(number),
+	externalLink: string,
+	source: string,
+	reviews: maybeNull(number),
+	images: frozen({}),
 });

@@ -1,0 +1,41 @@
+@import '@colors';
+
+.wrapper {
+	padding: 30px;
+
+	.title {
+		font-size: 28px;
+		margin-bottom: 100px;
+
+		.search-string {
+			font-weight: 500;
+		}
+	}
+
+	.filters-sort {
+		display: flex;
+		width: 100%;
+		align-items: center;
+		justify-content: space-between;
+		margin: 15px 0;
+
+		.filters {
+			display: flex;
+			align-items: center;
+
+			.select {
+				margin-right: 15px;
+			}
+		}
+	}
+
+	.item-card {
+		margin-bottom: 30px;
+	}
+
+	.item-list {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}

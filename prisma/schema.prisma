@@ -57,6 +57,7 @@ model Item {
   reserved     Boolean
   externalLink String    @map("external_link")
   source       String
+  reviews      Decimal?
   wishlist_id  Wishlist  @relation(fields: [wishlistId], references: [id])
   wishlistId   String    @map("wishlist_id")
   externalId   String    @map("external_id")

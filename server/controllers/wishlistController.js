@@ -84,3 +84,24 @@ exports.createWishlist = async function (req, res) {
 		return res.status(400).send({ success: false, message: 'Could not create wishlist', data: err.message });
 	}
 };
+
+exports.deleteWishlist = async function (req, res) {
+	try {
+		const { wishlist_id } = req.params;
+		const data = await prisma.wishlist.delete({
+			where: {
+				id: wishlist_id,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not delete wishlist');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully deleted wishlist', data: data });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(400).send({ success: false, message: 'Could not delete wishlist', data: err.message });
+	}
+};

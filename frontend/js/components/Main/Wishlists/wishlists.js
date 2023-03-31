@@ -8,50 +8,55 @@ import { Radio, Input, Button, Tag } from 'antd';
 import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import WishTable from '@reusableComponents/WishTable/wishTable';
 import AddWishlistModal from './AddWishlistModal/addWishlistModal';
+import WishModal from '@reusableComponents/WishModal/wishModal';
 
 const cx = classNames.bind(styles);
 
-const columns = [
-	{
-		dataIndex: 'name',
-		key: 'name',
-		title: 'Name',
-		sorter: true,
-	},
-	{
-		dataIndex: 'isPublished',
-		key: 'isPublished',
-		title: 'Status',
-		sorter: true,
-		render: (published) => {
-			const text = published ? 'Published' : 'Unpublished';
-			return (
-				<Tag color={!published ? 'red' : 'cyan'}>{text}</Tag>
-			);
-		},
-	},
-	{
-		dataIndex: 'occasion',
-		key: 'occasion',
-		title: 'Occasion',
-		sorter: true,
-		render: (occasion) => ( occasion.name ),
-	},
-	{
-		dataIndex: 'items',
-		key: 'items',
-		title: 'Number of Items',
-		sorter: true,
-		render: (items) => ( items.length ),
-	},
-	{
-		dataIndex: 'actions',
-		key: 'actions',
-		title: 'Actions',
-	},
-];
 
 const Wishlists = observer(({ model }) => {
+	const columns = [
+		{
+			dataIndex: 'name',
+			key: 'name',
+			title: 'Name',
+			sorter: true,
+		},
+		{
+			dataIndex: 'isPublished',
+			key: 'isPublished',
+			title: 'Status',
+			sorter: true,
+			render: (published) => {
+				const text = published ? 'Published' : 'Unpublished';
+				return (
+					<Tag color={!published ? 'red' : 'green'}>{text}</Tag>
+				);
+			},
+		},
+		{
+			dataIndex: 'occasion',
+			key: 'occasion',
+			title: 'Occasion',
+			sorter: true,
+			render: (occasion) => ( occasion.name ),
+		},
+		{
+			dataIndex: 'items',
+			key: 'items',
+			title: 'Number of Items',
+			sorter: true,
+			render: (items) => ( items.length ),
+		},
+		{
+			dataIndex: 'actions',
+			key: 'actions',
+			title: 'Actions',
+			render: (_, wishlist) => (
+				<Button type="link" danger onClick={() => model.openDeleteModal(wishlist.id)}>Delete</Button>
+			),
+		},
+	];
+
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('title')}>Your Wishlists</div>
@@ -84,6 +89,18 @@ const Wishlists = observer(({ model }) => {
 				onCancel={model.closeAddModal}
 				onCreate={model.createWishlist}
 			/>
+			<WishModal
+				open={model.showDeleteModal}
+				onCancel={model.closeDeleteModal}
+				onPrimary={model.deleteWishlist}
+				primaryButtonText="Delete Wishlist"
+				primaryButtonProps={{ danger: true }}
+				title="Delete a Wishlist"
+			>
+				<div>
+					Are you sure you would like to delete wishlist: {model.wishlistToDelete?.name}? This action is irreversible and will delete all items associated with this wishlist.
+				</div>
+			</WishModal>
 		</div>
 	);
 });

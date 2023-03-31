@@ -1,0 +1,130 @@
+@import '@colors';
+
+@mixin arrows {
+	background-color: $neutral-white;
+	opacity: 0;
+	padding: 5px;
+	display: flex !important;
+	align-items: center;
+	justify-content: center;
+	border-radius: 50%;
+	z-index: 99;
+	color: unset;
+	font-size: unset;
+	transition: all 200ms ease-in-out;
+
+	&:hover {
+		color: unset;
+		background-color: $grey-3;
+	}
+
+	&:focus {
+		color: unset;
+		background-color: unset;
+		background-color: $neutral-white;
+	}
+
+	&::before {
+		display: none;
+	}
+}
+
+.carousel {
+	:global(.slick-prev) {
+		@include arrows();
+		left: 10px;
+	}
+
+	:global(.slick-next) {
+		@include arrows();
+		right: 10px;
+	}
+
+	:global(.slick-list) {
+		border-radius: 8px 8px 0 0;
+		border: 1px solid $primary-1;
+		border-bottom: none;
+	}
+}
+
+.item-card {
+	border: 1px $primary-1 solid;
+
+	&:hover {
+		:global(.slick-prev) {
+			opacity: 0.9;
+		}
+
+		:global(.slick-next) {
+			opacity: 0.9;
+		}
+	}
+
+	:global(.ant-card-body) {
+		padding: 10px;
+	}
+
+	.title-price {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+
+		.title {
+			font-weight: 500;
+			font-size: 15px;
+		}
+	}
+
+	.source {
+		font-style: italic;
+		color: $grey-10;
+	}
+
+	.actions {
+		margin-top: 5px;
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+
+		.add-button {
+			border-radius: 20px;
+		}
+
+		.view-button {
+			border-radius: 20px;
+			background-color: $blue-5;
+
+			&:hover {
+				background-color: $blue-3;
+			}
+		}
+	}
+}
+
+.carousel-image {
+	height: 250px;
+
+	img {
+		object-fit: cover;
+		width: 100%;
+		height: 100%;
+	}
+}
+
+.no-image {
+	background-color: $primary-2;
+	height: 250px;
+	display: flex !important;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	color: $primary-5;
+
+	.no-image-svg {
+		font-size: 56px;
+		margin-bottom: 10px;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+	}
+}
