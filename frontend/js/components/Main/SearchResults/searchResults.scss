@@ -22,14 +22,21 @@
 		.filters {
 			display: flex;
 			align-items: center;
+			width: 90%;
 
-			.select {
-				margin-right: 15px;
+			.brand-select {
+				min-width: 6%;
+				max-width: 30%;
+
+				:global(.ant-select-selection-placeholder) {
+					color: $grey-12;
+				}
 			}
 		}
 
 		.sort {
 			display: flex;
+			width: auto;
 			flex-direction: column;
 		}
 	}
@@ -67,8 +74,12 @@
 
 .slider-buttons {
 	display: flex;
-	justify-content: flex-end;
+	justify-content: space-between;
 	margin: 45px 5px 5px 0;
+
+	.hidden {
+		visibility: hidden;
+	}
 
 	.slider-button {
 		margin-left: 10px;

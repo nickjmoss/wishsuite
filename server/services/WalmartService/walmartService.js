@@ -89,6 +89,7 @@ class WalmartService {
 						externalId: String(item.itemId),
 						reviews: Number(item.customerRating) || 0,
 						images: item.imageEntities,
+						brand: item.brandName,
 					};
 				}),
 			};
@@ -106,12 +107,23 @@ class WalmartService {
 		};
 	}
 
-	async searchProducts(searchTerm, pageSize, currentPage) {
+	async searchProducts(searchTerm, pageSize, currentPage, priceRangeMax, priceRangeMin) {
 		const api = await this.getApi();
 
+		let filterString = '&facet=on&';
+
+		if (JSON.parse(priceRangeMax) && JSON.parse(priceRangeMin)) {
+			filterString += `&facet.range=price:[${priceRangeMin} TO ${priceRangeMax}]`;
+		}
+
 		const { data } = await api.get(`
-			search?query=${searchTerm}&start=${(pageSize * (currentPage - 1)) + 1}&numItems=${pageSize}&publisherId=3967146
+			search?query=${searchTerm}&start=${(pageSize * (currentPage - 1)) + 1}&numItems=${pageSize}&publisherId=3967146${filterString}
 		`);
+
+		// Prevent more pages since Walmart does not allow a starting index to be greater than 1000
+		if (data.totalResults > Math.floor(1000 / pageSize) * pageSize) {
+			data.totalResults = Math.floor(1000 / pageSize) * pageSize;
+		}
 
 		return this.mapWalmartFields(data);
 	}

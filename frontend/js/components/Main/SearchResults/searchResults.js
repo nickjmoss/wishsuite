@@ -5,7 +5,7 @@ import { observer } from 'mobx-react-lite';
 import { ModelConnector } from '@app/js/stores';
 import SearchResultsModel from './searchResults.model';
 import { useSearchParams } from 'react-router-dom';
-import { List, Rate, Select, Slider, Button } from 'antd';
+import { List, Select, Slider, Button } from 'antd';
 import ItemCard from '@reusableComponents/ItemCard/itemCard';
 
 const cx = classNames.bind(styles);
@@ -29,14 +29,6 @@ const SearchResults = observer(({ model }) => {
 		{ label: 'Rating: Lowest to Highest', value: 'reviews_asc', col: 'reviews', direction: 'asc' },
 	];
 
-	const reviewOptions = [
-		{ label: '5 Stars', value: 5 },
-		{ label: '4 Stars', value: 4 },
-		{ label: '3 Stars', value: 3 },
-		{ label: '2 Stars', value: 2 },
-		{ label: '1 Stars', value: 1 },
-	];
-
 	return (
 		<div className={cx('wrapper')}>
 			<div className={cx('title')}>
@@ -45,58 +37,18 @@ const SearchResults = observer(({ model }) => {
 			</div>
 			<div className={cx('filters-sort')}>
 				<div className={cx('filters')}>
-					<div>
-						<Select
-							placeholder="Price"
-							className={cx('select')}
-							onClick={model.openPriceRange}
-							allowClear
-							dropdownMatchSelectWidth={false}
-							open={model.showPriceRange}
-							dropdownRender={(menu) => (
-								<div onClick={(e) => e.stopPropagation()}>
-									{model.totalMin && model.totalMax &&
-										<Slider
-											className={cx('slider')}
-											range={{ draggableTrack: true }}
-											min={model.totalMin}
-											max={model.totalMax}
-											defaultValue={[model.totalMin, model.totalMax]}
-											onChange={model.setPriceRange}
-											marks={{
-												[model.totalMin]: {
-													style: { marginTop: '10px' },
-													label: `$${model.totalMin.toLocaleString()}`,
-												},
-												[model.totalMax]: {
-													style: { marginTop: '10px' },
-													label: `$${model.totalMax.toLocaleString()}`,
-												},
-											}}
-										/>
-									}
-									<div className={cx('slider-buttons')}>
-										<Button className={cx('slider-button')} type="default" onClick={(e) => { e.stopPropagation(); model.cancelPriceRange() }}>Cancel</Button>
-										<Button className={cx('slider-button')} type="primary" onClick={(e) => { e.stopPropagation(); model.applyPriceRange() }}>Apply</Button>
-									</div>
-								</div>
-							)}
-						/>
-					</div>
-					<div>
-						<Select
-							placeholder="Reviews"
-							dropdownMatchSelectWidth={false}
-							allowClear
-							className={cx('select')}
-						>
-							{reviewOptions.map((option, i) => (
-								<Select.Option key={i} value={option.value} label={option.label}>
-									<Rate disabled value={option.value}/>
-								</Select.Option>
-							))}
-						</Select>
-					</div>
+					<Select
+						placeholder="Brand"
+						dropdownMatchSelectWidth={false}
+						mode="tags"
+						showArrow
+						allowClear
+						className={cx('brand-select')}
+					>
+						{model.brands.map((brand, i) => (
+							<Select.Option value={brand} label={brand} key={i} />
+						))}
+					</Select>
 				</div>
 				<div className={cx('sort')}>
 					<Select

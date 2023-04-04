@@ -7,22 +7,20 @@ exports.searchItems = async function(req, res) {
 		currentPage,
 		sortColumn,
 		sortOrder,
+		priceRangeMax,
+		priceRangeMin,
 	} = req.query;
 
-	const resultSet = {
-		count: 0,
-		items: [],
-	};
+	const { totalResults, items } = await WalmartService.searchProducts(
+		searchTerm,
+		pageSize,
+		currentPage,
+		priceRangeMax,
+		priceRangeMin,
+	);
 
-	const { totalResults, items } = await WalmartService.searchProducts(searchTerm, pageSize, currentPage, sortColumn, sortOrder);
-	resultSet.items.push(...items);
-
-	// Prevent more pages since Walmart does not allow a starting index to be greater than 1000
-	if (totalResults < Math.floor(1000 / pageSize) * pageSize) {
-		resultSet.count += totalResults;
-	}
-	else {
-		resultSet.count = Math.floor(1000 / pageSize) * pageSize;
+	if (!items) {
+		return res.status(200).send({ success: true, message: 'Successfully fetched products', data: { count: totalResults, items: [] } });
 	}
 
 	const sortFunc = (a, b) => {
@@ -41,10 +39,10 @@ exports.searchItems = async function(req, res) {
 	};
 
 	if (sortColumn || sortOrder) {
-		resultSet.items.sort(sortFunc);
+		items.sort(sortFunc);
 	}
 
-	return res.status(200).send({ success: true, message: 'Successfully fetched products', data: resultSet });
+	return res.status(200).send({ success: true, message: 'Successfully fetched products', data: { count: totalResults, items } });
 };
 
 exports.getItemByExternalId = async function (req, res) {

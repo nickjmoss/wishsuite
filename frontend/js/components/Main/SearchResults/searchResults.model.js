@@ -16,7 +16,9 @@ const SearchResultsModel = model('SearchResultsModel', {
 		min: maybeNull(number),
 		max: maybeNull(number),
 	}), {}),
+	customerRating: maybeNull(number),
 	showPriceRange: optional(boolean, false),
+	priceRangeApplied: optional(boolean, false),
 })
 	.views((self) => ({
 		get pagination() {
@@ -37,6 +39,11 @@ const SearchResultsModel = model('SearchResultsModel', {
 		get totalMax() {
 			return self.priceRange.totalMax;
 		},
+		get brands() {
+			const brandSet = new Set();
+			self.itemsList.forEach(item => brandSet.add(item.brand));
+			return Array.from(brandSet.values());
+		},
 	}))
 	.actions((self) => ({
 		searchForItems: flow(function* searchForItems() {
@@ -47,12 +54,15 @@ const SearchResultsModel = model('SearchResultsModel', {
 				currentPage: self.pagination.current,
 				sortColumn: self.sorter.columnKey,
 				sortOrder: self.sorter.order,
+				priceRangeMax: self.priceRange.max,
+				priceRangeMin: self.priceRange.min,
+				customerRating: self.customerRating,
 			});
 			const { data } = yield request.get(`search?${searchParams}`);
 			self.itemsList = data.data.items;
 			self.setPageTotal(data.data.count);
-			self.priceRange.totalMax = self.maxPrice;
-			self.priceRange.totalMin = self.minPrice;
+			self.priceRange.totalMax = Math.ceil(self.maxPrice);
+			self.priceRange.totalMin = Math.floor(self.minPrice);
 			self.isLoading = false;
 		}),
 		setPageTotal(pageTotal) {
@@ -101,6 +111,13 @@ const SearchResultsModel = model('SearchResultsModel', {
 		},
 		applyPriceRange() {
 			self.closePriceRange();
+			self.priceRangeApplied = true;
+			self.searchForItems();
+		},
+		resetPriceRange() {
+			self.priceRangeApplied = false;
+			self.cancelPriceRange();
+			self.searchForItems();
 		},
 	}));
 
