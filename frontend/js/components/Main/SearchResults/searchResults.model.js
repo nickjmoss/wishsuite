@@ -3,26 +3,105 @@ import { types, flow } from 'mobx-state-tree';
 import request from '@request';
 import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
 
-const { model, optional, array, boolean } = types;
+const { model, optional, array, boolean, number, maybeNull } = types;
 
 const SearchResultsModel = model('SearchResultsModel', {
 	itemsList: array(ExternalItemBaseModel),
 	isLoading: optional(boolean, false),
 
 	tableState: optional(TableStateBaseModel, {}),
+	priceRange: optional(model({
+		totalMax: maybeNull(number),
+		totalMin: maybeNull(number),
+		min: maybeNull(number),
+		max: maybeNull(number),
+	}), {}),
+	showPriceRange: optional(boolean, false),
 })
 	.views((self) => ({
 		get pagination() {
 			return self.tableState.pagination;
 		},
+		get sorter() {
+			return self.tableState.sorter;
+		},
+		get minPrice() {
+			return Math.min(...self.itemsList.map(item => item.price));
+		},
+		get maxPrice() {
+			return Math.max(...self.itemsList.map(item => item.price));
+		},
+		get totalMin() {
+			return self.priceRange.totalMin;
+		},
+		get totalMax() {
+			return self.priceRange.totalMax;
+		},
 	}))
 	.actions((self) => ({
-		searchForItems: flow(function* searchForItems(searchTerm) {
+		searchForItems: flow(function* searchForItems() {
 			self.isLoading = true;
-			const { data } = yield request.get(`search?searchTerm=${searchTerm}`);
-			self.itemsList = data.data;
+			const searchParams = new URLSearchParams({
+				searchTerm: self.tableState.searchTerm,
+				pageSize: self.pagination.pageSize,
+				currentPage: self.pagination.current,
+				sortColumn: self.sorter.columnKey,
+				sortOrder: self.sorter.order,
+			});
+			const { data } = yield request.get(`search?${searchParams}`);
+			self.itemsList = data.data.items;
+			self.setPageTotal(data.data.count);
+			self.priceRange.totalMax = self.maxPrice;
+			self.priceRange.totalMin = self.minPrice;
 			self.isLoading = false;
 		}),
+		setPageTotal(pageTotal) {
+			self.tableState.pagination.total = pageTotal;
+		},
+		setSearchTerm(searchTerm) {
+			self.tableState.searchTerm = searchTerm;
+		},
+		onPageChange(currentPage, pageSize) {
+			self.tableState.pagination.current = currentPage;
+			self.tableState.pagination.pageSize = pageSize;
+
+			self.searchForItems();
+		},
+		onSort(node) {
+			if (node) {
+				self.tableState.sorter.columnKey = node.col;
+				self.tableState.sorter.order = node.direction;
+			}
+			else {
+				self.tableState.sorter.columnKey = '';
+				self.tableState.sorter.order = null;
+			}
+
+			self.searchForItems();
+		},
+		setPriceRange([min, max]) {
+			self.priceRange.min = min;
+			self.priceRange.max = max;
+		},
+		openPriceRange() {
+			if (self.showPriceRange) {
+				self.closePriceRange();
+			}
+			else {
+				self.showPriceRange = true;
+			}
+		},
+		closePriceRange() {
+			self.showPriceRange = false;
+		},
+		cancelPriceRange() {
+			self.closePriceRange();
+			self.priceRange.min = null;
+			self.priceRange.max = null;
+		},
+		applyPriceRange() {
+			self.closePriceRange();
+		},
 	}));
 
 export default {

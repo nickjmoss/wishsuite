@@ -44,7 +44,7 @@ const ItemCard = ({ item }) => (
 				{item.source}
 			</div>
 			<div className={cx('reviews')}>
-				<Rate disabled defaultValue={item.reviews} allowHalf />
+				<Rate className={cx('stars')} disabled value={Math.floor(item.reviews)} />
 			</div>
 			<div className={cx('actions')}>
 				<Button className={cx('add-button')} type="primary">Add to Wishlist</Button>

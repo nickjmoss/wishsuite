@@ -7,7 +7,7 @@ export const TableStateBaseModel = model('TableStateBaseModel', {
 	pagination: optional(model('PaginationModel', {
 		current: optional(number, 1),
 		total: optional(number, 0),
-		pageSize: optional(number, 10),
+		pageSize: optional(number, 12),
 		hideOnSinglePage: true,
 		position: 'bottomCenter',
 	}), {}),

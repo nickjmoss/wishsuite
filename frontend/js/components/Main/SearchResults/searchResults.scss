@@ -27,15 +27,50 @@
 				margin-right: 15px;
 			}
 		}
+
+		.sort {
+			display: flex;
+			flex-direction: column;
+		}
 	}
 
 	.item-card {
-		margin-bottom: 30px;
+		margin-bottom: 50px;
 	}
 
 	.item-list {
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		flex-direction: column;
+	}
+}
+
+.select-label {
+	font-size: 14px;
+	color: $grey-8;
+	margin-bottom: 5px;
+}
+
+.select {
+	width: fit-content;
+
+	:global(.ant-select-selection-placeholder) {
+		color: $grey-12;
+	}
+}
+
+.slider {
+	width: 300px;
+	margin: 30px;
+}
+
+.slider-buttons {
+	display: flex;
+	justify-content: flex-end;
+	margin: 45px 5px 5px 0;
+
+	.slider-button {
+		margin-left: 10px;
 	}
 }

@@ -1,7 +1,7 @@
 @import '@colors';
 
 @mixin arrows {
-	background-color: $neutral-white;
+	background-color: $primary-4;
 	opacity: 0;
 	padding: 5px;
 	display: flex !important;
@@ -12,16 +12,17 @@
 	color: unset;
 	font-size: unset;
 	transition: all 200ms ease-in-out;
+	color: $neutral-white;
 
 	&:hover {
-		color: unset;
-		background-color: $grey-3;
+		color: $neutral-white;
+		background-color: $primary-3;
 	}
 
 	&:focus {
-		color: unset;
+		color: $neutral-white;
 		background-color: unset;
-		background-color: $neutral-white;
+		background-color: $primary-4;
 	}
 
 	&::before {
@@ -72,6 +73,16 @@
 		.title {
 			font-weight: 500;
 			font-size: 15px;
+			line-clamp: 2;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			display: -webkit-box;
+			overflow: hidden;
+		}
+
+		.price {
+			margin-left: 15px;
+			font-size: 16px;
 		}
 	}
 
@@ -102,7 +113,7 @@
 }
 
 .carousel-image {
-	height: 250px;
+	height: 300px;
 
 	img {
 		object-fit: cover;

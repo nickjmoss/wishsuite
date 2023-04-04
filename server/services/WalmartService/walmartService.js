@@ -77,18 +77,21 @@ class WalmartService {
 
 	mapWalmartFields(payload) {
 		if (payload.items) {
-			return payload.items.map(item => {
-				return {
-					title: item.name,
-					description: item.shortDescription || item.longDescription,
-					price: item.salePrice,
-					externalLink: item.productTrackingUrl,
-					source: 'Walmart',
-					externalId: String(item.itemId),
-					reviews: Number(item.customerRating),
-					images: item.imageEntities,
-				};
-			});
+			return {
+				totalResults: payload.totalResults,
+				items: payload.items.map(item => {
+					return {
+						title: item.name,
+						description: item.shortDescription || item.longDescription,
+						price: item.salePrice,
+						externalLink: item.productTrackingUrl,
+						source: 'Walmart',
+						externalId: String(item.itemId),
+						reviews: Number(item.customerRating) || 0,
+						images: item.imageEntities,
+					};
+				}),
+			};
 		}
 
 		return {
@@ -98,15 +101,17 @@ class WalmartService {
 			externalLink: payload.productTrackingUrl,
 			source: 'Walmart',
 			externalId: String(payload.itemId),
-			reviews: Number(payload.customerRating),
+			reviews: Number(payload.customerRating) || 0,
 			images: payload.imageEntities,
 		};
 	}
 
-	async searchProducts(searchTerm) {
+	async searchProducts(searchTerm, pageSize, currentPage) {
 		const api = await this.getApi();
 
-		const { data } = await api.get(`search?query=${searchTerm}&publisherId=3967146`);
+		const { data } = await api.get(`
+			search?query=${searchTerm}&start=${(pageSize * (currentPage - 1)) + 1}&numItems=${pageSize}&publisherId=3967146
+		`);
 
 		return this.mapWalmartFields(data);
 	}
