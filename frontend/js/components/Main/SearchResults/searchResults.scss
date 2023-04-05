@@ -24,9 +24,8 @@
 			align-items: center;
 			width: 90%;
 
-			.brand-select {
-				min-width: 6%;
-				max-width: 30%;
+			.select {
+				margin-right: 15px;
 
 				:global(.ant-select-selection-placeholder) {
 					color: $grey-12;

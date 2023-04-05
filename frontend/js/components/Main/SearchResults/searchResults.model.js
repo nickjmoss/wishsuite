@@ -3,7 +3,7 @@ import { types, flow } from 'mobx-state-tree';
 import request from '@request';
 import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
 
-const { model, optional, array, boolean, number, maybeNull } = types;
+const { model, optional, array, boolean, number, maybeNull, string } = types;
 
 const SearchResultsModel = model('SearchResultsModel', {
 	itemsList: array(ExternalItemBaseModel),
@@ -16,9 +16,10 @@ const SearchResultsModel = model('SearchResultsModel', {
 		min: maybeNull(number),
 		max: maybeNull(number),
 	}), {}),
-	customerRating: maybeNull(number),
 	showPriceRange: optional(boolean, false),
 	priceRangeApplied: optional(boolean, false),
+	brand: optional(string, ''),
+	color: optional(string, ''),
 })
 	.views((self) => ({
 		get pagination() {
@@ -44,6 +45,11 @@ const SearchResultsModel = model('SearchResultsModel', {
 			self.itemsList.forEach(item => brandSet.add(item.brand));
 			return Array.from(brandSet.values());
 		},
+		get colors() {
+			const colorSet = new Set();
+			self.itemsList.forEach(item => item.color && colorSet.add(item.color));
+			return Array.from(colorSet.values());
+		},
 	}))
 	.actions((self) => ({
 		searchForItems: flow(function* searchForItems() {
@@ -56,7 +62,8 @@ const SearchResultsModel = model('SearchResultsModel', {
 				sortOrder: self.sorter.order,
 				priceRangeMax: self.priceRange.max,
 				priceRangeMin: self.priceRange.min,
-				customerRating: self.customerRating,
+				brand: self.brand,
+				color: self.color,
 			});
 			const { data } = yield request.get(`search?${searchParams}`);
 			self.itemsList = data.data.items;
@@ -117,6 +124,22 @@ const SearchResultsModel = model('SearchResultsModel', {
 		resetPriceRange() {
 			self.priceRangeApplied = false;
 			self.cancelPriceRange();
+			self.searchForItems();
+		},
+		setBrand(brand) {
+			self.brand = brand;
+			self.searchForItems();
+		},
+		clearBrand() {
+			self.brand = '';
+			self.searchForItems();
+		},
+		setColor(color) {
+			self.color = color;
+			self.searchForItems();
+		},
+		clearColor() {
+			self.color = '';
 			self.searchForItems();
 		},
 	}));

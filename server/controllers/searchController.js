@@ -9,6 +9,8 @@ exports.searchItems = async function(req, res) {
 		sortOrder,
 		priceRangeMax,
 		priceRangeMin,
+		brand,
+		color,
 	} = req.query;
 
 	const { totalResults, items } = await WalmartService.searchProducts(
@@ -17,6 +19,8 @@ exports.searchItems = async function(req, res) {
 		currentPage,
 		priceRangeMax,
 		priceRangeMin,
+		brand,
+		color,
 	);
 
 	if (!items) {

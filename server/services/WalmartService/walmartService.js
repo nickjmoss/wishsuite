@@ -90,6 +90,7 @@ class WalmartService {
 						reviews: Number(item.customerRating) || 0,
 						images: item.imageEntities,
 						brand: item.brandName,
+						color: item.color,
 					};
 				}),
 			};
@@ -107,13 +108,21 @@ class WalmartService {
 		};
 	}
 
-	async searchProducts(searchTerm, pageSize, currentPage, priceRangeMax, priceRangeMin) {
+	async searchProducts(searchTerm, pageSize, currentPage, priceRangeMax, priceRangeMin, brand, color) {
 		const api = await this.getApi();
 
-		let filterString = '&facet=on&';
+		let filterString = '&facet=on';
 
 		if (JSON.parse(priceRangeMax) && JSON.parse(priceRangeMin)) {
 			filterString += `&facet.range=price:[${priceRangeMin} TO ${priceRangeMax}]`;
+		}
+
+		if (brand) {
+			filterString += `&facet.filter=brand:${brand}`;
+		}
+
+		if (color) {
+			filterString += `&facet.filter=color:${color}`;
 		}
 
 		const { data } = await api.get(`

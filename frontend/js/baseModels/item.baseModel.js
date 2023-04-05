@@ -29,4 +29,5 @@ export const ExternalItemBaseModel = model('ExternalItemBaseModel', {
 	reviews: maybeNull(number),
 	images: frozen({}),
 	brand: string,
+	color: maybeNull(string),
 });

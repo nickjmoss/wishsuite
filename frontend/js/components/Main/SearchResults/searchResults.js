@@ -40,12 +40,24 @@ const SearchResults = observer(({ model }) => {
 					<Select
 						placeholder="Brand"
 						dropdownMatchSelectWidth={false}
-						mode="tags"
-						showArrow
 						allowClear
-						className={cx('brand-select')}
+						className={cx('select')}
+						onSelect={model.setBrand}
+						onClear={model.clearBrand}
 					>
 						{model.brands.map((brand, i) => (
+							<Select.Option value={brand} label={brand} key={i} />
+						))}
+					</Select>
+					<Select
+						placeholder="Color"
+						dropdownMatchSelectWidth={false}
+						allowClear
+						className={cx('select')}
+						onSelect={model.setColor}
+						onClear={model.clearColor}
+					>
+						{model.colors.map((brand, i) => (
 							<Select.Option value={brand} label={brand} key={i} />
 						))}
 					</Select>
