@@ -32,7 +32,8 @@ const WishModal = ({
 }) => {
 	const Footer = () => (
 		<div style={{ display: 'flex', justifyContent: actionAlignment, alignItems: 'center' }}>
-			<LinkButton onClick={onCancel} {...cancelButtonProps}>{cancelText}</LinkButton>
+			{!cancelButtonProps && <LinkButton onClick={onCancel}>{cancelText}</LinkButton>}
+			{cancelButtonProps && <Button onClick={onCancel} {...cancelButtonProps}>{cancelText}</Button>}
 			<div style={{ paddingLeft: '15px' }}>
 				{secondaryButtonText && <Button type="default" onClick={onSecondary} {...secondaryButtonProps}>{secondaryButtonText}</Button>}
 				<Button type={primaryButtonType} className={cx({ 'button': confirmLoading })} onClick={onPrimary} {...primaryButtonProps}>
@@ -51,7 +52,7 @@ const WishModal = ({
 				padding: '10px 0',
 				margin: '15px 0',
 			}}
-			cancelButtonProps={cancelButtonProps}
+			cancelButtonProps={{ danger: true }}
 			cancelText={cancelText}
 			closable={closable}
 			destroyOnClose={destroyOnClose}

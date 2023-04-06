@@ -45,10 +45,9 @@
 	}
 
 	.item-list {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		flex-direction: column;
+		:global(.ant-list-pagination) {
+			text-align: center;
+		}
 	}
 }
 

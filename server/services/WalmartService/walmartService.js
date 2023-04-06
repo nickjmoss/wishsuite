@@ -108,14 +108,10 @@ class WalmartService {
 		};
 	}
 
-	async searchProducts(searchTerm, pageSize, currentPage, priceRangeMax, priceRangeMin, brand, color) {
+	async searchProducts(searchTerm, pageSize, currentPage, brand, color) {
 		const api = await this.getApi();
 
 		let filterString = '&facet=on';
-
-		if (JSON.parse(priceRangeMax) && JSON.parse(priceRangeMin)) {
-			filterString += `&facet.range=price:[${priceRangeMin} TO ${priceRangeMax}]`;
-		}
 
 		if (brand) {
 			filterString += `&facet.filter=brand:${brand}`;
@@ -126,7 +122,7 @@ class WalmartService {
 		}
 
 		const { data } = await api.get(`
-			search?query=${searchTerm}&start=${(pageSize * (currentPage - 1)) + 1}&numItems=${pageSize}&publisherId=3967146${filterString}
+			search?query=${searchTerm}&start=${pageSize * (currentPage - 1) + 1}&numItems=${pageSize}&publisherId=3967146${filterString}
 		`);
 
 		// Prevent more pages since Walmart does not allow a starting index to be greater than 1000

@@ -3,23 +3,19 @@ import { types, flow } from 'mobx-state-tree';
 import request from '@request';
 import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
 
-const { model, optional, array, boolean, number, maybeNull, string } = types;
+const { model, optional, array, boolean, string, safeReference } = types;
 
 const SearchResultsModel = model('SearchResultsModel', {
 	itemsList: array(ExternalItemBaseModel),
 	isLoading: optional(boolean, false),
 
 	tableState: optional(TableStateBaseModel, {}),
-	priceRange: optional(model({
-		totalMax: maybeNull(number),
-		totalMin: maybeNull(number),
-		min: maybeNull(number),
-		max: maybeNull(number),
-	}), {}),
-	showPriceRange: optional(boolean, false),
-	priceRangeApplied: optional(boolean, false),
 	brand: optional(string, ''),
 	color: optional(string, ''),
+
+	// Add Wish Model
+	showAddItemModal: optional(boolean, false),
+	itemToAdd: safeReference(ExternalItemBaseModel),
 })
 	.views((self) => ({
 		get pagination() {
@@ -60,16 +56,12 @@ const SearchResultsModel = model('SearchResultsModel', {
 				currentPage: self.pagination.current,
 				sortColumn: self.sorter.columnKey,
 				sortOrder: self.sorter.order,
-				priceRangeMax: self.priceRange.max,
-				priceRangeMin: self.priceRange.min,
 				brand: self.brand,
 				color: self.color,
 			});
 			const { data } = yield request.get(`search?${searchParams}`);
 			self.itemsList = data.data.items;
 			self.setPageTotal(data.data.count);
-			self.priceRange.totalMax = Math.ceil(self.maxPrice);
-			self.priceRange.totalMin = Math.floor(self.minPrice);
 			self.isLoading = false;
 		}),
 		setPageTotal(pageTotal) {
@@ -96,36 +88,6 @@ const SearchResultsModel = model('SearchResultsModel', {
 
 			self.searchForItems();
 		},
-		setPriceRange([min, max]) {
-			self.priceRange.min = min;
-			self.priceRange.max = max;
-		},
-		openPriceRange() {
-			if (self.showPriceRange) {
-				self.closePriceRange();
-			}
-			else {
-				self.showPriceRange = true;
-			}
-		},
-		closePriceRange() {
-			self.showPriceRange = false;
-		},
-		cancelPriceRange() {
-			self.closePriceRange();
-			self.priceRange.min = null;
-			self.priceRange.max = null;
-		},
-		applyPriceRange() {
-			self.closePriceRange();
-			self.priceRangeApplied = true;
-			self.searchForItems();
-		},
-		resetPriceRange() {
-			self.priceRangeApplied = false;
-			self.cancelPriceRange();
-			self.searchForItems();
-		},
 		setBrand(brand) {
 			self.brand = brand;
 			self.searchForItems();
@@ -141,6 +103,14 @@ const SearchResultsModel = model('SearchResultsModel', {
 		clearColor() {
 			self.color = '';
 			self.searchForItems();
+		},
+		openAddItemModal(item) {
+			self.itemToAdd = item;
+			self.showAddItemModal = true;
+		},
+		closeAddItemModal() {
+			self.itemToAdd = undefined;
+			self.showAddItemModal = false;
 		},
 	}));
 

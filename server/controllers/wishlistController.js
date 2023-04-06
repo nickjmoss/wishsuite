@@ -53,14 +53,21 @@ exports.fetchWishlists = async function (req, res) {
 		}
 	}
 
+	let skipVal;
+	let takeVal;
+	if (currentPage && pageSize) {
+		skipVal = Number(pageSize) * Number(currentPage - 1);
+		takeVal = Number(pageSize);
+	}
+
 	const data = await prisma.wishlist.findMany({
 		where: whereClause,
 		include: {
 			occasion: true,
 			items: true,
 		},
-		skip: Number(pageSize) * Number(currentPage - 1),
-		take: Number(pageSize),
+		skip: skipVal,
+		take: takeVal,
 		orderBy,
 	});
 

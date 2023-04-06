@@ -5,8 +5,9 @@ import { observer } from 'mobx-react-lite';
 import { ModelConnector } from '@app/js/stores';
 import SearchResultsModel from './searchResults.model';
 import { useSearchParams } from 'react-router-dom';
-import { List, Select, Slider, Button } from 'antd';
+import { List, Select } from 'antd';
 import ItemCard from '@reusableComponents/ItemCard/itemCard';
+import AddItemModal from './AddItemModal/addItemModal';
 
 const cx = classNames.bind(styles);
 
@@ -76,7 +77,13 @@ const SearchResults = observer(({ model }) => {
 			<div>
 				<List
 					dataSource={[...model.itemsList]}
-					renderItem={(item) => ( <div className={cx('item-card')}><ItemCard item={item}/></div> )}
+					renderItem={
+						(item) => (
+							<div className={cx('item-card')}>
+								<ItemCard onPrimary={model.openAddItemModal} item={item}/>
+							</div>
+						)
+					}
 					grid={{
 						xs: 1,
 						sm: 2,
@@ -100,6 +107,13 @@ const SearchResults = observer(({ model }) => {
 					loading={model.isLoading}
 				/>
 			</div>
+			{model.itemToAdd &&
+				<AddItemModal
+					open={model.showAddItemModal}
+					onCancel={model.closeAddItemModal}
+					item={model.itemToAdd}
+				/>
+			}
 		</div>
 	);
 });

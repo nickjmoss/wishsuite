@@ -7,8 +7,6 @@ exports.searchItems = async function(req, res) {
 		currentPage,
 		sortColumn,
 		sortOrder,
-		priceRangeMax,
-		priceRangeMin,
 		brand,
 		color,
 	} = req.query;
@@ -17,8 +15,6 @@ exports.searchItems = async function(req, res) {
 		searchTerm,
 		pageSize,
 		currentPage,
-		priceRangeMax,
-		priceRangeMin,
 		brand,
 		color,
 	);

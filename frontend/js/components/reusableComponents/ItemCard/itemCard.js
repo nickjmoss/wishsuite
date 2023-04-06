@@ -1,34 +1,12 @@
 import React from 'react';
 import styles from './itemCard.scss';
 import classNames from 'classnames/bind';
-import { Button, Card, Carousel, Rate } from 'antd';
-import { ArrowRightOutlined, ArrowLeftOutlined, FileImageOutlined } from '@ant-design/icons';
+import { Button, Card, Rate } from 'antd';
+import ImageCarousel from '../ImageCarousel/imageCarousel';
 
 const cx = classNames.bind(styles);
 
-const ImageCarousel = ({ images = [] }) => (
-	<Carousel
-		arrows
-		className={cx('carousel')}
-		nextArrow={<ArrowRightOutlined/>}
-		prevArrow={<ArrowLeftOutlined/>}
-	>
-		{images.length && images.map((image, index) => (
-			<div className={cx('carousel-image')} key={index}>
-				<img src={image.largeImage} crossOrigin="anonymous"/>
-			</div>
-		))}
-
-		{!images.length &&
-			<div className={cx('no-image')}>
-				<FileImageOutlined className={cx('no-image-svg')}/>
-				<div>No Images Available</div>
-			</div>
-		}
-	</Carousel>
-);
-
-const ItemCard = ({ item }) => (
+const ItemCard = ({ item, onPrimary }) => (
 	<Card
 		cover={<ImageCarousel images={item.images}/>}
 		style={{ width: '300px' }}
@@ -47,8 +25,8 @@ const ItemCard = ({ item }) => (
 				<Rate className={cx('stars')} disabled value={Math.floor(item.reviews)} />
 			</div>
 			<div className={cx('actions')}>
-				<Button className={cx('add-button')} type="primary">Add to Wishlist</Button>
-				<Button className={cx('view-button')} type="primary">View Details</Button>
+				<Button className={cx('add-button')} onClick={() => onPrimary(item.externalId)} type="primary">Add to Wishlist</Button>
+				<a href={item.externalLink} target="_blank" rel="noreferrer"><Button className={cx('view-button')} type="primary">View Details</Button></a>
 			</div>
 		</div>
 	</Card>
