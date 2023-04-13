@@ -9,11 +9,13 @@ import { SearchOutlined, PlusOutlined } from '@ant-design/icons';
 import WishTable from '@reusableComponents/WishTable/wishTable';
 import AddWishlistModal from './AddWishlistModal/addWishlistModal';
 import WishModal from '@reusableComponents/WishModal/wishModal';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 
 const Wishlists = observer(({ model }) => {
+	const navigate = useNavigate();
 	const columns = [
 		{
 			dataIndex: 'name',
@@ -38,7 +40,7 @@ const Wishlists = observer(({ model }) => {
 			key: 'occasion',
 			title: 'Occasion',
 			sorter: true,
-			render: (occasion) => ( occasion.name ),
+			render: (occasion) => ( occasion ? occasion.name : 'None' ),
 		},
 		{
 			dataIndex: 'items',
@@ -82,6 +84,13 @@ const Wishlists = observer(({ model }) => {
 					pagination={model.pagination}
 					onChange={model.onTableChange}
 					loading={model.isLoading}
+					onRow={(record) => {
+						return {
+							onClick: () => {
+								navigate(`/wishlists/${record.id}`);
+							},
+						};
+					}}
 				/>
 			</div>
 			<AddWishlistModal

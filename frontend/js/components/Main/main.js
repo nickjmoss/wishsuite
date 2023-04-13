@@ -13,6 +13,7 @@ import Occasions from './Occasions/occasions';
 import Wishlists from './Wishlists/wishlists';
 import Friends from './Friends/friends';
 import SearchResults from './SearchResults/searchResults';
+import WishlistDetails from './Wishlists/WishlistDetails/wishlistDetails';
 
 const cx = classNames.bind(styles);
 
@@ -61,7 +62,12 @@ const Main = () => {
 					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
 					<Route path="/search" element={<SearchResults/>}/>
 					<Route path="/profile" element={<Profile/>}/>
-					<Route path="/wishlists" element={<Wishlists/>}/>
+					<Route path="/wishlists/*" element={
+						<Routes>
+							<Route path="/" element={<Wishlists/>}/>
+							<Route path=":wishlist_id" element={<WishlistDetails/>}/>
+						</Routes>
+					}/>
 					<Route path="/friends" element={<Friends/>}/>
 					<Route path="/occasions" element={<Occasions/>}/>
 				</Routes>

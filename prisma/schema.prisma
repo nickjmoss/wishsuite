@@ -49,18 +49,19 @@ model Wishlist {
 
 model Item {
   id           String    @id @default(uuid())
-  title        String
-  description  String
-  price        Decimal?
+  title        String?
+  description  String?
+  price        Decimal   @default(0)
   quantity     Int
-  mostWanted   Boolean   @map("most_wanted")
-  reserved     Boolean
-  externalLink String    @map("external_link")
-  source       String
+  mostWanted   Boolean   @default(false) @map("most_wanted")
+  reserved     Boolean   @default(false)
+  status       String    @default("Pending")
+  externalLink String?   @map("external_link")
+  source       String?
   reviews      Decimal?
   wishlist_id  Wishlist  @relation(fields: [wishlistId], references: [id])
   wishlistId   String    @map("wishlist_id")
-  externalId   String    @map("external_id")
+  externalId   String?   @map("external_id")
   images       Json?
   notes        String?   @db.Text
   createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()

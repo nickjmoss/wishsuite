@@ -33,7 +33,11 @@ const AddItemModalModel = model('AddItemModalModel', {
 		addItemToWishlist: flow(function* addItemToWishlist() {
 			try {
 				const { data } = yield request.post(`${self.baseURL}/items`, self.itemToAdd);
-				console.log(data);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				message.success('Successfully added item to wishlist');
+				self.props.onCancel();
 			}
 			catch (err) {
 				message.error(err.message);

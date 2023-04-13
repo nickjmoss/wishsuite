@@ -27,11 +27,12 @@ exports.fetchWishlists = async function (req, res) {
 		whereClause.isPublished = filter === 'published' ? true : false;
 	}
 
-	let orderBy = {};
+	let orderBy = {
+		createdAt: 'desc',
+	};
 	if (sortColumn && sortOrder) {
 		if (sortColumn === 'items') {
 			orderBy = {
-				...orderBy,
 				[sortColumn]: {
 					_count: sortOrder,
 				},
@@ -39,7 +40,6 @@ exports.fetchWishlists = async function (req, res) {
 		}
 		else if (sortColumn === 'occasion') {
 			orderBy = {
-				...orderBy,
 				[sortColumn]: {
 					name: sortOrder,
 				},
@@ -47,7 +47,6 @@ exports.fetchWishlists = async function (req, res) {
 		}
 		else {
 			orderBy = {
-				...orderBy,
 				[sortColumn]: sortOrder,
 			};
 		}
@@ -63,15 +62,31 @@ exports.fetchWishlists = async function (req, res) {
 	const data = await prisma.wishlist.findMany({
 		where: whereClause,
 		include: {
-			occasion: true,
-			items: true,
+			occasion: null,
+			items: {
+				where: {
+					deletedAt: null,
+				},
+			},
 		},
 		skip: skipVal,
 		take: takeVal,
 		orderBy,
 	});
 
-	return res.status(200).send({ success: true, message: 'Successfully fetched wishlists', data: data });
+	const dataToReturn = data.map(wishlist => {
+		wishlist.items = wishlist.items.map(item => {
+			item.price = Number(item.price);
+			item.reviews = Number(item.reviews);
+			item.quantity = Number(item.quantity);
+
+			return item;
+		});
+
+		return wishlist;
+	});
+
+	return res.status(200).send({ success: true, message: 'Successfully fetched wishlists', data: dataToReturn });
 };
 
 exports.createWishlist = async function (req, res) {
@@ -112,3 +127,34 @@ exports.deleteWishlist = async function (req, res) {
 		return res.status(400).send({ success: false, message: 'Could not delete wishlist', data: err.message });
 	}
 };
+
+exports.fetchSingleWishlist = async function (req, res) {
+	const { wishlist_id } = req.params;
+	const data = await prisma.wishlist.findFirst({
+		where: {
+			id: wishlist_id,
+		},
+		include: {
+			occasion: true,
+			items: {
+				where: {
+					deletedAt: null,
+				},
+				orderBy: {
+					createdAt: 'desc',
+				},
+			},
+		},
+	});
+
+	data.items = data.items.map(item => {
+		item.price = Number(item.price);
+		item.reviews = Number(item.reviews);
+		item.quantity = Number(item.quantity);
+
+		return item;
+	});
+
+	return res.status(200).send({ success: true, message: 'Successfully fetched a wishlist', data: data });
+};
+

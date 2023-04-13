@@ -7,12 +7,12 @@ import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
 import { OccasionBaseModel } from '@app/js/baseModels/occasion.baseModel';
 import { ItemBaseModel } from '@app/js/baseModels/item.baseModel';
 
-const { model, optional, boolean, array, string, compose, safeReference } = types;
+const { model, optional, boolean, array, string, compose, safeReference, maybeNull } = types;
 
 const ExtendedWishlistModel = compose(
 	WishlistBaseModel,
 	model({
-		occasion: optional(OccasionBaseModel, {}),
+		occasion: maybeNull(OccasionBaseModel),
 		items: array(ItemBaseModel),
 	}),
 );

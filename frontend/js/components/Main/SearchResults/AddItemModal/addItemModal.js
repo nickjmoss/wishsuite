@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import styles from './addItemModal.scss';
 import classNames from 'classnames/bind';
 import WishModal from '@reusableComponents/WishModal/wishModal';
-import { Checkbox, Input, Select, Switch } from 'antd';
+import { Input, Select, Switch } from 'antd';
 import { observer } from 'mobx-react-lite';
 import { ModelConnector } from '@app/js/stores';
 import AddItemModalModel from './addItemModal.model';
@@ -22,7 +22,7 @@ const AddItemModal = observer(({ open, onCancel, item, model }) => {
 			title="Add to Wishlist"
 			actionAlignment="right"
 			open={open}
-			width={'50%'}
+			width={'60%'}
 			primaryButtonText="Add to Wishlist"
 			onPrimary={model.addItemToWishlist}
 			onCancel={onCancel}

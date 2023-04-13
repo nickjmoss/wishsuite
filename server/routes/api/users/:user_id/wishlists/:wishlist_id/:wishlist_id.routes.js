@@ -1,8 +1,9 @@
 const express = require('express');
-const { deleteWishlist } = require('@controllers/wishlistController');
+const { deleteWishlist, fetchSingleWishlist } = require('@controllers/wishlistController');
 const router = express.Router({ mergeParams: true });
 
 router.route('/')
-	.delete(deleteWishlist);
+	.delete(deleteWishlist)
+	.get(fetchSingleWishlist);
 
 module.exports = router;
