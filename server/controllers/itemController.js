@@ -86,6 +86,18 @@ exports.fetchItems = async function (req, res) {
 
 	const data = await prisma.item.findMany({
 		where: whereClause,
+		include: {
+			reserver: {
+				select: {
+					id: true,
+					firstName: true,
+					lastName: true,
+					fullName: true,
+					email: true,
+					avatarUrl: true,
+				},
+			},
+		},
 		skip: skipVal,
 		take: takeVal,
 		orderBy,
@@ -148,5 +160,87 @@ exports.copyItems = async function (req, res) {
 	catch (err) {
 		console.error(err);
 		return res.status(200).send({ success: false, message: 'Could not copy item(s)', data: err.message });
+	}
+};
+
+exports.updateItemStatus = async function(req, res) {
+	try {
+		const { status } = req.query;
+
+		const data = await prisma.item.updateMany({
+			where: {
+				id: {
+					in: req.body,
+				},
+			},
+			data: {
+				status,
+			},
+		});
+
+		if (!data.count) {
+			throw new Error('Could not update item statuses');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully updates item statuses', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could update item statuses', data: err.message });
+	}
+};
+
+exports.reserveItems = async function (req, res) {
+	try {
+		const { user_id } = req.params;
+		const data = await prisma.item.updateMany({
+			where: {
+				id: {
+					in: req.body,
+				},
+			},
+			data: {
+				reserved: true,
+				status: 'Reserved',
+				reserverId: user_id,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not reserve items');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully reserved items', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could reserve items', data: err.message });
+	}
+};
+
+exports.unreserveItems = async function (req, res) {
+	try {
+		const data = await prisma.item.updateMany({
+			where: {
+				id: {
+					in: req.body,
+				},
+			},
+			data: {
+				reserved: false,
+				status: 'Pending',
+				reserverId: null,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not unreserve items');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully unreserved items', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could unreserve items', data: err.message });
 	}
 };

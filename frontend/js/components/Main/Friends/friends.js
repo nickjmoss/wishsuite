@@ -10,11 +10,13 @@ import { PlusOutlined } from '@ant-design/icons';
 import ProfilePic from '@reusableComponents/ProfilePic/profilePic';
 import LinkButton from '@reusableComponents/LinkButton/linkButton';
 import AddFriendModal from './AddFriendModal/addFriendModal';
+import { useNavigate } from 'react-router-dom';
 
 const cx = classNames.bind(styles);
 
 
 const Friends = observer(({ model }) => {
+	const navigate = useNavigate();
 	const columns = [
 		{
 			dataIndex: 'fullName',
@@ -64,6 +66,13 @@ const Friends = observer(({ model }) => {
 					rowKey={record => record.id}
 					onChange={model.onTableChange}
 					pagination={model.pagination}
+					onRow={(record) => {
+						return {
+							onClick: () => {
+								navigate(`/friends/${record.id}`);
+							},
+						};
+					}}
 				/>
 			</div>
 			<AddFriendModal

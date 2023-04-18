@@ -29,7 +29,7 @@ export const SignUpModel = model('SignUpModel', {
 			try {
 				yield rootStore.UserStore.createUser(...Object.values(obj));
 				if (rootStore.UserStore.user) {
-					window.location.href = '/';
+					window.location.href = '/wishlists';
 				}
 			}
 			catch (err) {

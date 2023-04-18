@@ -29,7 +29,7 @@ const App = () => {
 				<BrowserRouter>
 					<Routes>
 						<Route exact path="/auth/*" element={<LoginWrapper/>}/>
-						<Route path="*"element={
+						<Route path="*" element={
 							<LoginRequired>
 								<Main/>
 							</LoginRequired>

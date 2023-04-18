@@ -21,7 +21,7 @@ const LoginWrapper = () => {
 			<div className={cx('login-wrapper')}>
 				<div className={cx('left-side')}>
 					<div className={cx('header')}>
-						<div style={{ cursor: 'pointer' }} onClick={() => navigate('/')}><SVG name="wishSuitePrimary"/></div>
+						<div style={{ cursor: 'pointer' }} onClick={() => navigate('/wishlists')}><SVG name="wishSuitePrimary"/></div>
 					</div>
 					<Routes>
 						<Route exact path="login" element={<Login model={LoginModel.create({})}/>}/>

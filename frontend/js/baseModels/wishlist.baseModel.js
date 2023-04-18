@@ -14,6 +14,15 @@ export const WishlistBaseModel = model('WishlistBaseModel', {
 	createdAt: maybeNull(string),
 });
 
+export const WishlistToUpdateBaseModel = model('WishlistToUpdateBaseModel', {
+	name: maybeNull(string),
+	description: maybeNull(string),
+	ownerId: maybeNull(string),
+	occasionId: maybeNull(string),
+	isPublished: maybeNull(boolean),
+	createdAt: maybeNull(string),
+});
+
 export const WishlistToCreate = model('WishlistToCreate', {
 	name: maybeNull(string),
 	description: maybeNull(string),

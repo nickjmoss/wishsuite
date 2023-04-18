@@ -137,6 +137,18 @@ exports.fetchSingleWishlist = async function (req, res) {
 		include: {
 			occasion: true,
 			items: {
+				include: {
+					reserver: {
+						select: {
+							id: true,
+							firstName: true,
+							lastName: true,
+							fullName: true,
+							email: true,
+							avatarUrl: true,
+						},
+					},
+				},
 				where: {
 					deletedAt: null,
 				},
@@ -158,3 +170,72 @@ exports.fetchSingleWishlist = async function (req, res) {
 	return res.status(200).send({ success: true, message: 'Successfully fetched a wishlist', data: data });
 };
 
+exports.updateWishlist = async function (req, res) {
+	try {
+		const { wishlist_id } = req.params;
+		const data = await prisma.wishlist.update({
+			where: {
+				id: wishlist_id,
+			},
+			data: req.body,
+		});
+
+		if (!data) {
+			throw new Error('Could not update wishlist');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully updated wishlist', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could not update wishlist', data: err.message });
+	}
+};
+
+exports.publishWishlist = async function(req, res) {
+	try {
+		const { wishlist_id } = req.params;
+		const data = await prisma.wishlist.update({
+			where: {
+				id: wishlist_id,
+			},
+			data: {
+				isPublished: true,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not publish wishlist');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully published wishlist', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could not publish wishlist', data: err.message });
+	}
+};
+
+exports.unpublishWishlist = async function(req, res) {
+	try {
+		const { wishlist_id } = req.params;
+		const data = await prisma.wishlist.update({
+			where: {
+				id: wishlist_id,
+			},
+			data: {
+				isPublished: false,
+			},
+		});
+
+		if (!data) {
+			throw new Error('Could not unpublish wishlist');
+		}
+
+		return res.status(200).send({ success: true, message: 'Successfully unpublished wishlist', data: {} });
+	}
+	catch (err) {
+		console.error(err);
+		return res.status(200).send({ success: false, message: 'Could not unpublish wishlist', data: err.message });
+	}
+};

@@ -1,5 +1,5 @@
-import { ExtendedWishlistModel, WishlistBaseModel } from '@app/js/baseModels/wishlist.baseModel';
-import { types, flow } from 'mobx-state-tree';
+import { ExtendedWishlistModel, WishlistBaseModel, WishlistToUpdateBaseModel } from '@app/js/baseModels/wishlist.baseModel';
+import { types, flow, getSnapshot } from 'mobx-state-tree';
 import request from '@request';
 import { rootStore } from '@app/js/stores';
 import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
@@ -12,6 +12,10 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 	isLoading: optional(boolean, false),
 	wishlist: maybeNull(ExtendedWishlistModel),
 	allWishlists: array(WishlistBaseModel),
+	occasionList: array(model('OccasionListModel', {
+		label: string,
+		value: string,
+	})),
 
 	tableState: optional(compose(
 		TableStateBaseModel,
@@ -32,6 +36,9 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 
 	showItemDetailsModal: optional(boolean, false),
 	itemDetails: safeReference(ItemBaseModel),
+
+	showUpdateWishlistModal: optional(boolean, false),
+	wishlistToUpdate: optional(WishlistToUpdateBaseModel, {}),
 })
 	.views((self) => ({
 		get baseURL() {
@@ -96,6 +103,47 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 			const { data } = yield request.get(`${self.baseURL}/items?${searchParams}`);
 			self.wishlist.items = data.data;
 			self.isLoading = false;
+		}),
+		updateItemStatus: flow(function* updateItemStatus(status) {
+			self.isLoading = true;
+			try {
+				const searchParams = new URLSearchParams({
+					status,
+				});
+
+				const { data } = yield request.put(`${self.baseURL}/items/status?${searchParams}`, self.selectedRows);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchItems();
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+		}),
+		publishWishlist: flow(function* publishWishlist() {
+			try {
+				const { data } = yield request.put(`${self.baseURL}/wishlists/${self.wishlist.id}/publish`);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchWishlist(self.wishlist.id);
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+		}),
+		unpublishWishlist: flow(function* unpublishWishlist() {
+			try {
+				const { data } = yield request.put(`${self.baseURL}/wishlists/${self.wishlist.id}/unpublish`);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchWishlist(self.wishlist.id);
+			}
+			catch (err) {
+				message.error(err.message);
+			}
 		}),
 		deleteItems: flow(function* deleteItems() {
 			self.isLoading = true;
@@ -206,6 +254,57 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 		},
 		setPrice(price) {
 			self.customWish.price = price;
+		},
+		updateWishlist: flow(function* updateWishlist() {
+			try {
+				const { data } = yield request.put(`${self.baseURL}/wishlists/${self.wishlist.id}`, self.wishlistToUpdate);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.fetchWishlist(self.wishlist.id);
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+			finally {
+				self.closeUpdateWishlistModal();
+			}
+		}),
+		fetchOccasions: flow(function* fetchOccasions() {
+			const { data } = yield request.get(`${self.baseURL}/occasions`);
+			if (!data.success) {
+				throw new Error(data.data);
+			}
+			self.setOccasions(data.data);
+		}),
+		setOccasions(data) {
+			self.occasionList = data.map(occasion => {
+				return {
+					label: occasion.name,
+					value: occasion.id,
+				};
+			});
+		},
+		openUpdateWishlistModal() {
+			self.fetchOccasions();
+			self.wishlistToUpdate = getSnapshot(self.wishlist);
+			self.showUpdateWishlistModal = true;
+		},
+		closeUpdateWishlistModal() {
+			self.showUpdateWishlistModal = false;
+			self.wishlistToUpdate = {};
+		},
+		setWishlistName(name) {
+			self.wishlistToUpdate.name = name;
+		},
+		setWishlistIsPublished(isPublished) {
+			self.wishlistToUpdate.isPublished = isPublished;
+		},
+		setWishlistDescription(description) {
+			self.wishlistToUpdate.description = description;
+		},
+		setWishlistOccasion(occasion) {
+			self.wishlistToUpdate.occasionId = occasion;
 		},
 		setFilter(filter) {
 			self.tableState.filter = filter;

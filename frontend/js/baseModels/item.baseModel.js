@@ -1,4 +1,5 @@
 import { types } from 'mobx-state-tree';
+import { UserBaseModel } from './user.baseModel';
 
 const { model, maybeNull, string, boolean, identifier, number, integer, frozen, optional } = types;
 
@@ -9,6 +10,8 @@ export const ItemBaseModel = model('ItemBaseModel', {
 	price: optional(number, 0),
 	quantity: integer,
 	mostWanted: boolean,
+	reserver: maybeNull(UserBaseModel),
+	reserverId: maybeNull(string),
 	reserved: boolean,
 	status: string,
 	externalLink: maybeNull(string),
