@@ -1,0 +1,27 @@
+@import '@colors';
+
+.title {
+	font-weight: 500;
+	font-size: 28px;
+}
+
+.actions-wrapper {
+	display: flex;
+	justify-content: flex-end;
+	
+	.actions {
+		display: flex;
+		margin: 15px 0;
+	}
+}
+
+.label-title {
+	font-weight: 500;
+	font-size: 16px;
+	color: $grey-11;
+}
+
+.label-subtitle {
+	color: $grey-8;
+	font-size: 12px;
+}

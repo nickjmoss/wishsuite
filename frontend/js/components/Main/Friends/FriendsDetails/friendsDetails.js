@@ -7,6 +7,7 @@ import { ModelConnector } from '@app/js/stores';
 import { observer } from 'mobx-react-lite';
 import { Tabs } from 'antd';
 import FriendsWishlists from './FriendsWishlists/friendsWishlists';
+import FriendsOccasions from './FriendsOccasions/friendsOccasions';
 
 const cx = classNames.bind(styles);
 
@@ -27,7 +28,7 @@ const FriendsDetails = observer(({ model }) => {
 		{
 			key: 'occasions',
 			label: 'Occasions',
-			children: <div>Occasions</div>,
+			children: <FriendsOccasions/>,
 		},
 	];
 
@@ -36,7 +37,7 @@ const FriendsDetails = observer(({ model }) => {
 			{model.friend &&
 				<div className={cx('wrapper')}>
 					<div className={cx('friend-name')}>{model.friend.fullName}</div>
-					<div>
+					<div className={cx('tabs')}>
 						<Tabs
 							defaultActiveKey="wishlists"
 							items={tabItems}

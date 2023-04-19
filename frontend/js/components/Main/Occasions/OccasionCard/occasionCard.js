@@ -8,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 
 const cx = classNames.bind(styles);
 
-const OccasionCard = observer(({ occasion, onDelete, onEdit }) => {
+const OccasionCard = observer(({ occasion, onDelete, onEdit, readOnly }) => {
 	return (
 		<>
 			{occasion &&
@@ -25,32 +25,34 @@ const OccasionCard = observer(({ occasion, onDelete, onEdit }) => {
 								</div>
 							</div>
 							<div className={cx('menu')} onClick={(e) => e.stopPropagation()}>
-								<Dropdown
-									trigger={['click']}
-									menu={{ items: [
-										{
-											key: '1',
-											label: (
-												<div onClick={() => onEdit(occasion.id)}>
-													Edit Occasion
-												</div>
-											),
-										},
-										{
-											key: '2',
-											label: (
-												<div onClick={() => onDelete(occasion.id)}>
-													Delete Occasion
-												</div>
-											),
-											danger: true,
-										},
-									],
-									}}
-									placement="bottom"
-								>
-									<div onClick={(e) => e.stopPropagation() }><EllipsisOutlined /></div>
-								</Dropdown>
+								{!readOnly &&
+									<Dropdown
+										trigger={['click']}
+										menu={{ items: [
+											{
+												key: '1',
+												label: (
+													<div onClick={() => onEdit(occasion.id)}>
+														Edit Occasion
+													</div>
+												),
+											},
+											{
+												key: '2',
+												label: (
+													<div onClick={() => onDelete(occasion.id)}>
+														Delete Occasion
+													</div>
+												),
+												danger: true,
+											},
+										],
+										}}
+										placement="bottom"
+									>
+										<div onClick={(e) => e.stopPropagation() }><EllipsisOutlined /></div>
+									</Dropdown>
+								}
 							</div>
 						</div>
 						<div className={cx('dates', 'spacing')}>

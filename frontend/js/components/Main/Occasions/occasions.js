@@ -10,6 +10,7 @@ import OccasionsModel from './occasions.model';
 import DeleteModal from '@reusableComponents/DeleteModal/deleteModal';
 import { useNavigate } from 'react-router-dom';
 import { toLocal } from '@app/js/utils/dayjs';
+import OccasionDetailsModal from '../../reusableComponents/OccasionDetailsModal/occasionDetailsModal';
 
 const cx = classNames.bind(styles);
 const Item = Form.Item;
@@ -95,7 +96,7 @@ const Occasions = observer(({ model }) => {
 					return (
 						<List.Item
 							key={occasion.id}
-							onClick={() => navigate(`${occasion.id}`)}
+							onClick={() => model.openDetailsModal(occasion.id)}
 						>
 							<OccasionCard
 								occasion={occasion}
@@ -124,6 +125,13 @@ const Occasions = observer(({ model }) => {
 				open={model.showDeleteModal}
 				onCancel={model.closeDeleteModal}
 			/>
+			{model.occasionToDetail &&
+				<OccasionDetailsModal
+					open={model.showDetailsModal}
+					onCancel={model.closeDetailsModal}
+					occasion={model.occasionToDetail}
+				/>
+			}
 		</div>
 	);
 });

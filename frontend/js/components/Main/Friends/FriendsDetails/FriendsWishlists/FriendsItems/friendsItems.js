@@ -111,12 +111,6 @@ const FriendsItems = observer(({ model }) => {
 							<span className={cx('detail-value')}>{model.wishlist.occasion ? model.wishlist.occasion.name : 'None'}</span>
 						</div>
 						<div className={cx('detail')}>
-							<span className={cx('detail-title')}>Wishlist Status: </span>
-							<span className={cx('detail-value')}>
-								<Tag color={tagColors[model.isPublished]}>{model.isPublished}</Tag>
-							</span>
-						</div>
-						<div className={cx('detail')}>
 							<span className={cx('detail-title')}>Date of Creation: </span>
 							<span className={cx('detail-value')}>
 								{toLocal(model.wishlist.createdAt).format('MM/DD/YYYY')}
@@ -176,8 +170,11 @@ const FriendsItems = observer(({ model }) => {
 						rowKey={(record) => record.id}
 						rowSelection={{
 							selectedRowKeys: [...model.selectedRows],
-							onSelect: (_, __, rows) => model.setSelectedRows(rows),
+							onSelect: (_, __, rows) => model.setSelectedRows(rows, _),
 							onSelectAll: (_, rows) => model.setSelectedRows(rows),
+							getCheckboxProps: (record) => ({
+								disabled: record.status === 'Gifted' || (record.reserved && !model.isReserver(record.reserverId)),
+							}),
 						}}
 						onRow={(record) => {
 							return {
