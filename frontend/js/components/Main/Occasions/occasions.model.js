@@ -6,16 +6,18 @@ import { message } from 'antd';
 import dayjs from 'dayjs';
 import { toUTC, dayStart } from '@app/js/utils/dayjs';
 
-const { model, boolean, array, optional } = types;
+const { model, boolean, array, optional, safeReference } = types;
 
 const OccasionsModel = model('OccasionsModel', {
 	isLoading: optional(boolean, false),
 	occasionList: array(OccasionBaseModel),
 	occasionToCreate: optional(OccasionBaseModel, {}),
 	selectedOccasion: optional(OccasionBaseModel, {}),
+	occasionToDetail: safeReference(OccasionBaseModel),
 
 	showOccasionModal: optional(boolean, false),
 	showDeleteModal: optional(boolean, false),
+	showDetailsModal: optional(boolean, false),
 	isCreating: optional(boolean, false),
 })
 	.views((self) => ({
@@ -55,6 +57,7 @@ const OccasionsModel = model('OccasionsModel', {
 				}
 				self.fetchOccasions();
 				self.showOccasionModal = false;
+				self.occasionToCreate = {};
 			}
 			catch (err) {
 				message.error(err.message);
@@ -69,6 +72,7 @@ const OccasionsModel = model('OccasionsModel', {
 				}
 				self.fetchOccasions();
 				self.showOccasionModal = false;
+				self.selectedOccasion = {};
 			}
 			catch (err) {
 				message.error(err.message);
@@ -107,6 +111,14 @@ const OccasionsModel = model('OccasionsModel', {
 		closeDeleteModal() {
 			self.selectedOccasion = undefined;
 			self.showDeleteModal = false;
+		},
+		openDetailsModal(occasion_id) {
+			self.occasionToDetail = occasion_id;
+			self.showDetailsModal = true;
+		},
+		closeDetailsModal() {
+			self.occasionToDetail = undefined;
+			self.showDetailsModal = false;
 		},
 		setName(name) {
 			if (self.isCreating) {

@@ -1,0 +1,65 @@
+@import '@colors';
+
+.item-card {
+	border: 1px $primary-1 solid;
+
+	&:hover {
+		:global(.slick-prev) {
+			opacity: 0.9;
+		}
+
+		:global(.slick-next) {
+			opacity: 0.9;
+		}
+	}
+
+	:global(.ant-card-body) {
+		padding: 10px;
+	}
+
+	.title-price {
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+
+		.title {
+			font-weight: 500;
+			font-size: 15px;
+			line-clamp: 2;
+			-webkit-line-clamp: 2;
+			-webkit-box-orient: vertical;
+			display: -webkit-box;
+			overflow: hidden;
+		}
+
+		.price {
+			margin-left: 15px;
+			font-size: 16px;
+		}
+	}
+
+	.source {
+		font-style: italic;
+		color: $grey-10;
+	}
+
+	.actions {
+		margin-top: 5px;
+		display: flex;
+		width: 100%;
+		justify-content: space-between;
+
+		.add-button {
+			border-radius: 20px;
+		}
+
+		.view-button {
+			border-radius: 20px;
+			background-color: $blue-5;
+
+			&:hover {
+				background-color: $blue-3;
+			}
+		}
+	}
+}

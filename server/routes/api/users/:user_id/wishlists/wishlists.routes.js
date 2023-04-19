@@ -6,4 +6,6 @@ router.route('/')
 	.get(fetchWishlists)
 	.post(createWishlist);
 
+router.use('/:wishlist_id', require('./:wishlist_id/:wishlist_id.routes'));
+
 module.exports = router;

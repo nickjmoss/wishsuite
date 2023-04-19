@@ -1,32 +1,31 @@
-import { Button, Input } from 'antd';
+import { Input } from 'antd';
 import React from 'react';
 import { Routes, Route, useNavigate, Link } from 'react-router-dom';
 import styles from './main.scss';
 import classNames from 'classnames/bind';
-import { useStores } from '@stores';
 import SVG from '@reusableComponents/SVG/svg';
 import { UserOutlined, SearchOutlined } from '@ant-design/icons';
 import TabLink from '@reusableComponents/TabLink/tabLink';
-import Home from './Home/home';
-import { HomeModel } from './Home/home.model';
 import Profile from './Profile/profile';
 import Occasions from './Occasions/occasions';
 import Wishlists from './Wishlists/wishlists';
 import Friends from './Friends/friends';
+import SearchResults from './SearchResults/searchResults';
+import WishlistDetails from './Wishlists/WishlistDetails/wishlistDetails';
+import FriendsDetails from './Friends/FriendsDetails/friendsDetails';
+import FriendsItems from './Friends/FriendsDetails/FriendsWishlists/FriendsItems/friendsItems';
 
 const cx = classNames.bind(styles);
 
 const Main = () => {
+	const navigate = useNavigate();
 	return (
 		<div className={cx('main')}>
 			<div className={cx('header-container')}>
 				<div>
-					<Link to="/"><SVG name="wishSuitePrimary" /></Link>
+					<Link to="/wishlists"><SVG name="wishSuitePrimary" /></Link>
 				</div>
 				<div className={cx('menu-buttons')}>
-					<div className={cx('menu-button')}>
-						<TabLink to="/">Home</TabLink>
-					</div>
 					<div className={cx('menu-button')}>
 						<TabLink to="/wishlists">Wishlists</TabLink>
 					</div>
@@ -39,7 +38,13 @@ const Main = () => {
 				</div>
 				<div className={cx('search-profile')}>
 					<div className={cx('search')}>
-						<Input.Search size="medium" className={cx('search-bar')} enterButton={<SearchOutlined/>} placeholder="Search for an item..." />
+						<Input.Search
+							size="medium"
+							className={cx('search-bar')}
+							onSearch={(val) => val && navigate(`/search?query=${val}`)}
+							enterButton={<SearchOutlined/>}
+							placeholder="Search for an item..."
+						/>
 					</div>
 					<div className={cx('profile')}>
 						<TabLink to="/profile">
@@ -51,11 +56,21 @@ const Main = () => {
 			</div>
 			<div className={cx('core')}>
 				<Routes>
-					<Route path="/" element={<Home model={HomeModel.create({})}/>}/>
-					<Route path="/search" element={<div>Search Results</div>}/>
+					<Route path="/search" element={<SearchResults/>}/>
 					<Route path="/profile" element={<Profile/>}/>
-					<Route path="/wishlists" element={<Wishlists/>}/>
-					<Route path="/friends" element={<Friends/>}/>
+					<Route path="/wishlists/*" element={
+						<Routes>
+							<Route path="/" element={<Wishlists/>}/>
+							<Route path=":wishlist_id" element={<WishlistDetails/>}/>
+						</Routes>
+					}/>
+					<Route path="/friends/*" element={
+						<Routes>
+							<Route path="/" element={<Friends/>}/>
+							<Route path=":friend_id" element={<FriendsDetails/>}/>
+							<Route path=":friend_id/wishlists/:wishlist_id" element={<FriendsItems/>}/>
+						</Routes>
+					}/>
 					<Route path="/occasions" element={<Occasions/>}/>
 				</Routes>
 			</div>

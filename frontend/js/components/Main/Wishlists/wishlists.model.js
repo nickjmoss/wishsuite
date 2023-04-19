@@ -7,17 +7,19 @@ import { TableStateBaseModel } from '@app/js/baseModels/tableState.baseModel';
 import { OccasionBaseModel } from '@app/js/baseModels/occasion.baseModel';
 import { ItemBaseModel } from '@app/js/baseModels/item.baseModel';
 
-const { model, optional, boolean, array, string, compose } = types;
+const { model, optional, boolean, array, string, compose, safeReference, maybeNull } = types;
+
+const ExtendedWishlistModel = compose(
+	WishlistBaseModel,
+	model({
+		occasion: maybeNull(OccasionBaseModel),
+		items: array(ItemBaseModel),
+	}),
+);
 
 const WishlistsModel = model('WishlistsModel', {
 	isLoading: optional(boolean, false),
-	wishlistsList: array(compose(
-		WishlistBaseModel,
-		model({
-			occasion: optional(OccasionBaseModel, {}),
-			items: array(ItemBaseModel),
-		}),
-	)),
+	wishlistsList: array(ExtendedWishlistModel),
 	tableState: optional(compose(
 		TableStateBaseModel,
 		model({
@@ -25,8 +27,11 @@ const WishlistsModel = model('WishlistsModel', {
 		}),
 	), {}),
 
+	wishlistToDelete: safeReference(ExtendedWishlistModel),
+
 	// Add Wishlist Modal State
 	showAddModal: optional(boolean, false),
+	showDeleteModal: optional(boolean, false),
 })
 	.views((self) => ({
 		get baseURL() {
@@ -83,6 +88,29 @@ const WishlistsModel = model('WishlistsModel', {
 				message.error(err.message);
 			}
 		}),
+		deleteWishlist: flow(function* deleteWishlist() {
+			try {
+				self.isLoading = true;
+				const { data } = yield request.delete(`${self.baseURL}/wishlists/${self.wishlistToDelete.id}`);
+				if (!data.success) {
+					throw new Error(data.data);
+				}
+				self.closeDeleteModal();
+				self.fetchWishlists();
+				self.isLoading = false;
+			}
+			catch (err) {
+				message.error(err.message);
+			}
+		}),
+		openDeleteModal(wishlistId) {
+			self.wishlistToDelete = wishlistId;
+			self.showDeleteModal = true;
+		},
+		closeDeleteModal() {
+			self.wishlistToDelete = undefined;
+			self.showDeleteModal = false;
+		},
 		setFilter(filter) {
 			self.tableState.filter = filter;
 			self.fetchWishlists();

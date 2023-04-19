@@ -167,3 +167,23 @@ exports.unfollowFriend = async function (req, res) {
 		return res.status(200).send({ success: false, message: 'Could not unfollow friend', data: err.message });
 	}
 };
+
+exports.fetchSingleFriend = async function (req, res) {
+	const { friend_id } = req.params;
+	const data = await prisma.user.findFirst({
+		where: {
+			id: friend_id,
+		},
+		select: {
+			id: true,
+			firstName: true,
+			lastName: true,
+			email: true,
+			avatarUrl: true,
+		},
+	});
+
+	data.fullName = `${data.firstName} ${data.lastName}`;
+
+	return res.status(200).send({ success: true, message: 'Successfully fetched friend', data: data });
+};

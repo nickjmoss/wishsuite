@@ -7,8 +7,9 @@ const cx = classNames.bind(styles);
 
 const TabLink = ({ to, children, className }) => {
 	const location = useLocation();
+	const regex = new RegExp(`^${to}.*`);
 	return (
-		<Link className={cx('tab-button', { 'active': location.pathname === to }, className)} to={to}>{children}</Link>
+		<Link className={cx('tab-button', { 'active': regex.test(location.pathname) }, className)} to={to}>{children}</Link>
 	);
 };
 

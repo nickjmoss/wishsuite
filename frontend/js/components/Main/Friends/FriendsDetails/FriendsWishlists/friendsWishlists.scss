@@ -1,0 +1,27 @@
+@import '@colors';
+
+
+.actions-menu {
+	display: flex;
+	width: 100%;
+	justify-content: flex-end;
+	align-items: center;
+	margin: 10px 0;
+}
+
+.search {
+	width: 20%;
+
+	:global(.ant-btn) {
+		padding: 0 10px;
+		height: 35px;
+	}
+
+	:global(.ant-input) {
+		height: 35px;
+	}
+}
+
+.header {
+	background-color: red;
+}

@@ -26,17 +26,13 @@ exports.fetchSession = async function(req, res) {
 			id: true,
 			firstName: true,
 			lastName: true,
+			fullName: true,
 			email: true,
 			avatarUrl: true,
 		},
 	});
 
-	const dataToReturn = {
-		...user,
-		fullName: `${user.firstName} ${user.lastName}`,
-	};
-
-	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: dataToReturn });
+	return res.status(200).send({ success: true, message: 'Successfully fetched user.', data: user });
 };
 
 exports.createUser = async function(req, res) {
@@ -63,6 +59,7 @@ exports.createUser = async function(req, res) {
 				firstName,
 				lastName,
 				email,
+				fullName: `${firstName} ${lastName}`,
 				password: hashedPassword,
 			},
 		});
@@ -129,6 +126,7 @@ exports.forgotPassword = async function(req, res) {
 				email: true,
 				firstName: true,
 				lastName: true,
+				fullName: true,
 			},
 		});
 

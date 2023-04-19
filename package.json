@@ -19,7 +19,9 @@
   "author": "Nick Moss",
   "license": "ISC",
   "nodemonConfig": {
-    "ignore": ["./frontend/**"]
+    "ignore": [
+      "./frontend/**"
+    ]
   },
   "dependencies": {
     "@prisma/client": "^4.9.0",
@@ -42,6 +44,7 @@
     "nodemailer": "^6.9.1",
     "nodemailer-express-handlebars": "^6.0.0",
     "nodemon": "^2.0.20",
+    "numeral": "^2.0.6",
     "pm2": "^5.2.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

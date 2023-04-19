@@ -56,7 +56,7 @@ const AddWishlistModal = observer(({ open, onCancel, onCreate, model }) => {
 					/>
 				</FormInput>
 				<FormInput title="Wishlist Visibility" subtitle="Don't worry, you can change this later in this Wishlist's settings.">
-					<Radio.Group>
+					<Radio.Group onChange={(e) => model.setIsPublished(e.target.value)}>
 						<Space direction="vertical">
 							{radioOptions.map(option => (
 								<Radio key={option.label} value={option.value} >{option.label}</Radio>

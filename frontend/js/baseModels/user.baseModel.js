@@ -1,9 +1,9 @@
 import { types } from 'mobx-state-tree';
 
-const { model, string, maybeNull, identifier } = types;
+const { model, string, maybeNull } = types;
 
 export const UserBaseModel = model('UserBaseModel', {
-	id: maybeNull(identifier),
+	id: maybeNull(string),
 	firstName: maybeNull(string),
 	lastName: maybeNull(string),
 	fullName: maybeNull(string),

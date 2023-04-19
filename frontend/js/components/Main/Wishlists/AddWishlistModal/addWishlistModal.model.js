@@ -57,8 +57,8 @@ const AddWishListModalModel = model('AddWishlistModalModel', {
 		setOwnerId(ownerId) {
 			self.wishlistToCreate.ownerId = ownerId;
 		},
-		setVisibility(visibility) {
-			self.wishlistToCreate.visibility = visibility;
+		setIsPublished(published) {
+			self.wishlistToCreate.isPublished = published;
 		},
 		getWishlistToCreate() {
 			self.setOwnerId(self.userStore.user.id);
