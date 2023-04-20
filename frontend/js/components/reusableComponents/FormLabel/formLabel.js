@@ -4,10 +4,10 @@ import classNames from 'classnames/bind';
 
 const cx = classNames.bind(styles);
 
-const FormLabel = ({ title, subtitle }) => (
+const FormLabel = ({ title, subtitle, titleClassName, subtitleClassName }) => (
 	<div>
-		<div className={cx('label-title')}>{title}</div>
-		<div className={cx('label-subtitle')}>{subtitle}</div>
+		<div className={cx(titleClassName || 'label-title')}>{title}</div>
+		<div className={cx(subtitleClassName || 'label-subtitle')}>{subtitle}</div>
 	</div>
 );
 

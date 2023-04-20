@@ -130,6 +130,7 @@ exports.deleteWishlist = async function (req, res) {
 
 exports.fetchSingleWishlist = async function (req, res) {
 	const { wishlist_id } = req.params;
+	const { isOwnItems } = req.query;
 	const data = await prisma.wishlist.findFirst({
 		where: {
 			id: wishlist_id,
@@ -163,6 +164,10 @@ exports.fetchSingleWishlist = async function (req, res) {
 		item.price = Number(item.price);
 		item.reviews = Number(item.reviews);
 		item.quantity = Number(item.quantity);
+
+		if (isOwnItems) {
+			item.status = item.status === 'Reserved' ? 'Pending' : item.status;
+		}
 
 		return item;
 	});

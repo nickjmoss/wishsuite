@@ -50,6 +50,7 @@ exports.fetchItems = async function (req, res) {
 		filter,
 		currentPage,
 		pageSize,
+		isOwnItems,
 	} = req.query;
 
 	const whereClause = {
@@ -64,14 +65,14 @@ exports.fetchItems = async function (req, res) {
 		};
 	}
 
-	if (filter && filter !== 'all') {
+	if (filter && filter !== 'all' && filter !== 'Pending') {
 		whereClause.status = filter;
 	}
 
 	let orderBy = {
 		createdAt: 'desc',
 	};
-	if (sortColumn && sortOrder) {
+	if (sortColumn && sortOrder && sortColumn !== 'status') {
 		orderBy = {
 			[sortColumn]: sortOrder,
 		};
@@ -103,13 +104,34 @@ exports.fetchItems = async function (req, res) {
 		orderBy,
 	});
 
-	const dataToReturn = data.map(item => {
+	let dataToReturn = data.map(item => {
 		item.price = Number(item.price);
 		item.reviews = Number(item.reviews);
 		item.quantity = Number(item.quantity);
 
+		if (isOwnItems) {
+			item.status = item.status === 'Reserved' ? 'Pending' : item.status;
+		}
+
 		return item;
 	});
+
+	if (isOwnItems && sortColumn === 'status' && sortOrder) {
+		dataToReturn.sort((a, b) => {
+			if (a.status > b.status) {
+				return sortOrder === 'asc' ? 1 : -1;
+			}
+			else if (a.status < b.status) {
+				return sortOrder === 'asc' ? -1 : 1;
+			}
+
+			return 0;
+		});
+	}
+
+	if (isOwnItems && filter === 'Pending') {
+		dataToReturn = dataToReturn.filter(item => item.status === 'Pending');
+	}
 
 	return res.status(200).send({ success: true, message: 'Successfully fetched items', data: dataToReturn });
 };
@@ -167,15 +189,22 @@ exports.updateItemStatus = async function(req, res) {
 	try {
 		const { status } = req.query;
 
+		const updateData = {
+			status,
+		};
+
+		if (status === 'Pending') {
+			updateData.reserverId = null;
+			updateData.reserved = false;
+		}
+
 		const data = await prisma.item.updateMany({
 			where: {
 				id: {
 					in: req.body,
 				},
 			},
-			data: {
-				status,
-			},
+			data: updateData,
 		});
 
 		if (!data.count) {

@@ -20,7 +20,7 @@ const OccasionsModel = model('OccasionsModel', {
 	showDetailsModal: optional(boolean, false),
 	isCreating: optional(boolean, false),
 })
-	.views((self) => ({
+	.views(() => ({
 		get userStore() {
 			return rootStore.UserStore;
 		},
@@ -101,6 +101,7 @@ const OccasionsModel = model('OccasionsModel', {
 		closeOccasionModal() {
 			self.showOccasionModal = false;
 			self.occasionToCreate = {};
+			self.selectedOccasion = {};
 		},
 		openDeleteModal(occasion_id) {
 			if (occasion_id) {
@@ -138,7 +139,7 @@ const OccasionsModel = model('OccasionsModel', {
 			self.selectedOccasion.description = description;
 			return;
 		},
-		setCelebrateDate(date, dateString) {
+		setCelebrateDate(date) {
 			if (self.isCreating) {
 				self.occasionToCreate.celebrateDate = toUTC(dayStart(date)).format();
 				return;
@@ -161,7 +162,7 @@ const OccasionsModel = model('OccasionsModel', {
 				}
 			}
 		},
-		setOriginalDate(date, dateString) {
+		setOriginalDate(date) {
 			if (self.isCreating) {
 				self.occasionToCreate.originalDate = toUTC(dayStart(date)).format();
 				return;

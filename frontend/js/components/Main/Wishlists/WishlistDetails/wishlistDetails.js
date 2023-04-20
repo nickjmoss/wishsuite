@@ -81,7 +81,7 @@ const WishlistDetails = observer(({ model }) => {
 			title: 'Status',
 			sorter: true,
 			render: (status) => (
-				<Tag color={tagColors[status]} >{status}</Tag>
+				<Tag color={tagColors[status]}>{status}</Tag>
 			),
 		},
 		{

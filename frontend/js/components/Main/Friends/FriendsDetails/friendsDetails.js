@@ -37,6 +37,10 @@ const FriendsDetails = observer(({ model }) => {
 			{model.friend &&
 				<div className={cx('wrapper')}>
 					<div className={cx('friend-name')}>{model.friend.fullName}</div>
+					<div className={cx('friend-detail')}>
+						<div className={cx('key')}>Email:</div>
+						<div className={cx('value')}>{model.friend.email}</div>
+					</div>
 					<div className={cx('tabs')}>
 						<Tabs
 							defaultActiveKey="wishlists"

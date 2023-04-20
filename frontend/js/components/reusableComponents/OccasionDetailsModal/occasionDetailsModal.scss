@@ -1,5 +1,17 @@
 @import '@colors';
 
-.value {
-	font-size: 20px;
+.modal-detail {
+	&:not(:last-child) {
+		margin-bottom: 25px;
+	}
+
+	.title {
+		color: $primary-4;
+		font-size: 12px;
+		font-weight: 500;
+	}
+	
+	.value {
+		font-size: 18px;
+	}
 }
