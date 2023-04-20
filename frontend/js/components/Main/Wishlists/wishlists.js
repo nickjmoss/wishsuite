@@ -54,7 +54,7 @@ const Wishlists = observer(({ model }) => {
 			key: 'actions',
 			title: 'Actions',
 			render: (_, wishlist) => (
-				<Button type="link" danger onClick={(e) => { e.stopPropagation(); model.openDeleteModal(wishlist.id) }}>Delete</Button>
+				<Button type="link" className={cx('delete-wishlist')} danger onClick={(e) => { e.stopPropagation(); model.openDeleteModal(wishlist.id) }}>Delete</Button>
 			),
 		},
 	];

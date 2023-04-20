@@ -78,7 +78,8 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 	.actions((self) => ({
 		fetchWishlist: flow(function* fetchWishlist(wishlist_id) {
 			self.isLoading = true;
-			const { data } = yield request.get(`${self.baseURL}/wishlists/${wishlist_id}`);
+			const searchParams = new URLSearchParams({ isOwnItems: true });
+			const { data } = yield request.get(`${self.baseURL}/wishlists/${wishlist_id}?${searchParams}`);
 			self.wishlist = data.data;
 			self.isLoading = false;
 		}),
@@ -99,6 +100,7 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 				pageSize: self.pagination.pageSize,
 				sortOrder: self.sorter.sortOrder,
 				sortColumn: self.sorter.columnKey,
+				isOwnItems: true,
 			});
 			const { data } = yield request.get(`${self.baseURL}/items?${searchParams}`);
 			self.wishlist.items = data.data;

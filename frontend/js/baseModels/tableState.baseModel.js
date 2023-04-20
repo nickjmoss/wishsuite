@@ -8,7 +8,7 @@ export const TableStateBaseModel = model('TableStateBaseModel', {
 		current: optional(number, 1),
 		total: optional(number, 0),
 		pageSize: optional(number, 12),
-		hideOnSinglePage: true,
+		hideOnSinglePage: false,
 		position: 'bottomCenter',
 	}), {}),
 	sorter: optional(model('SorterModel', {

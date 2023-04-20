@@ -6,7 +6,8 @@ import { List } from 'antd';
 import OccasionCard from '../../../Occasions/OccasionCard/occasionCard';
 import { ModelConnector } from '@app/js/stores';
 import FriendOccasionsModel from './friendsOccasions.model';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import OccasionDetailsModal from '@app/js/components/reusableComponents/OccasionDetailsModal/occasionDetailsModal';
 
 const cx = classNames.bind(styles);
 
@@ -18,8 +19,6 @@ const FriendOccasions = observer(({ model }) => {
 			model.fetchOccasions();
 		}
 	}, [friend_id]);
-
-	const navigate = useNavigate();
 
 	return (
 		<>
@@ -38,7 +37,7 @@ const FriendOccasions = observer(({ model }) => {
 					return (
 						<List.Item
 							key={occasion.id}
-							onClick={() => navigate(`${occasion.id}`)}
+							onClick={() => model.openDetailsModal(`${occasion.id}`)}
 						>
 							<OccasionCard
 								occasion={occasion}
@@ -50,6 +49,13 @@ const FriendOccasions = observer(({ model }) => {
 					);
 				}}
 			/>
+			{model.occasionToDetail &&
+				<OccasionDetailsModal
+					open={model.showDetailsModal}
+					onCancel={model.closeDetailsModal}
+					occasion={model.occasionToDetail}
+				/>
+			}
 		</>
 	);
 });

@@ -11,4 +11,18 @@
 	.tabs {
 		margin-top: 50px;
 	}
+
+	.friend-detail {
+		display: flex;
+		margin-top: 30px;
+	
+		.key {
+			color: $primary-3;
+			font-size: 500;
+		}
+	
+		.value {
+			margin-left: 10px;
+		}
+	}
 }

@@ -56,6 +56,7 @@ exports.fetchFriends = async function (req, res) {
 				select: {
 					id: true,
 					firstName: true,
+					fullName: true,
 					lastName: true,
 					email: true,
 					avatarUrl: true,
@@ -73,6 +74,7 @@ exports.fetchFriends = async function (req, res) {
 			id: friends.id,
 			fullName: `${friends.firstName} ${friends.lastName}`,
 			email: friends.email,
+			avatarUrl: friends.avatarUrl,
 		};
 	});
 
