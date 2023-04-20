@@ -7,9 +7,10 @@
 
 	.header-container {
 		display: flex;
-		padding: 30px 30px 10px 30px;
+		padding: 30px;
 		align-items: center;
-		margin-bottom: 20px;
+		position: relative;
+		box-shadow: 0 4px 2px -2px $grey-5;
 	
 		.menu-buttons {
 			display: flex;
@@ -54,5 +55,10 @@
 				}
 			}
 		}
+	}
+
+	.core {
+		background-color: $grey-1;
+		height: 100%;
 	}
 }

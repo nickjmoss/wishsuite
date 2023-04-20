@@ -32,6 +32,7 @@ $cardMaxWidth: 400px;
 	max-width: $cardMaxWidth;
 	min-width: $cardMinWidth;
 	height: 100%;
+	box-shadow: 0px 4px 2px -2px $grey-5;
 
 	&:hover {
 		background-color: $grey-3;

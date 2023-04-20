@@ -40,7 +40,7 @@ const Friends = observer(({ model }) => {
 			key: 'actions',
 			title: 'Actions',
 			render: (_, friend) => (
-				<LinkButton onClick={() => model.onUnfollow(friend.id)}>Unfollow</LinkButton>
+				<LinkButton onClick={(e) => {e.stopPropagation(); model.onUnfollow(friend.id)}}>Unfollow</LinkButton>
 			),
 		},
 	];

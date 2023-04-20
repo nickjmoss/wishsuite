@@ -9,13 +9,20 @@
 	}
 }
 
+.container :global(.ant-table) {
+	border: 1px solid $grey-5;
+}
+
+.container :global(.ant-pagination) {
+	border: 1px solid $grey-5;
+	border-top: none;
+	border-radius: 0 0 8px 8px;
+}
+
 .container :global(.ant-table-tbody) > tr > td {
 	border-bottom: none;
 	font-size: 14px;
 	color: $grey-12;
-}
-
-.container :global(.ant-pagination-item) {
 }
 
 .container :global(.ant-pagination-item) a {
@@ -56,7 +63,7 @@
 }
 
 .container :global(.ant-table-pagination.ant-pagination) {
-	margin: 2px 0;
+	margin: 0;
 }
 
 .container :global(.ant-pagination-prev),
