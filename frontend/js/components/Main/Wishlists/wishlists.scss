@@ -15,14 +15,22 @@
 		align-items: center;
 		margin: 15px 0;
 
+		@media (max-width: 768px) {
+			justify-content: space-between;
+		}
+
 		.action {
 			margin-left: 25px;
+
+			@media (max-width: 768px) {
+				margin: 0;
+			}
 		}
 	}
 }
 
 .search {
-	width: 20%;
+	max-width: 30%;
 
 	:global(.ant-btn) {
 		padding: 0 10px;
