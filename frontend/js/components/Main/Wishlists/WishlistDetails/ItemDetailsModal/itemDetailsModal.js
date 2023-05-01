@@ -36,7 +36,7 @@ const ItemDetailsModal = ({ item, onCancel, open, wishlistName }) => (
 					<div className={cx('values')}>
 						{item.externalLink &&
 							<div className={cx('value')}>
-								<a href={item.externalLink} target="_blank" rel="noreferrer"><LinkOutlined/> {item.source}</a>
+								<a href={item.externalLink} target="_blank" rel="noreferrer"><LinkOutlined/> {item.source || 'Link'}</a>
 							</div>
 						}
 						<div className={cx('value')}>
