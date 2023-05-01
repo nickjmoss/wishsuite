@@ -59,6 +59,16 @@ const WishlistDetails = observer(({ model }) => {
 			key: 'source',
 			title: 'Source',
 			sorter: true,
+			render: (source) => {
+				if (source) {
+					return (
+						<div>{source}</div>
+					);
+				}
+				return (
+					<div>None</div>
+				);
+			},
 		},
 		{
 			dataIndex: 'price',
