@@ -69,6 +69,7 @@ const WishlistsModel = model('WishlistsModel', {
 			searchParams.set('currentPage', self.pagination.current);
 			searchParams.set('pageSize', self.pagination.pageSize);
 			searchParams.set('filter', self.filter);
+			searchParams.set('isOwn', true);
 			const { data } = yield request.get(`${self.baseURL}/wishlists?${searchParams}`);
 			self.wishlistsList = data.data;
 			self.pagination.total = data.count;

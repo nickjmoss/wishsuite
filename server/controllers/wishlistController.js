@@ -61,11 +61,11 @@ exports.fetchWishlists = async function (req, res) {
 	}
 
 	const total = await prisma.wishlist.count({
-		where: isOwn ? { ...whereClause, isPublished: true } : whereClause,
+		where: !isOwn ? { ...whereClause, isPublished: true } : whereClause,
 	});
 
 	const data = await prisma.wishlist.findMany({
-		where: whereClause,
+		where: !isOwn ? { ...whereClause, isPublished: true } : whereClause,
 		include: {
 			occasion: null,
 			items: {
