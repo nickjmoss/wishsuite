@@ -104,6 +104,7 @@ const WishlistDetailsModel = model('WishlistDetailsModel', {
 			});
 			const { data } = yield request.get(`${self.baseURL}/items?${searchParams}`);
 			self.wishlist.items = data.data;
+			self.pagination.total = data.count;
 			self.isLoading = false;
 		}),
 		updateItemStatus: flow(function* updateItemStatus(status) {
