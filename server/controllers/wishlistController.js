@@ -9,6 +9,7 @@ exports.fetchWishlists = async function (req, res) {
 		currentPage,
 		pageSize,
 		filter,
+		isOwn,
 	} = req.query;
 
 	const whereClause = {
@@ -59,6 +60,10 @@ exports.fetchWishlists = async function (req, res) {
 		takeVal = Number(pageSize);
 	}
 
+	const total = await prisma.wishlist.count({
+		where: isOwn ? { ...whereClause, isPublished: true } : whereClause,
+	});
+
 	const data = await prisma.wishlist.findMany({
 		where: whereClause,
 		include: {
@@ -86,7 +91,7 @@ exports.fetchWishlists = async function (req, res) {
 		return wishlist;
 	});
 
-	return res.status(200).send({ success: true, message: 'Successfully fetched wishlists', data: dataToReturn });
+	return res.status(200).send({ success: true, message: 'Successfully fetched wishlists', data: dataToReturn, count: total });
 };
 
 exports.createWishlist = async function (req, res) {

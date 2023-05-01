@@ -53,8 +53,10 @@ const FriendsWishlistsModel = model('FriendsWishlistsModel', {
 			searchParams.set('sortColumn', self.sorter.columnKey);
 			searchParams.set('currentPage', self.pagination.current);
 			searchParams.set('pageSize', self.pagination.pageSize);
+			searchParams.set('isOwn', true);
 			const { data } = yield request.get(`users/${self.friendId}/wishlists?${searchParams}`);
 			self.wishlistsList = data.data;
+			self.pagination.total = data.count;
 			self.isLoading = false;
 		}),
 		setFriendId(friend_id) {

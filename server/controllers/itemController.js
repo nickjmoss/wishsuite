@@ -85,6 +85,10 @@ exports.fetchItems = async function (req, res) {
 		takeVal = Number(pageSize);
 	}
 
+	const total = await prisma.item.count({
+		where: whereClause,
+	});
+
 	const data = await prisma.item.findMany({
 		where: whereClause,
 		include: {
@@ -133,7 +137,7 @@ exports.fetchItems = async function (req, res) {
 		dataToReturn = dataToReturn.filter(item => item.status === 'Pending');
 	}
 
-	return res.status(200).send({ success: true, message: 'Successfully fetched items', data: dataToReturn });
+	return res.status(200).send({ success: true, message: 'Successfully fetched items', data: dataToReturn, count: total });
 };
 
 exports.copyItems = async function (req, res) {

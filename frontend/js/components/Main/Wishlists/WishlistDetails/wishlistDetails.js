@@ -136,12 +136,6 @@ const WishlistDetails = observer(({ model }) => {
 								{toLocal(model.wishlist.createdAt).format('MM/DD/YYYY')}
 							</span>
 						</div>
-						<div className={cx('detail')}>
-							<span className={cx('detail-title')}>Number of Items: </span>
-							<span className={cx('detail-value')}>
-								{model.wishlist.items.length}
-							</span>
-						</div>
 					</div>
 					<div className={cx('description')}>
 						{model.wishlist.description}

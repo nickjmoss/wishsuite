@@ -71,6 +71,7 @@ const WishlistsModel = model('WishlistsModel', {
 			searchParams.set('filter', self.filter);
 			const { data } = yield request.get(`${self.baseURL}/wishlists?${searchParams}`);
 			self.wishlistsList = data.data;
+			self.pagination.total = data.count;
 			self.isLoading = false;
 		}),
 		createWishlist: flow(function* createWishlist(wishlist) {
