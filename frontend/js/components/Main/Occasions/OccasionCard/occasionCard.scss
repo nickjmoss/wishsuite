@@ -1,0 +1,74 @@
+@import '@colors';
+
+.label {
+	color: $primary-5;
+	font-size: 12px;
+}
+
+.title {
+	font-weight: 500;
+	font-size: 22px;
+}
+
+.description {
+	font-size: 14px;
+}
+
+.spacing {
+	margin-top: 60px;
+}
+
+$cardMinWidth: 350px;
+$cardMaxWidth: 400px;
+
+.occasion-card-wrapper {
+	background-color: $neutral-white;
+	border: 1px solid $primary-1;
+	display: flex;
+	flex-direction: column;
+	padding: 0 15px;
+	transition: all 200ms ease-in-out;
+	cursor: pointer;
+	max-width: $cardMaxWidth;
+	min-width: $cardMinWidth;
+	height: 100%;
+	box-shadow: 0px 4px 2px -2px $grey-5;
+
+	&:hover {
+		background-color: $grey-3;
+	}
+
+	.content-wrapper {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		.title-actions-wrapper {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+
+			.menu {
+				font-size: 24px;
+				position: absolute;
+				top: 0;
+				right: 0;
+				padding-right: 20px;
+				padding-top: 10px;
+			}
+		}
+	
+		.dates {
+			display: flex;
+			width: 100%;
+			justify-content: space-between;
+
+			.date-title {
+				font-weight: 500;
+				font-size: 18px;
+			}
+		}
+	}
+
+}

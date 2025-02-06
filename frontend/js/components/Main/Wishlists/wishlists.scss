@@ -1,0 +1,51 @@
+@import '@colors';
+
+.wrapper {
+	padding: 30px;
+	
+	.title {
+		font-size: 28px;
+		font-weight: 500;
+	}
+
+	.actions-menu {
+		display: flex;
+		width: 100%;
+		justify-content: flex-end;
+		align-items: center;
+		margin: 15px 0;
+
+		@media (max-width: 768px) {
+			justify-content: space-between;
+		}
+
+		.action {
+			margin-left: 25px;
+
+			@media (max-width: 768px) {
+				margin: 0;
+			}
+		}
+	}
+}
+
+.search {
+	max-width: 30%;
+
+	:global(.ant-btn) {
+		padding: 0 10px;
+		height: 35px;
+	}
+
+	:global(.ant-input) {
+		height: 35px;
+	}
+}
+
+.header {
+	background-color: red;
+}
+
+.delete-wishlist {
+	padding: 0;
+}

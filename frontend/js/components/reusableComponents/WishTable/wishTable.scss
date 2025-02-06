@@ -1,0 +1,73 @@
+@import "@colors";
+
+.container :global(.ant-table-thead) > tr > th {
+	font-size: 14px;
+	background-color: $neutral-white;
+
+	&:hover {
+		background-color: $primary-1 !important;
+	}
+}
+
+.container :global(.ant-table) {
+	border: 1px solid $grey-5;
+}
+
+.container :global(.ant-pagination) {
+	border: 1px solid $grey-5;
+	border-top: none;
+	border-radius: 0 0 8px 8px;
+}
+
+.container :global(.ant-table-tbody) > tr > td {
+	border-bottom: none;
+	font-size: 14px;
+	color: $grey-12;
+}
+
+.container :global(.ant-pagination-item) a {
+	color: $grey-8;
+}
+
+.container :global(.ant-pagination-item-link) :global(.anticon) {
+	display: block;
+}
+
+.container :global(.ant-pagination-item-active),
+.container :global(.ant-pagination-item-active:focus),
+.container :global(.ant-pagination-item-active:hover) {
+	border-color: transparent;
+	background-color: transparent;
+}
+
+.container :global(.ant-pagination-item-active) a {
+	color: $primary-4;
+	font-weight: 700;
+	border-bottom: 1px solid $primary-4;
+}
+
+.container :global(.ant-table-pagination) {
+	position: relative;
+	margin: 0;
+}
+
+.container :global(.ant-pagination) {
+	padding: 10px;
+	background-color: white;
+}
+
+.container :global(.ant-pagination-options) {
+	position: absolute;
+	right: 10px;
+	bottom: 6px;
+}
+
+.container :global(.ant-table-pagination.ant-pagination) {
+	margin: 0;
+}
+
+.container :global(.ant-pagination-prev),
+.container :global(.ant-pagination-next),
+.container :global(.ant-pagination-jump-prev),
+.container :global(.ant-pagination-jump-next) {
+}

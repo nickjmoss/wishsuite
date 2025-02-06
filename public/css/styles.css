@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+	font-family: 'Inter', sans-serif;
+}
+
+body {
+	margin: unset;
+	height: 100vh;
+	width: 100%;
+	color: #1F2528;
+	font-variant-numeric: tabular-nums;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:active, a:focus {
+  outline: 0;
+  border: none;
+  -moz-outline-style: none;
+}
+
+#root {
+	height: 100%;
+	box-sizing: border-box;
+}
+
+.section-title {
+	font-size: 24px;
+}

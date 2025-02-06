@@ -1,0 +1,20 @@
+{
+	"typeAcquisition": {
+		"include": [
+			"jest"
+		]
+	},
+	"compilerOptions": {
+		"baseUrl": "./",
+		"paths": {
+			"@prismaClient": [ "prisma" ],
+			"@router": [ "routes" ],
+			"@controllers/*": [ "controllers/*" ],
+			"@utils/*": [ "utils/*" ],
+			"@server/*": [ "*" ], // putting this at the bottom makes any other possible matches take precedence.
+		}
+	},
+	"exclude": [
+		"node_modules"
+	]
+}

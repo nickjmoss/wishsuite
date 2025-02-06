@@ -1,0 +1,8 @@
+{
+    "development": {
+        "user": "user",
+        "password": "password",
+        "database": "wishsuite",
+        "connectionString": "postgres://user:password@localhost:6543/wishsuite"
+    }
+}

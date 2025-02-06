@@ -1,0 +1,13 @@
+@import '@colors';
+
+.link {
+	padding: 0;
+	color: $primary-5;
+	width: fit-content;
+	cursor: pointer;
+	transition: color 0.2s ease-in-out;
+
+	&:hover {
+		color: $primary-4
+	}
+}

@@ -1,0 +1,141 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String      @id @default(uuid())
+  firstName     String?     @map("first_name")
+  lastName      String?     @map("last_name")
+  fullName      String?     @map("full_name")
+  email         String      @unique
+  password      String
+  avatarUrl     String?
+  createdAt     DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt     DateTime?   @map("deleted_at") @db.Timestamptz()
+  Wishlist      Wishlist[]
+  Occasion      Occasion[]
+  ReservedItems Item[]
+  Group         Group[]
+  UserGroup     UserGroup[]
+  User          Friend[]    @relation("user")
+  Friend        Friend[]    @relation("follower")
+
+  @@map("user")
+}
+
+model Wishlist {
+  id            String    @id @default(uuid())
+  items         Item[]
+  name          String
+  description   String?
+  wishlistOwner User      @relation(fields: [ownerId], references: [id])
+  ownerId       String    @map("owner_id")
+  occasion      Occasion? @relation(fields: [occasionId], references: [id])
+  occasionId    String?   @map("occasion_id")
+  isPublished   Boolean   @default(false) @map("is_published")
+  createdAt     DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt     DateTime? @map("deleted_at") @db.Timestamptz()
+
+  @@map("wishlist")
+}
+
+model Item {
+  id           String    @id @default(uuid())
+  title        String?
+  description  String?
+  price        Decimal   @default(0)
+  quantity     Int
+  mostWanted   Boolean   @default(false) @map("most_wanted")
+  reserved     Boolean   @default(false)
+  reserverId   String?   @map("reserver_id")
+  reserver     User?     @relation(fields: [reserverId], references: [id])
+  status       String    @default("Pending")
+  externalLink String?   @map("external_link")
+  source       String?
+  reviews      Decimal?
+  wishlist_id  Wishlist  @relation(fields: [wishlistId], references: [id])
+  wishlistId   String    @map("wishlist_id")
+  externalId   String?   @map("external_id")
+  images       Json?
+  notes        String?   @db.Text
+  createdAt    DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt    DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt    DateTime? @map("deleted_at") @db.Timestamptz()
+
+  @@map("item")
+}
+
+model Occasion {
+  id            String     @id @default(uuid())
+  owner_id      User       @relation(fields: [ownerId], references: [id])
+  ownerId       String     @map("owner_id")
+  Wishlist      Wishlist[]
+  name          String
+  description   String?
+  celebrateDate DateTime   @map("celebrate_date") @db.Timestamptz()
+  originalDate  DateTime?  @map("original_date") @db.Timestamptz()
+  repeat        Boolean
+  createdAt     DateTime   @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt     DateTime   @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt     DateTime?  @map("deleted_at") @db.Timestamptz()
+
+  @@map("occasion")
+}
+
+model Group {
+  id        String      @id @default(uuid())
+  name      String
+  owner_id  User        @relation(fields: [ownerId], references: [id])
+  ownerId   String      @map("owner_id")
+  createdAt DateTime    @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt DateTime    @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt DateTime?   @map("deleted_at") @db.Timestamptz()
+  UserGroup UserGroup[]
+
+  @@map("group")
+}
+
+model UserGroup {
+  id       String @id @default(uuid())
+  group_id Group  @relation(fields: [groupId], references: [id])
+  groupId  String @map("group_id")
+  user_id  User   @relation(fields: [userId], references: [id])
+  userId   String @map("user_id")
+
+  @@map("user_group")
+}
+
+model Friend {
+  id          String    @id @default(uuid())
+  friends     User      @relation("user", fields: [userId], references: [id])
+  userId      String    @map("user_id")
+  follower_id User      @relation("follower", fields: [followerId], references: [id])
+  followerId  String    @map("follower_id")
+  createdAt   DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt   DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt   DateTime? @map("deleted_at") @db.Timestamptz()
+
+  @@map("friend")
+}
+
+model Token {
+  id             String    @id @default(uuid())
+  token          String
+  userId         String    @map("user_id")
+  expirationDate DateTime  @map("expiration_date") @db.Timestamptz()
+  createdAt      DateTime  @default(now()) @map("created_at") @db.Timestamptz()
+  updatedAt      DateTime  @updatedAt @map("updated_at") @db.Timestamptz()
+  deletedAt      DateTime? @map("deleted_at") @db.Timestamptz()
+
+  @@map("token")
+}

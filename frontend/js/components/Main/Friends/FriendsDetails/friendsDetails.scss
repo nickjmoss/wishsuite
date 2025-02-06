@@ -1,0 +1,28 @@
+@import '@colors';
+
+.wrapper {
+	padding: 30px;
+
+	.friend-name {
+		font-size: 28px;
+		font-weight: 500;
+	}
+
+	.tabs {
+		margin-top: 50px;
+	}
+
+	.friend-detail {
+		display: flex;
+		margin-top: 30px;
+	
+		.key {
+			color: $primary-3;
+			font-size: 500;
+		}
+	
+		.value {
+			margin-left: 10px;
+		}
+	}
+}

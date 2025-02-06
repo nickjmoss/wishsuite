@@ -1,0 +1,64 @@
+@import '@colors';
+
+.main {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+
+	.header-container {
+		display: flex;
+		padding: 30px;
+		align-items: center;
+		position: relative;
+		box-shadow: 0 4px 2px -2px $grey-5;
+	
+		.menu-buttons {
+			display: flex;
+			margin: 0 15px;
+
+			.menu-button {
+				padding-left: 30px;
+			}
+		}
+		
+
+
+		.search-profile {
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
+			width: 100%;
+
+			.search {
+				width: 60%;
+				margin: 0 auto;
+
+				:global(.ant-btn) {
+					padding: 0 10px;
+					height: 35px;
+				}
+
+				:global(.ant-input) {
+					height: 35px;
+				}
+			}
+
+			.profile {
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				color: $grey-10;
+				cursor: pointer;
+
+				.user-icon {
+					font-size: 20px;
+				}
+			}
+		}
+	}
+
+	.core {
+		background-color: $grey-1;
+		height: 100%;
+	}
+}

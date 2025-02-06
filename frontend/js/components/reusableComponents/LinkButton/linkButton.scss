@@ -1,0 +1,30 @@
+@import '@colors';
+
+.link-button {
+	color: $primary-4;
+	display: inline-block;
+	transition: all 0.3s ease-in-out;
+	cursor: pointer;
+	position: relative;
+
+	&:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		bottom: -1px;
+		height: 2px;
+		background-color: transparent;
+		width: 100%;
+		transition: background-color ease-in-out 0.3s;
+	}
+
+	&:hover {
+		color: $primary-5;
+		transition: all 0.3s ease-in-out;
+
+		&:before {
+			background-color: $primary-5;
+		}
+	}
+
+}

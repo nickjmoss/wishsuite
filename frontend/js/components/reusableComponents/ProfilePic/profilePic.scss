@@ -1,0 +1,21 @@
+@import '@colors';
+
+.edit {
+	position: absolute;
+	right: 1px;
+	bottom: 1px;
+	border-radius: 50%;
+	background-color: $primary-4;
+	padding: 10px;
+	color: $neutral-white;
+
+	&:hover {
+		cursor: pointer;
+	}
+}
+
+.border {
+	border: 2px solid $primary-5;
+	border-radius: 50%;
+	width: fit-content;
+}

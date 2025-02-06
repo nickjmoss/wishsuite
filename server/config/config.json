@@ -1,0 +1,8 @@
+{
+	"development": {
+		"walmart_url": "https://developer.api.walmart.com/api-proxy/service/affil/product/v2/"
+	},
+	"production": {
+		"walmart_url": "https://developer.api.walmart.com/api-proxy/service/affil/product/v2/"
+	}
+}
