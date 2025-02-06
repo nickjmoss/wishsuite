@@ -1,0 +1,5 @@
+node_modules
+.env
+.babelrc
+.DS_Store
+logos
