@@ -1,10 +1,16 @@
 const NodeRSA = require('node-rsa');
 const axios = require('axios');
 const config = require('../../config/config.json')[process.env.NODE_ENV];
+const fs = require('fs');
+
+const privateKey = fs.readFileSync(
+    process.env.WALMART_PRIVATE_KEY_PATH,
+    'utf8',
+);
 
 const keyData = {
-    consumerId: '',
-    privateKey: ``,
+    consumerId: process.env.WALMART_CONSUMER_ID,
+    privateKey,
     keyVer: 1,
 };
 
@@ -29,9 +35,12 @@ class WalmartService {
         };
 
         const sortedHashString = `${hashList['WM_CONSUMER.ID']}\n${hashList['WM_CONSUMER.INTIMESTAMP']}\n${hashList['WM_SEC.KEY_VERSION']}\n`;
-        const signer = new NodeRSA(privateKey, 'pkcs1');
-        const signature = signer.sign(sortedHashString);
+        const signer = new NodeRSA(privateKey, 'pkcs8');
+        const signature = signer.sign(sortedHashString, 'base64');
         const signature_enc = signature.toString('base64');
+
+        console.log(signature_enc);
+        console.log(signer.isPrivate());
 
         return {
             'WM_SEC.AUTH_SIGNATURE': signature_enc,
